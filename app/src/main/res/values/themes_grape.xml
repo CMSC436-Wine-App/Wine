@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="Grape" parent="@style/_Grape"/>
+
+  <style name="_Grape" parent="Theme.AppCompat.Light">
+
+    <item name="android:editTextStyle">@style/EditTextGrape</item>
+
+    <item name="android:textColorHighlight">#99b00093</item>
+
+    <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewGrape</item>
+
+    <item name="android:checkboxStyle">@style/CheckBoxGrape</item>
+
+    <item name="android:radioButtonStyle">@style/RadioButtonGrape</item>
+
+    <item name="android:buttonStyle">@style/ButtonGrape</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonGrape</item>
+
+    <item name="android:spinnerStyle">@style/SpinnerGrape</item>
+
+    <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemGrape</item>
+
+    <item name="android:progressBarStyleHorizontal">@style/ProgressBarGrape</item>
+
+    <item name="android:seekBarStyle">@style/SeekBarGrape</item>
+
+    <item name="android:ratingBarStyle">@style/RatingBarGrape</item>
+
+    <item name="android:ratingBarStyleIndicator">@style/RatingBarBigGrape</item>
+
+    <item name="android:ratingBarStyleSmall">@style/RatingBarSmallGrape</item>
+
+    <item name="android:buttonStyleToggle">@style/ToggleGrape</item>
+
+    <item name="android:listViewStyle">@style/ListViewGrape</item>
+
+    <item name="android:listViewWhiteStyle">@style/ListViewGrape.White</item>
+
+    <item name="android:spinnerItemStyle">@style/SpinnerItemGrape</item>
+
+  </style>
+
+</resources>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="AutoCompleteTextViewGrape" parent="android:Widget.Holo.Light.AutoCompleteTextView">
+      <item name="android:dropDownSelector">@drawable/grape_list_selector_holo_light</item>
+	    <item name="android:background">@drawable/grape_edit_text_holo_light</item>
+  </style>
+
+  <style name="ButtonGrape" parent="android:Widget.Holo.Light.Button">
+	  <item name="android:background">@drawable/grape_btn_default_holo_light</item>
+  </style>
+
+  <style name="ImageButtonGrape" parent="android:Widget.Holo.Light.ImageButton">
+	  <item name="android:background">@drawable/grape_btn_default_holo_light</item>
+  </style>
+
+  <style name="SpinnerGrape" parent="android:Widget.Holo.Light.Spinner">
+      <item name="android:background">@drawable/grape_spinner_background_holo_light</item>
+      <item name="android:dropDownSelector">@drawable/grape_list_selector_holo_light</item>
+  </style>
+
+  <style name="ProgressBarGrape" parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
+      <item name="android:progressDrawable">@drawable/grape_progress_horizontal_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/grape_progress_indeterminate_horizontal_holo_light</item>
+  </style>
+
+  <style name="SeekBarGrape" parent="android:Widget.Holo.Light.SeekBar">
+      <item name="android:progressDrawable">@drawable/grape_scrubber_progress_horizontal_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/grape_scrubber_progress_horizontal_holo_light</item>
+      <item name="android:thumb">@drawable/grape_scrubber_control_selector_holo_light</item>
+  </style>
+
+  <style name="RatingBarGrape" parent="android:Widget.Holo.Light.RatingBar">
+      <item name="android:progressDrawable">@drawable/grape_ratingbar_full_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/grape_ratingbar_full_holo_light</item>
+  </style>
+
+  <style name="RatingBarBigGrape" parent="android:Widget.Holo.Light.RatingBar.Indicator">
+      <item name="android:progressDrawable">@drawable/grape_ratingbar_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/grape_ratingbar_holo_light</item>
+  </style>
+
+  <style name="RatingBarSmallGrape" parent="android:Widget.Holo.Light.RatingBar.Small">
+      <item name="android:progressDrawable">@drawable/grape_ratingbar_small_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/grape_ratingbar_small_holo_light</item>
+  </style>
+
+  <style name="ToggleGrape" parent="android:Widget.Holo.Light.Button.Toggle">
+      <item name="android:background">@drawable/grape_btn_toggle_holo_light</item>
+  </style>
+
+</resources>
