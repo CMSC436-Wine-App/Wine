@@ -5,4 +5,19 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Home Page Strings -->
+    <string name="home">Home</string>
+    <string name="find_bar">Find a Wine Bar</string>
+    <string name="review_a_wine">Review a Wine</string>
+    <string name="your_profile">Your Profile</string>
+    <string name="badges">Badges</string>
+    <string name="view_menu">View Menu</string>
+    <string name="leave_bar">Leave Bar</string>
+    <string name="order_food">Order Food</string>
+
+    <!--
+    <string name=""></string>
+    <string name=""></string>
+    -->
+
 </resources>
