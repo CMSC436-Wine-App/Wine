@@ -5,6 +5,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!-- General App Strings -->
+    <string name="username">EXAMPLE_USERNAME</string>
+    <string name="example_wine">EXAMPLE_WINE</string>
+
+
     <!-- Home Page Strings -->
     <string name="home">Home</string>
     <string name="find_bar">Find a Wine Bar</string>
@@ -15,6 +20,14 @@
     <string name="leave_bar">Leave Bar</string>
     <string name="order_food">Order Food</string>
 
+    <!-- Badges -->
+
+    <!-- Your Profile Strings -->
+    <string name="your_reviews">Your Reviews</string>
+    <string name="purchase_history">Purchase History</string>
+
+
+    <!--  -->
     <!--
     <string name=""></string>
     <string name=""></string>

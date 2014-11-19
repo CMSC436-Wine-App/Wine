@@ -12,14 +12,14 @@
         android:text="@string/hello_world"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView" />
+        android:id="@+id/tv_wine_review" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Button"
-        android:id="@+id/button"
-        android:layout_below="@+id/textView"
+        android:id="@+id/b_badges"
+        android:layout_below="@+id/tv_wine_review"
         android:layout_alignParentStart="true" />
 
 </RelativeLayout>

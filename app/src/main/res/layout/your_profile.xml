@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iv_user_profile_pic"
+        android:background="@drawable/ic_launcher"
+        android:isScrollContainer="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/username"
+        android:id="@+id/tv_wine_review"
+        android:layout_toEndOf="@+id/iv_user_profile_pic"
+        android:layout_alignParentTop="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/badges"
+        android:id="@+id/b_badges"
+        android:layout_weight="1"
+        android:layout_toEndOf="@+id/iv_user_profile_pic"
+        android:layout_below="@+id/tv_wine_review" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/purchase_history"
+        android:id="@+id/b_purchase_history"
+        android:layout_weight="1"
+        android:layout_toEndOf="@+id/textView2"
+        android:layout_below="@+id/tv_wine_review" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/your_reviews"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/b_purchase_history"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
