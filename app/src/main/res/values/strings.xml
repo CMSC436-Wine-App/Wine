@@ -22,9 +22,17 @@
 
     <!-- Badges -->
 
-    <!-- Your Profile Strings -->
+    <!-- Your Profile -->
     <string name="your_reviews">Your Reviews</string>
     <string name="purchase_history">Purchase History</string>
+
+    <!-- New Review -->
+    <string name="wine_name">Wine Name: </string>
+    <string name="rating">Rating: </string>
+    <string name="restaurant_name">Restaurant Name: </string>
+    <string name="description">Description: </string>
+    <string name="submit_review">Submit Review</string>
+
 
 
     <!--  -->

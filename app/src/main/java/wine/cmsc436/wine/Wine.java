@@ -1,19 +1,41 @@
 package wine.cmsc436.wine;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.parse.*;
 
 
 public class Wine extends Activity {
 
+    public Button your_profile, find_bar, review_wine, badges, view_menu, leave_bar, order_food;
+    private static final String TAG = "CMSC436-Wine-App";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
+
+        your_profile = (Button) findViewById(R.id.b_your_profile);
+        your_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "Entered your_profile.OnClickListener.onClick()");
+
+                Intent profile_intent = new Intent(Wine.this, UserProfile.class);
+                Wine.this.startActivity(profile_intent);
+            }
+        });
+
+
+
     }
 
 
