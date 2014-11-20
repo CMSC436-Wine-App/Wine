@@ -26,6 +26,7 @@ public class ParseApplication extends Application {
         super.onCreate();
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, PARSE_APP_ID, PARSE_CLIENT_ID);
+        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
         ParseFacebookUtils.initialize(FB_APP_ID);
         ParseTwitterUtils.initialize(TW_KEY, TW_SECRET);
         ParseObject.registerSubclass(parse.subclasses.Badge.class);

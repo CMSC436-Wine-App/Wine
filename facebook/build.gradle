@@ -7,17 +7,21 @@ repositories {
 project.group = 'com.facebook.android'
 
 dependencies {
-    compile 'com.android.support:support-v4:20.0.+'
+    compile 'com.android.support:support-v4:13.0.+'
     compile 'com.parse.bolts:bolts-android:1.1.2'
 }
 
 android {
-    compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
-    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+//    compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
+//    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+    compileSdkVersion 21
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
-        minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
-        targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
+//        minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
+//        targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
+        minSdkVersion 18
+        targetSdkVersion 19
     }
 
     lintOptions {
