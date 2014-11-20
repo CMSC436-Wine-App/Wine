@@ -9,7 +9,6 @@
     <string name="username">EXAMPLE_USERNAME</string>
     <string name="example_wine">EXAMPLE_WINE</string>
 
-
     <!-- Home Page Strings -->
     <string name="home">Home</string>
     <string name="find_bar">Find a Wine Bar</string>
@@ -22,6 +21,7 @@
 
     <!-- Badges -->
 
+
     <!-- Your Profile -->
     <string name="your_reviews">Your Reviews</string>
     <string name="purchase_history">Purchase History</string>
@@ -33,12 +33,17 @@
     <string name="description">Description: </string>
     <string name="submit_review">Submit Review</string>
 
-
-
     <!--  -->
     <!--
     <string name=""></string>
     <string name=""></string>
     -->
+
+    <string name="parse_app_id">VdUdTZEhM9vVNRX9Y2fUzZTZXNGkT0cMxkonazJJ</string>
+    <string name="parse_client_key">6VgZMJUF6uD6WRJpEfB3cNINZUj21rgoqL1g88Zo</string>
+    <string name="facebook_app_id">1547340548843891</string>
+    <string name="facebook_app_secret">4ed95eba8f272219152525c578731d19</string>
+    <string name="twitter_consumer_key">EHSoFY38bnZpmpKlvCr4sLBno</string>
+    <string name="twitter_consumer_secret">JjFtxgETOawt60QGEEkjPSretNSzUJqreLSrG4DbUAy4425I8s</string>
 
 </resources>
