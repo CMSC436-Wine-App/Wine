@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import parse.subclasses.User;
+
 /**
  * Created by dylan on 11/19/14.
  */
@@ -36,7 +38,6 @@ public class UserProfile extends ListActivity {
         // Inflate footerView for footer_view.xml file
         TextView footerView = (TextView) getLayoutInflater().inflate(R.layout.review_footer, null);
 
-
         // Attach the adapter to this ListActivity's ListView
         setListAdapter(mAdapter);
 
@@ -53,6 +54,10 @@ public class UserProfile extends ListActivity {
                 startActivityForResult(wine_item, ADD_REVIEW_REQEST);
             }
         });
+
+        // get profile data
+        TextView nameView = (TextView) findViewById(R.id.tv_wine_review);
+        nameView.setText(User.getCurrentUser().getString("name"));
 
     }
 }

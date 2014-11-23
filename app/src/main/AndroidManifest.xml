@@ -13,20 +13,19 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name=".App"
+        android:name="wine.cmsc436.wine.App"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/Grape" >
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_android_maps_key" />
-
-        <meta-data android:name="com.google.android.gms.version"
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <activity
@@ -74,10 +73,21 @@
             android:name="com.facebook.LoginActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop" />
-
         <activity
             android:name="wine.cmsc436.wine.FindBarActivity"
             android:label="@string/title_activity_find_bar" >
+        </activity>
+        <activity
+            android:name="wine.cmsc436.wine.WineListActivity"
+            android:label="@string/title_activity_wine_list" >
+        </activity>
+        <activity
+            android:name="wine.cmsc436.wine.BaseActivity"
+            android:label="@string/title_activity_base" >
+        </activity>
+        <activity
+            android:name="wine.cmsc436.wine.WineDetailActivity"
+            android:label="@string/title_activity_wine_detail" >
         </activity>
     </application>
 

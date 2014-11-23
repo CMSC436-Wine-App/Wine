@@ -25,10 +25,10 @@ public class WineActivity extends Activity {
         your_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "Entered your_profile.OnClickListener.onClick()");
+            Log.i(TAG, "Entered your_profile.OnClickListener.onClick()");
 
-                Intent profile_intent = new Intent(WineActivity.this, UserProfile.class);
-                WineActivity.this.startActivity(profile_intent);
+            Intent profile_intent = new Intent(WineActivity.this, UserProfile.class);
+            WineActivity.this.startActivity(profile_intent);
             }
         });
 
@@ -36,8 +36,17 @@ public class WineActivity extends Activity {
         find_bar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent findBarIntent = new Intent(WineActivity.this, FindBarActivity.class);
-                WineActivity.this.startActivity(findBarIntent);
+                Intent intent = new Intent(WineActivity.this, FindBarActivity.class);
+                WineActivity.this.startActivity(intent);
+            }
+        });
+
+        review_wine = (Button) findViewById(R.id.b_review_a_wine);
+        review_wine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WineActivity.this, WineListActivity.class);
+                WineActivity.this.startActivity(intent);
             }
         });
 

@@ -1,6 +1,7 @@
 package parse.subclasses;
 
 import android.app.Activity;
+import android.net.Uri;
 
 import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
@@ -16,6 +17,7 @@ import com.parse.SignUpCallback;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Ethan on 11/16/2014.
@@ -26,6 +28,7 @@ public class User extends ParseUser {
     private static final String EMAIL_VERIFIED = "emailVerified";
     private static final String FIRST_NAME = "firstName";
     private static final String LAST_NAME = "lastName";
+    private static final String NAME = "name";
     private static final String PURCHASES = "purchases";
     private static final String REVIEWS = "reviews";
     private static final String BADGES = "badges";
@@ -52,6 +55,12 @@ public class User extends ParseUser {
     }
     public void setLastName(String lastName) {
         put(LAST_NAME, lastName);
+    }
+    public String getName() {
+    return getString(NAME);
+}
+    public void setName(String lastName) {
+        put(NAME, lastName);
     }
 
     private ParseRelation<Purchase> getPurchasesRelation() {
@@ -118,6 +127,7 @@ public class User extends ParseUser {
         user.setEmail(email);
         user.setFirstName(firstName);
         user.setLastName(lastName);
+        user.setName(firstName + " " + lastName);
 
         user.signUpInBackground(callback);
     }
@@ -166,5 +176,19 @@ public class User extends ParseUser {
         return ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser());
     }
 
-
+    private static final String SCHEME = "wineApp";
+    private static final String URI_PATH = "user";
+    public Uri getUri() {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(SCHEME);
+        builder.path(URI_PATH+"/" + getObjectId());
+        return builder.build();
+    }
+    public static String getObjectId(Uri uri) {
+        List<String> path = uri.getPathSegments();
+        if (path.size() != 2 || !URI_PATH.equals(path.get(0))) {
+            throw new RuntimeException("Invalid URI for "+URI_PATH+": " + uri);
+        }
+        return path.get(1);
+    }
 }
