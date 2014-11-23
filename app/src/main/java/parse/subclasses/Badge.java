@@ -3,6 +3,7 @@ package parse.subclasses;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 /**
  * Created by Ethan on 11/16/2014.
@@ -30,5 +31,9 @@ public class Badge extends ParseObject {
     }
     public void setPhoto(ParseFile photo) {
         put(PHOTO, photo);
+    }
+
+    public static ParseQuery<Badge> getQuery() {
+        return ParseQuery.getQuery(Badge.class);
     }
 }

@@ -2,6 +2,7 @@ package parse.subclasses;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 /**
@@ -33,5 +34,9 @@ public class Purchase extends ParseObject {
     }
     public void setUser(String userId) {
         put(USER, ParseObject.createWithoutData(ParseUser.class, userId));
+    }
+
+    public static ParseQuery<Purchase> getQuery() {
+        return ParseQuery.getQuery(Purchase.class);
     }
 }

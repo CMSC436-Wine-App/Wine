@@ -75,8 +75,7 @@ public class Review extends ParseObject {
         put(REST, ParseObject.createWithoutData(Restaurant.class, restId));
     }
 
-    public static ParseQuery<Review> getAllReviews() {
-        ParseQuery<Review> reviewQuery = ParseQuery.getQuery(Review.class);
-        return reviewQuery;
+    public static ParseQuery<Review> getQuery() {
+        return ParseQuery.getQuery(Review.class);
     }
 }

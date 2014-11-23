@@ -53,8 +53,7 @@ public class Restaurant extends ParseObject {
         getMenuItemsRelation().remove(ParseObject.createWithoutData(MenuItem.class, menuItemId));
     }
 
-    public static ParseQuery<Restaurant> getAllRestaurants() {
-        ParseQuery<Restaurant> restaurantQuery = ParseQuery.getQuery(Restaurant.class);
-        return restaurantQuery;
+    public static ParseQuery<Restaurant> getQuery() {
+        return ParseQuery.getQuery(Restaurant.class);
     }
 }

@@ -48,8 +48,7 @@ public class Wine extends ParseObject {
         put(PHOTO, photo);
     }
 
-    public static ParseQuery<Wine> getAllWine() {
-        ParseQuery<Wine> wineQuery = ParseQuery.getQuery(Wine.class);
-        return wineQuery;
+    public static ParseQuery<Wine> getQuery() {
+        return ParseQuery.getQuery(Wine.class);
     }
 }

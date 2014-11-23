@@ -2,6 +2,7 @@ package parse.subclasses;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 /**
  * Created by Ethan on 11/16/2014.
@@ -45,5 +46,8 @@ public class MenuItem extends ParseObject {
     public void setRestaurant(String restId) {
         put(REST, ParseObject.createWithoutData(Restaurant.class, restId));
     }
-    
+
+    public static ParseQuery<MenuItem> getQuery() {
+        return ParseQuery.getQuery(MenuItem.class);
+    }
 }

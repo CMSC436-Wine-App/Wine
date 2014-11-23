@@ -45,5 +45,10 @@
     <string name="facebook_app_secret">4ed95eba8f272219152525c578731d19</string>
     <string name="twitter_consumer_key">EHSoFY38bnZpmpKlvCr4sLBno</string>
     <string name="twitter_consumer_secret">JjFtxgETOawt60QGEEkjPSretNSzUJqreLSrG4DbUAy4425I8s</string>
+    <string name="google_android_maps_key">AIzaSyBwLiODxZ-a8B-Iw5yjaVRS2cBNPqBw9M0</string>
+
+    <string name="title_activity_find_bar">Find Bar</string>
+
+    <string name="restaurant_out_of_range">Can\'t view restaurant! Get closer.</string>
 
 </resources>

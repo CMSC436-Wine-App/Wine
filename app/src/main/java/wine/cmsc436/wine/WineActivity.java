@@ -32,7 +32,14 @@ public class WineActivity extends Activity {
             }
         });
 
-
+        find_bar = (Button) findViewById(R.id.b_find_bar);
+        find_bar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent findBarIntent = new Intent(WineActivity.this, FindBarActivity.class);
+                WineActivity.this.startActivity(findBarIntent);
+            }
+        });
 
     }
 
