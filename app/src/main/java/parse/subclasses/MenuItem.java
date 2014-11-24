@@ -70,4 +70,8 @@ public class MenuItem extends ParseObject {
         }
         return path.get(1);
     }
+
+    public boolean isWine() {
+        return getWine() != null;
+    }
 }

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -26,6 +27,7 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -103,7 +105,8 @@ public class FindBarActivity extends FragmentActivity implements LocationListene
      * Other class member variables
      */
     // Map fragment
-    private SupportMapFragment mapFragment;
+//    private SupportMapFragment mapFragment;
+    private MapFragment mapFragment;
 
     // Represents the circle around a map
 //    private Circle mapCircle;
@@ -128,6 +131,9 @@ public class FindBarActivity extends FragmentActivity implements LocationListene
 
     // Adapter for the Parse query
     private ParseQueryAdapter<Restaurant> restaurantsQueryAdapter;
+
+    // link markers to restaurant
+    private Map<Marker, Restaurant> markersMap = new HashMap<Marker, Restaurant>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,7 +218,8 @@ public class FindBarActivity extends FragmentActivity implements LocationListene
         });
 
         // Set up the map fragment
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
+//        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment);
         // Enable the current location "blue dot"
         mapFragment.getMap().setMyLocationEnabled(true);
         // Set up the camera change handler
@@ -221,6 +228,27 @@ public class FindBarActivity extends FragmentActivity implements LocationListene
                 // When the camera changes, update the query
                 doMapQuery();
                 doListQuery();
+            }
+        });
+        // marker click goes to restaurant menu view
+//        mapFragment.getMap().setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//            @Override
+//            public boolean onMarkerClick(Marker marker) {
+//                Restaurant restaurant = markersMap.get(marker);
+//                Intent intent = new Intent(FindBarActivity.this, MenuItemListActivity.class);
+//                intent.setData(restaurant.getUri());
+//                startActivity(intent);
+//                return true;
+//            }
+//        });
+        // marker info window click goes to restaurant menu view
+        mapFragment.getMap().setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Restaurant restaurant = markersMap.get(marker);
+                Intent intent = new Intent(FindBarActivity.this, MenuItemListActivity.class);
+                intent.setData(restaurant.getUri());
+                startActivity(intent);
             }
         });
     }
@@ -551,6 +579,8 @@ public class FindBarActivity extends FragmentActivity implements LocationListene
                         marker.showInfoWindow();
                         selectedRestaurantObjectId = null;
                     }
+                    // link marker to restuarant
+                    markersMap.put(marker, restaurant);
                 }
                 // Clean up old markers.
                 cleanUpMarkers(toKeep);

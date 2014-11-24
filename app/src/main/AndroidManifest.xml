@@ -89,6 +89,10 @@
             android:name="wine.cmsc436.wine.WineDetailActivity"
             android:label="@string/title_activity_wine_detail" >
         </activity>
+        <activity
+            android:name=".MenuItemListActivity"
+            android:label="@string/title_activity_menu" >
+        </activity>
     </application>
 
 </manifest>

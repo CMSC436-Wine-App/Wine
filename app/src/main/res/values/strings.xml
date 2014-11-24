@@ -53,5 +53,6 @@
     <string name="title_activity_wine_list">Wine List</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_activity_wine_detail">WineDetailActivity</string>
+    <string name="title_activity_menu">MenuActivity</string>
 
 </resources>
