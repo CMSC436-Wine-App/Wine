@@ -16,18 +16,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/et_wine_name"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/textView" />
+        android:layout_toEndOf="@+id/textView"
+        android:hint="name" />
 
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ratingBar"
+        android:id="@+id/rb_wine_rating"
         android:layout_toEndOf="@+id/textView2"
-        android:layout_below="@+id/editText" />
+        android:layout_below="@+id/et_wine_name" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/rating"
         android:id="@+id/textView2"
-        android:layout_alignTop="@+id/ratingBar"
+        android:layout_alignTop="@+id/rb_wine_rating"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -44,20 +44,20 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/restaurant_name"
         android:id="@+id/textView3"
-        android:layout_toStartOf="@+id/editText"
-        android:layout_below="@+id/ratingBar"
+        android:layout_toStartOf="@+id/et_wine_name"
+        android:layout_below="@+id/rb_wine_rating"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/ratingBar" />
+        android:layout_alignEnd="@+id/rb_wine_rating" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
-        android:id="@+id/editText2"
-        android:layout_below="@+id/ratingBar"
-        android:layout_alignParentEnd="true" />
+        android:id="@+id/et_restaurant_name"
+        android:layout_below="@+id/rb_wine_rating"
+        android:layout_alignParentEnd="true"
+        android:hint="name" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -71,11 +71,11 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText3"
+        android:id="@+id/et_description"
         android:layout_below="@+id/textView4"
-        android:layout_toStartOf="@+id/editText"
+        android:layout_toStartOf="@+id/et_wine_name"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/editText2"
+        android:layout_alignEnd="@+id/et_restaurant_name"
         android:hint="Description" />
 
     <Button
@@ -83,6 +83,6 @@
         android:layout_height="wrap_content"
         android:text="@string/submit_review"
         android:id="@+id/b_submit_review"
-        android:layout_below="@+id/editText3"
+        android:layout_below="@+id/et_description"
         android:layout_alignEnd="@+id/textView4" />
 </RelativeLayout>
