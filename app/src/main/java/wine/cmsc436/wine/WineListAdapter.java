@@ -70,7 +70,9 @@ public class WineListAdapter extends ParseQueryAdapter<Wine> {
     public WineListAdapter(Context context) {
         super(context, new ParseQueryAdapter.QueryFactory<Wine>() {
             public ParseQuery create() {
-                return Wine.getQuery();
+                ParseQuery<Wine> wineQuery = Wine.getQuery();
+                wineQuery.fromLocalDatastore();
+                return wineQuery;
             }
         });
     }

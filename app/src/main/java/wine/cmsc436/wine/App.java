@@ -4,12 +4,18 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
+
+import java.util.List;
 
 import parse.subclasses.*;
 
@@ -51,6 +57,21 @@ public class App extends Application {
         preferences = getSharedPreferences("wine.cmsc436", Context.MODE_PRIVATE);
         configHelper = new ConfigHelper();
         configHelper.fetchConfigIfNeeded();
+        // local storage of all wines
+        ParseQuery<Wine> wineQuery = Wine.getQuery();
+        // Query for new results from the network.
+        wineQuery.findInBackground(new FindCallback<Wine>() {
+            public void done(List<Wine> newWines, ParseException e) {
+                final List<Wine> wines = newWines;
+                // Remove the previously cached results.
+                ParseObject.unpinAllInBackground("wines", new DeleteCallback() {
+                    public void done(ParseException e) {
+                        // Cache the new results.
+                        ParseObject.pinAllInBackground("wines", wines);
+                    }
+                });
+            }
+        });
     }
 
     public static float getSearchDistance() {
