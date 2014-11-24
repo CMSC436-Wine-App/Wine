@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import parse.subclasses.User;
 
@@ -60,4 +61,22 @@ public class UserProfile extends ListActivity {
         nameView.setText(User.getCurrentUser().getString("name"));
 
     }
+
+    @Override
+    protected void onActivityResult(int requestcode, int resultcode, Intent data){
+
+        // Checking request code
+        if (requestcode == ADD_REVIEW_REQEST){
+            if (resultcode == RESULT_OK){
+
+                mAdapter.add(new WineReviewItem(data));
+
+            } else {
+                Toast.makeText(getApplicationContext(), "Review did not go through", Toast.LENGTH_LONG).show();
+
+            }
+        }
+
+    }
+
 }

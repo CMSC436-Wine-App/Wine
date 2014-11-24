@@ -70,7 +70,7 @@ public class WineReviewListAdapter extends BaseAdapter {
         wine_name.append(wineItem.getName());
 
         RatingBar rating = (RatingBar) itemLayout.findViewById(R.id.r_wine_rating);
-        rating.setNumStars((int) wineItem.getRating());
+        rating.setRating(Float.valueOf(wineItem.getRating()));
 
         return itemLayout;
     }
