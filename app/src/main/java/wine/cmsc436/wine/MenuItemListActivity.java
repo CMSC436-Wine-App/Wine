@@ -38,7 +38,7 @@ public class MenuItemListActivity extends BaseActivity {
                 // go to wine detail view if it is a wine menu item
                 if (menuItem.isWine()) {
                     Intent intent = new Intent(MenuItemListActivity.this, WineDetailActivity.class);
-                    intent.setData(menuItem.getUri());
+                    intent.setData(menuItem.getWine().getUri());
                     startActivity(intent);
                 }
             }
