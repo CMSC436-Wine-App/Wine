@@ -4,31 +4,50 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <!--
+     The following permission is not required to use
+     Google Maps Android API v2, but is recommended.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name="wine.cmsc436.wine.ParseApplication"
+        android:name="wine.cmsc436.wine.App"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/Grape" >
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_android_maps_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".WineActivity"
+            android:name="wine.cmsc436.wine.WineActivity"
             android:label="@string/app_name" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name="wine.cmsc436.wine.UserProfile" >
         </activity>
         <activity
             android:name="wine.cmsc436.wine.InitActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop">
-            <!--android:noHistory="true">-->
+            android:launchMode="singleTop" >
+
+            <!-- android:noHistory="true"> -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -36,26 +55,44 @@
             android:name="com.parse.ui.ParseLoginActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop" >
-            <!--<meta-data-->
-            <!--android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"-->
-            <!--android:value="true" />-->
-            <!--<meta-data-->
-            <!--android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_EMAIL_AS_USERNAME"-->
-            <!--android:value="true"/>-->
+
+            <!-- <meta-data -->
+            <!-- android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED" -->
+            <!-- android:value="true" /> -->
+            <!-- <meta-data -->
+            <!-- android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_EMAIL_AS_USERNAME" -->
+            <!-- android:value="true"/> -->
             <meta-data
                 android:name="com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_ENABLED"
-                android:value="true"/>
-            <!--<meta-data-->
-            <!--android:name="com.parse.ui.ParseLoginActivity.TWITTER_LOGIN_ENABLED"-->
-            <!--android:value="true"/>-->
+                android:value="true" />
+            <!-- <meta-data -->
+            <!-- android:name="com.parse.ui.ParseLoginActivity.TWITTER_LOGIN_ENABLED" -->
+            <!-- android:value="true"/> -->
         </activity>
         <activity
             android:name="com.facebook.LoginActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop" />
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+        <activity
+            android:name="wine.cmsc436.wine.FindBarActivity"
+            android:label="@string/title_activity_find_bar" >
+        </activity>
+        <activity
+            android:name="wine.cmsc436.wine.WineListActivity"
+            android:label="@string/title_activity_wine_list" >
+        </activity>
+        <activity
+            android:name="wine.cmsc436.wine.BaseActivity"
+            android:label="@string/title_activity_base" >
+        </activity>
+        <activity
+            android:name="wine.cmsc436.wine.WineDetailActivity"
+            android:label="@string/title_activity_wine_detail" >
+        </activity>
+        <activity
+            android:name=".MenuItemListActivity"
+            android:label="@string/title_activity_menu" >
+        </activity>
     </application>
 
 </manifest>

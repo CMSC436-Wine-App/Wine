@@ -9,7 +9,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
+
+import parse.subclasses.Wine;
 
 public class WineActivity extends Activity {
 
@@ -25,14 +34,30 @@ public class WineActivity extends Activity {
         your_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "Entered your_profile.OnClickListener.onClick()");
+            Log.i(TAG, "Entered your_profile.OnClickListener.onClick()");
 
-                Intent profile_intent = new Intent(WineActivity.this, UserProfile.class);
-                WineActivity.this.startActivity(profile_intent);
+            Intent profile_intent = new Intent(WineActivity.this, UserProfile.class);
+            WineActivity.this.startActivity(profile_intent);
             }
         });
 
+        find_bar = (Button) findViewById(R.id.b_find_bar);
+        find_bar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WineActivity.this, FindBarActivity.class);
+                WineActivity.this.startActivity(intent);
+            }
+        });
 
+        review_wine = (Button) findViewById(R.id.b_review_a_wine);
+        review_wine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WineActivity.this, WineListActivity.class);
+                WineActivity.this.startActivity(intent);
+            }
+        });
 
     }
 
