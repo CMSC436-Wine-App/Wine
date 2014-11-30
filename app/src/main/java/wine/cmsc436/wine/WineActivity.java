@@ -59,6 +59,15 @@ public class WineActivity extends Activity {
             }
         });
 
+        badges = (Button) findViewById(R.id.b_badges);
+        badges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WineActivity.this, BadgePage.class);
+                WineActivity.this.startActivity(intent);
+            }
+        });
+
     }
 
 

@@ -41,6 +41,8 @@
         </activity>
         <activity android:name="wine.cmsc436.wine.NewWineReview" >
         </activity>
+        <activity android:name="wine.cmsc436.wine.BadgePage" >
+        </activity>
         <activity
             android:name="wine.cmsc436.wine.InitActivity"
             android:label="@string/app_name"
