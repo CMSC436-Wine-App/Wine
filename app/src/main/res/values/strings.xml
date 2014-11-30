@@ -20,6 +20,10 @@
     <string name="order_food">Order Food</string>
 
     <!-- Badges -->
+    <string name="gold_heart">Purchase a wine 10 times.</string>
+    <string name="purple_heart">Purchase a wine 5 times.</string>
+    <string name="green_heart">Purchase a wine 3 times</string>
+
 
 
     <!-- Your Profile -->
