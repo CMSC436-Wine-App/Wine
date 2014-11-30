@@ -3,6 +3,7 @@ package wine.cmsc436.wine;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
@@ -62,10 +63,22 @@ public class App extends Application {
         // Query for new results from the network.
         wineQuery.findInBackground(new FindCallback<Wine>() {
             public void done(List<Wine> newWines, ParseException e) {
+                if (e != null) {
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            e.getMessage(), Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
                 final List<Wine> wines = newWines;
                 // Remove the previously cached results.
                 ParseObject.unpinAllInBackground("wines", new DeleteCallback() {
                     public void done(ParseException e) {
+                        if (e != null) {
+                            Toast toast = Toast.makeText(getApplicationContext(),
+                                    e.getMessage(), Toast.LENGTH_LONG);
+                            toast.show();
+                            return;
+                        }
                         // Cache the new results.
                         ParseObject.pinAllInBackground("wines", wines);
                     }

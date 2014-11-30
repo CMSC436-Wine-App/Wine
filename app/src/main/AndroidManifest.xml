@@ -92,8 +92,16 @@
             android:label="@string/title_activity_wine_detail" >
         </activity>
         <activity
-            android:name=".MenuItemListActivity"
+            android:name="wine.cmsc436.wine.MenuItemListActivity"
             android:label="@string/title_activity_menu" >
+        </activity>
+        <activity
+            android:name="wine.cmsc436.wine.ChecklistActivity"
+            android:label="@string/title_activity_checklist" >
+        </activity>
+        <activity
+            android:name="wine.cmsc436.wine.ReviewWineProfileActivity"
+            android:label="@string/title_activity_review_wine_profile" >
         </activity>
     </application>
 

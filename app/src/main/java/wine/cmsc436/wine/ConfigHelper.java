@@ -40,19 +40,48 @@ public class ConfigHelper {
         }
     }
 
-    public List<Float> getSearchDistanceAvailableOptions() {
-        final List<Float> defaultOptions = Arrays.asList(250.0f, 1000.0f, 2000.0f, 5000.0f);
-
-        List<Number> options = config.getList("availableFilterDistances");
-        if (options == null) {
-            return defaultOptions;
+    public List<String> getAromas() {
+        final List<String> defaultList = Arrays.asList("Almonds","Anise","Apple","Apricot","Artichoke","Bacon","Banana","Black Pepper","Blackberry","Blackcurrant","Butter","Cabbage","Cashew","Cedar","Cheese","Cherry","Chocolate","Cinnamon","Citrus","Cloves","Coconut","Coffee","Cream","Dill","Dry fruit","Earth","Elder","Eucalyptus","Figs","Floral","Gooseberry","Grape","Grapefruit","Grass","Green Pepper","Hay","Herbs","Honey","Kiwi","Leather","Lemon","Licorice","Lime","Linden","Lychee","Mandarin","Mango","Melon","Mint","Mulberry","Mushrooms","Musk","Nutmeg","Nutty","Oak","Passion Fruit","Peach","Pear","Pineapple","Plums","Raisins","Raspberry","Rose","Spice","Strawberry","Sulphur","Tar","Toast","Tobacco","Vanilla","Violets","Walnut","Wood","Yeast");
+        List<String> configList = config.getList("aromas");
+        if (configList == null) {
+            return defaultList;
         }
+        return configList;
+    }
 
-        List<Float> typedOptions = new ArrayList<Float>();
-        for (Number option : options) {
-            typedOptions.add(option.floatValue());
+    public List<String> getPriceTypes() {
+        final List<String> defaultList = Arrays.asList("Taste","Glass","Half Bottle","Bottle","Magnum","Case");
+        List<String> configList = config.getList("priceTypes");
+        if (configList == null) {
+            return defaultList;
         }
+        return configList;
+    }
 
-        return typedOptions;
+    public List<String> getRegions() {
+        final List<String> defaultList = Arrays.asList("Alexander Valley","Argentina","Austrailia","Bordeaux","Burgundy","California","Carneros","Central Coast","Champagne","Chile","Columbia Valley","France","Italy","Lodi","Mendoza","Napa Valley","North Coast","Paso Robles","Piedmont","Rioja","Sonoma Coast","Sonoma County","Spain","Russian River Valley","Tuscany","United States","Veneto","Williamette Valley");
+        List<String> configList = config.getList("regions");
+        if (configList == null) {
+            return defaultList;
+        }
+        return configList;
+    }
+
+    public List<String> getStyles() {
+        final List<String> defaultList = Arrays.asList("Red","White","Sparkling","Rose","Dessert","Fortified");
+        List<String> configList = config.getList("styles");
+        if (configList == null) {
+            return defaultList;
+        }
+        return configList;
+    }
+
+    public List<String> getVarietals() {
+        final List<String> defaultList = Arrays.asList("Barbera","Cabernet Sauvignon","Chardonnay","Gewurztraminer","Grenache","Malbec","Merlot","Moscato","Muscat","Pinot Grigio","Pinot Noir","Red","Riesling","Rose","Sangiovese","Sauvignon Blanc","Shiraz","Syrah","Tempranillo","White","Zinfandel");
+        List<String> configList = config.getList("varietlas");
+        if (configList == null) {
+            return defaultList;
+        }
+        return configList;
     }
 }

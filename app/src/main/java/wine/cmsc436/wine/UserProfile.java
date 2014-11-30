@@ -9,6 +9,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+
+import java.util.List;
+
+import parse.subclasses.Review;
 import parse.subclasses.User;
 
 /**
@@ -20,7 +27,8 @@ public class UserProfile extends ListActivity {
     private static final int ADD_REVIEW_REQEST = 0;
     private static final String TAG = "CMSC436-Wine-App";
 
-    WineReviewListAdapter mAdapter;
+//    WineReviewListAdapter mAdapter;
+    ReviewListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +39,8 @@ public class UserProfile extends ListActivity {
         getListView().addHeaderView(header);
 
         // Create new ListAdapter
-        mAdapter = new WineReviewListAdapter(getApplicationContext());
+//        mAdapter = new WineReviewListAdapter(getApplicationContext());
+        mAdapter = new ReviewListAdapter(getApplicationContext());
 
         // Put divider between ToDoItems and FooterView
         getListView().setFooterDividersEnabled(true);
@@ -59,7 +68,12 @@ public class UserProfile extends ListActivity {
         // get profile data
         TextView nameView = (TextView) findViewById(R.id.tv_wine_review);
         nameView.setText(User.getCurrentUser().getString("name"));
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -69,7 +83,8 @@ public class UserProfile extends ListActivity {
         if (requestcode == ADD_REVIEW_REQEST){
             if (resultcode == RESULT_OK){
 
-                mAdapter.add(new WineReviewItem(data));
+//                mAdapter.add(new WineReviewItem(data));
+                mAdapter.loadObjects();
 
             } else {
                 Toast.makeText(getApplicationContext(), "Review did not go through", Toast.LENGTH_LONG).show();

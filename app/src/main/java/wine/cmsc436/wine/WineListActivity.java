@@ -20,6 +20,8 @@ import parse.subclasses.Wine;
 
 public class WineListActivity extends BaseActivity {
 
+    private static final int OBJECTS_PER_PAGE = 10;
+
     private WineListAdapter adapter;
 
     @Override
@@ -29,6 +31,7 @@ public class WineListActivity extends BaseActivity {
 
         // get adapter
         adapter = new WineListAdapter(this);
+        adapter.setObjectsPerPage(OBJECTS_PER_PAGE);
         ListView list = (ListView) findViewById(R.id.wine_list);
         list.setAdapter(adapter);
 
@@ -55,9 +58,17 @@ public class WineListActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Wine wine = adapter.getItem(position);
-                Intent intent = new Intent(WineListActivity.this, WineDetailActivity.class);
-                intent.setData(wine.getUri());
-                startActivity(intent);
+                if (getCallingActivity() == null) {
+                    Intent intent = new Intent(WineListActivity.this, WineDetailActivity.class);
+                    intent.setData(wine.getUri());
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent();
+                    intent.setData(wine.getUri());
+                    intent.putExtra("wineName", wine.getName());
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                }
             }
         });
     }

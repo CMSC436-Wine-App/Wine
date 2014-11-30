@@ -32,6 +32,7 @@ public class User extends ParseUser {
     private static final String PURCHASES = "purchases";
     private static final String REVIEWS = "reviews";
     private static final String BADGES = "badges";
+    private static final String REV_WINES = "reviewedWines";
 
     private static final Collection<String> FB_PERM = Arrays.asList(ParseFacebookUtils.Permissions.User.ABOUT_ME, ParseFacebookUtils.Permissions.User.EMAIL);
 
@@ -120,6 +121,25 @@ public class User extends ParseUser {
         getBadgesRelation().remove(ParseObject.createWithoutData(Badge.class, badgeId));
     }
 
+    private ParseRelation<Wine> getReviewedWinesRelation() {
+        return getRelation(REV_WINES);
+    }
+    public ParseQuery<Wine> getReviewedWines() {
+        return getReviewedWinesRelation().getQuery();
+    }
+    public void addReviewedWine(Wine wine) {
+        getReviewedWinesRelation().add(wine);
+    }
+    public void addReviewedWine(String wineId) {
+        getReviewedWinesRelation().add(ParseObject.createWithoutData(Wine.class, wineId));
+    }
+    public void removeReviewedWine(Wine wine) {
+        getReviewedWinesRelation().remove(wine);
+    }
+    public void removeReviewedWine(String wineId) {
+        getReviewedWinesRelation().remove(ParseObject.createWithoutData(Wine.class, wineId));
+    }
+
     public static void signUpUser(String username, String password, String email, String firstName, String lastName, SignUpCallback callback) {
         User user = new User();
         user.setUsername(username);
@@ -190,5 +210,9 @@ public class User extends ParseUser {
             throw new RuntimeException("Invalid URI for "+URI_PATH+": " + uri);
         }
         return path.get(1);
+    }
+
+    public static User getCurrentUser() {
+        return (User) ParseUser.getCurrentUser();
     }
 }

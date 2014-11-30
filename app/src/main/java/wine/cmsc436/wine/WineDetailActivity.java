@@ -29,15 +29,11 @@ public class WineDetailActivity extends ActionBarActivity {
         GetCallback<Wine> wineGetCallback = new GetCallback<Wine>() {
             @Override
             public void done(Wine wine, ParseException e) {
-                // If we can't get the data right now, the best we can do is
-                // show a toast.
                 if (e != null) {
-                    Toast toast = Toast.makeText(WineDetailActivity.this,
-                            e.getMessage(), Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(WineDetailActivity.this, e.getMessage(), Toast.LENGTH_LONG);
                     toast.show();
                     return;
                 }
-
                 selectedWine = wine;
                 updateView(selectedWine);
             }

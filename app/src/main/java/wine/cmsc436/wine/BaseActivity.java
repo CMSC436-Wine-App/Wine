@@ -24,7 +24,7 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+//        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
     }
 
     @Override

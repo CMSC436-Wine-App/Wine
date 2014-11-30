@@ -7,6 +7,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
+
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -15,6 +18,12 @@ import java.util.List;
 @ParseClassName("Review")
 public class Review extends ParseObject {
 
+    private static final String SWEET = "sweetness";
+    private static final String TANN = "tannins";
+    private static final String ACID = "acidity";
+    private static final String BODY = "body";
+    private static final String AROMAS = "aromas";
+    private static final String VARI = "varietals";
     private static final String COMMENT = "comment";
     private static final String RATING = "rating";
     private static final String SCORE = "score";
@@ -23,7 +32,82 @@ public class Review extends ParseObject {
     private static final String REST = "restaurant";
 
     public Review() {
+//        setSweetness(0);
+//        setTannins(0);
+//        setAcidity(0);
+//        setBody(0);
+//        setUser(User.getCurrentUser());
+    }
 
+    public Number getSweetness() {
+        Number sweetness = getNumber(SWEET);
+        if (sweetness == null) return 0;
+        return sweetness;
+    }
+    public void setSweetness(Number sweetness) {
+        put(SWEET, sweetness);
+    }
+    public Number getTannins() {
+        Number tannins = getNumber(TANN);
+        if (tannins == null) return 0;
+        return tannins;
+    }
+    public void setTannins(Number tannins) {
+        put(TANN, tannins);
+    }
+    public Number getAcidity() {
+        Number acidity = getNumber(ACID);
+        if (acidity == null) return 0;
+        return acidity;
+    }
+    public void setAcidity(Number acidity) {
+        put(ACID, acidity);
+    }
+    public Number getBody() {
+        Number body = getNumber(BODY);
+        if (body == null) return 0;
+        return body;
+    }
+    public void setBody(Number body) {
+        put(BODY, body);
+    }
+
+    public JSONArray getAromas() {
+        return getJSONArray(AROMAS);
+    }
+    public void setAromas(JSONArray aromas) {
+        put(AROMAS, aromas);
+    }
+    public void addAroma(String aroma) {
+        add(AROMAS, aroma);
+    }
+    public void addAllAroma(Collection<String> aromas) {
+        addAll(AROMAS, aromas);
+    }
+    public void addUniqueAroma(String aroma) {
+        addUnique(AROMAS, aroma);
+    }
+    public void addAllUniqueAroma(Collection<String> aromas) {
+        addAllUnique(AROMAS, aromas);
+    }
+
+    public JSONArray getVarietals() {
+        return getJSONArray(VARI);
+    }
+    public void setVarietals(JSONArray varietals) {
+        put(VARI, varietals);
+    }
+    public void addVarietal(String varietal) {
+        add(VARI, varietal);
+    }
+    public void addAllVarietal(Collection<String> varietals) {
+        addAll(VARI, varietals);
+    }
+    public void addUniqueVarietal(String varietal) {
+        addUnique(VARI, varietal);
+    }
+    public void addAllUniqueVarietal(Collection<String> varietals) {
+        addAllUnique(VARI, varietals);
     }
 
     public String getComment() {
@@ -33,10 +117,10 @@ public class Review extends ParseObject {
         put(COMMENT, comment);
     }
 
-    public int getRating() {
-        return getInt(RATING);
+    public float getRating() {
+        return (float)getDouble(RATING);
     }
-    public void setRating(int rating) {
+    public void setRating(float rating) {
         put(RATING, rating);
     }
 

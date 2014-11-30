@@ -13,6 +13,8 @@ import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
+import parse.subclasses.Review;
+import parse.subclasses.User;
 import parse.subclasses.Wine;
 
 /**
@@ -71,7 +73,9 @@ public class WineListAdapter extends ParseQueryAdapter<Wine> {
         super(context, new ParseQueryAdapter.QueryFactory<Wine>() {
             public ParseQuery create() {
                 ParseQuery<Wine> wineQuery = Wine.getQuery();
+                ParseQuery<Wine> reviewedWinesQuery = User.getCurrentUser().getReviewedWines();
                 wineQuery.fromLocalDatastore();
+                wineQuery.whereDoesNotMatchKeyInQuery("objectId", "objectId", reviewedWinesQuery);
                 return wineQuery;
             }
         });
