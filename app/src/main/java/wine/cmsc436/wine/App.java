@@ -58,33 +58,33 @@ public class App extends Application {
         preferences = getSharedPreferences("wine.cmsc436", Context.MODE_PRIVATE);
         configHelper = new ConfigHelper();
         configHelper.fetchConfigIfNeeded();
-        // local storage of all wines
-        ParseQuery<Wine> wineQuery = Wine.getQuery();
-        // Query for new results from the network.
-        wineQuery.findInBackground(new FindCallback<Wine>() {
-            public void done(List<Wine> newWines, ParseException e) {
-                if (e != null) {
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            e.getMessage(), Toast.LENGTH_LONG);
-                    toast.show();
-                    return;
-                }
-                final List<Wine> wines = newWines;
-                // Remove the previously cached results.
-                ParseObject.unpinAllInBackground("wines", new DeleteCallback() {
-                    public void done(ParseException e) {
-                        if (e != null) {
-                            Toast toast = Toast.makeText(getApplicationContext(),
-                                    e.getMessage(), Toast.LENGTH_LONG);
-                            toast.show();
-                            return;
-                        }
-                        // Cache the new results.
-                        ParseObject.pinAllInBackground("wines", wines);
-                    }
-                });
-            }
-        });
+//        // local storage of all wines
+//        ParseQuery<Wine> wineQuery = Wine.getQuery();
+//        // Query for new results from the network.
+//        wineQuery.findInBackground(new FindCallback<Wine>() {
+//            public void done(List<Wine> newWines, ParseException e) {
+//                if (e != null) {
+//                    Toast toast = Toast.makeText(getApplicationContext(),
+//                            e.getMessage(), Toast.LENGTH_LONG);
+//                    toast.show();
+//                    return;
+//                }
+//                final List<Wine> wines = newWines;
+//                // Remove the previously cached results.
+//                ParseObject.unpinAllInBackground("wines", new DeleteCallback() {
+//                    public void done(ParseException e) {
+//                        if (e != null) {
+//                            Toast toast = Toast.makeText(getApplicationContext(),
+//                                    e.getMessage(), Toast.LENGTH_LONG);
+//                            toast.show();
+//                            return;
+//                        }
+//                        // Cache the new results.
+//                        ParseObject.pinAllInBackground("wines", wines);
+//                    }
+//                });
+//            }
+//        });
     }
 
     public static float getSearchDistance() {
