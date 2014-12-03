@@ -105,6 +105,10 @@
             android:name="wine.cmsc436.wine.ReviewWineProfileActivity"
             android:label="@string/title_activity_review_wine_profile" >
         </activity>
+        <activity
+            android:name="wine.cmsc436.wine.BadgeListActivity"
+            android:label="@string/title_activity_badge" >
+        </activity>
     </application>
 
 </manifest>

@@ -18,6 +18,7 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
+import parse.subclasses.Restaurant;
 import parse.subclasses.Wine;
 
 public class WineActivity extends Activity {
@@ -63,7 +64,18 @@ public class WineActivity extends Activity {
         badges.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WineActivity.this, BadgePage.class);
+                Intent intent = new Intent(WineActivity.this, BadgeListActivity.class);
+                WineActivity.this.startActivity(intent);
+            }
+        });
+
+        view_menu = (Button) findViewById(R.id.b_view_menu);
+        view_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WineActivity.this, MenuItemListActivity.class);
+                Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, "rSUTXnLDFR");
+                intent.setData(restaurant.getUri());
                 WineActivity.this.startActivity(intent);
             }
         });

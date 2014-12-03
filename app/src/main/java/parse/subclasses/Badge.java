@@ -15,19 +15,26 @@ import java.util.List;
 @ParseClassName("Badge")
 public class Badge extends ParseObject {
 
-    private static final String WINE = "wine";
+    private static final String DESC = "description";
+    private static final String NAME = "name";
     private static final String PHOTO = "photo";
 
     public Badge() {
 
     }
 
-    public Wine getWine() {
-//        return ParseObject.createWithoutData(Wine.class, getParseObject("wine").getObjectId());
-        return (Wine) getParseObject(WINE);
+    public String getDescription() {
+        return getString(DESC);
     }
-    public void setWine(Wine wine) {
-        put(WINE, wine);
+    public void setDescription(String description) {
+        put(DESC, description);
+    }
+
+    public String getName() {
+        return getString(NAME);
+    }
+    public void setName(String name) {
+        put(NAME, name);
     }
 
     public ParseFile getPhoto() {

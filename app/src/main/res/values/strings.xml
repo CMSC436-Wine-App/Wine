@@ -60,5 +60,6 @@
     <string name="title_activity_menu">Menu</string>
     <string name="title_activity_checklist">ChecklistActivity</string>
     <string name="title_activity_review_wine_profile">Wine Profile</string>
+    <string name="title_activity_badge">Badges</string>
 
 </resources>
