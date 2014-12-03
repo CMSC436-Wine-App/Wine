@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 
 import java.util.List;
@@ -65,9 +67,18 @@ public class UserProfile extends ListActivity {
             }
         });
 
+        User user = User.getCurrentUser();
+
         // get profile data
         TextView nameView = (TextView) findViewById(R.id.tv_wine_review);
-        nameView.setText(User.getCurrentUser().getString("name"));
+        nameView.setText(user.getString("name"));
+
+        ParseImageView photoImageView = (ParseImageView) findViewById(R.id.iv_user_profile_pic);
+        ParseFile imageFile = user.getPhoto();
+        if (imageFile != null) {
+            photoImageView.setParseFile(imageFile);
+            photoImageView.loadInBackground();
+        }
     }
 
     @Override

@@ -21,13 +21,13 @@ import java.util.List;
 import parse.subclasses.Restaurant;
 import parse.subclasses.Wine;
 
-public class WineActivity extends Activity {
+public class WineActivity extends BaseActivity {
 
     public Button your_profile, find_bar, review_wine, badges, view_menu, leave_bar, order_food;
     private static final String TAG = "CMSC436-Wine-App";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 //        ParseUser.logOut();
@@ -80,25 +80,5 @@ public class WineActivity extends Activity {
             }
         });
 
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.wine, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

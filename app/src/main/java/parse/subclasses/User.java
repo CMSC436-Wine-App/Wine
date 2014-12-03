@@ -7,6 +7,7 @@ import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseClassName;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
@@ -29,6 +30,7 @@ public class User extends ParseUser {
     private static final String FIRST_NAME = "firstName";
     private static final String LAST_NAME = "lastName";
     private static final String NAME = "name";
+    private static final String PHOTO = "photo";
     private static final String PURCHASES = "purchases";
     private static final String REVIEWS = "reviews";
     private static final String BADGES = "badges";
@@ -62,6 +64,13 @@ public class User extends ParseUser {
 }
     public void setName(String lastName) {
         put(NAME, lastName);
+    }
+
+    public ParseFile getPhoto() {
+        return getParseFile(PHOTO);
+    }
+    public void setPhoto(ParseFile photo) {
+        put(PHOTO, photo);
     }
 
     private ParseRelation<Purchase> getPurchasesRelation() {
