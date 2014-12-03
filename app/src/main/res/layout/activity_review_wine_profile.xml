@@ -21,7 +21,8 @@
     <SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/sweetnessSeekBar" />
+        android:id="@+id/sweetnessSeekBar"
+        android:max="10" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,7 +36,8 @@
     <SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tanninsSeekBar" />
+        android:id="@+id/tanninsSeekBar"
+        android:max="10" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -49,7 +51,8 @@
     <SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/aciditySeekBar" />
+        android:id="@+id/aciditySeekBar"
+        android:max="10" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -63,6 +66,7 @@
     <SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/bodySeekBar" />
+        android:id="@+id/bodySeekBar"
+        android:max="10" />
 
 </LinearLayout>

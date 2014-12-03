@@ -24,14 +24,18 @@ public class Badge extends ParseObject {
     }
 
     public String getDescription() {
-        return getString(DESC);
+        String description = getString(DESC);
+        if (description == null) return "";
+        return description;
     }
     public void setDescription(String description) {
         put(DESC, description);
     }
 
     public String getName() {
-        return getString(NAME);
+        String name = getString(NAME);
+        if (name == null) return "";
+        return name;
     }
     public void setName(String name) {
         put(NAME, name);

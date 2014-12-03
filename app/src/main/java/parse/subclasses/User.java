@@ -60,7 +60,9 @@ public class User extends ParseUser {
         put(LAST_NAME, lastName);
     }
     public String getName() {
-    return getString(NAME);
+        String name = getString(NAME);
+        if (name == null) return "";
+        return name;
 }
     public void setName(String lastName) {
         put(NAME, lastName);

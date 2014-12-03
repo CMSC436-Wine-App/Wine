@@ -48,7 +48,7 @@ public class ReviewWineProfileActivity extends BaseActivity {
         sweetnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                sweetnessLabel.setText("Sweetness: "+i/10);
+                sweetnessLabel.setText("Sweetness: "+i);
             }
 
             @Override
@@ -65,7 +65,7 @@ public class ReviewWineProfileActivity extends BaseActivity {
         tanninsSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                tanninsLabel.setText("Tannins: "+i/10);
+                tanninsLabel.setText("Tannins: "+i);
             }
 
             @Override
@@ -82,7 +82,7 @@ public class ReviewWineProfileActivity extends BaseActivity {
         aciditySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                acidityLabel.setText("Acidity: "+i/10);
+                acidityLabel.setText("Acidity: "+i);
             }
 
             @Override
@@ -99,7 +99,7 @@ public class ReviewWineProfileActivity extends BaseActivity {
         bodySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                bodyLabel.setText("Body: "+i/10);
+                bodyLabel.setText("Body: "+i);
             }
 
             @Override
@@ -132,10 +132,10 @@ public class ReviewWineProfileActivity extends BaseActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_done) {
             Intent intent = new Intent();
-            intent.putExtra("sweetness", sweetnessSeekBar.getProgress()/10);
-            intent.putExtra("tannins", tanninsSeekBar.getProgress()/10);
-            intent.putExtra("acidity", aciditySeekBar.getProgress()/10);
-            intent.putExtra("body", bodySeekBar.getProgress()/10);
+            intent.putExtra("sweetness", sweetnessSeekBar.getProgress());
+            intent.putExtra("tannins", tanninsSeekBar.getProgress());
+            intent.putExtra("acidity", aciditySeekBar.getProgress());
+            intent.putExtra("body", bodySeekBar.getProgress());
             setResult(Activity.RESULT_OK, intent);
             finish();
             return true;

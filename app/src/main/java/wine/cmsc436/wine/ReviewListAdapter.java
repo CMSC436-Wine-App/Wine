@@ -51,7 +51,7 @@ public class ReviewListAdapter extends ParseQueryAdapter<Review> {
         nameTextView.setText(review.getWine().getName());
 
         RatingBar ratingBar = (RatingBar) v.findViewById(R.id.r_wine_rating);
-        ratingBar.setRating(review.getRating());
+        ratingBar.setRating(review.getRating().floatValue());
 
         ParseImageView photoImageView = (ParseImageView) v.findViewById(R.id.iv_wine_thumbnail);
         ParseFile imageFile = review.getWine().getPhoto();

@@ -33,6 +33,10 @@
     <!-- New Review -->
     <string name="wine_name">Wine Name: </string>
     <string name="rating">Rating: </string>
+    <string name="noseRating">Nose Rating: </string>
+    <string name="colorRating">Color Rating: </string>
+    <string name="tasteRating">Taste Rating: </string>
+    <string name="finishRating">Finish Rating: </string>
     <string name="restaurant_name">Restaurant Name: </string>
     <string name="description">Description: </string>
     <string name="submit_review">Submit Review</string>

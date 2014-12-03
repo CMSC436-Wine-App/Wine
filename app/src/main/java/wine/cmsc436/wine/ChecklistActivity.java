@@ -34,6 +34,8 @@ public class ChecklistActivity extends ActionBarActivity {
             list = App.getConfigHelper().getAromas();
         } else if (getIntent().getBooleanExtra("varietals", false)) {
             list = App.getConfigHelper().getVarietals();
+        } else if (getIntent().getBooleanExtra("descriptors", false)) {
+            list = App.getConfigHelper().getDescriptors();
         } else {
             return;
         }
@@ -92,6 +94,8 @@ public class ChecklistActivity extends ActionBarActivity {
                 intent.putStringArrayListExtra("aromas", checkedList);
             } else if (getIntent().getBooleanExtra("varietals", false)) {
                 intent.putStringArrayListExtra("varietals", checkedList);
+            } else if (getIntent().getBooleanExtra("descriptors", false)) {
+                intent.putStringArrayListExtra("descriptors", checkedList);
             }
             setResult(Activity.RESULT_OK, intent);
             finish();

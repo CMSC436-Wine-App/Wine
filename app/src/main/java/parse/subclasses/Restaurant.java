@@ -25,7 +25,9 @@ public class Restaurant extends ParseObject {
     }
 
     public String getName() {
-        return getString(NAME);
+        String name = getString(NAME);
+        if (name == null) return "";
+        return name;
     }
     public void setName(String name) {
         put(NAME, name);

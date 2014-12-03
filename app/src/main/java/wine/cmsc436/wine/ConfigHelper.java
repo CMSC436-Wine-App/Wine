@@ -78,7 +78,16 @@ public class ConfigHelper {
 
     public List<String> getVarietals() {
         final List<String> defaultList = Arrays.asList("Barbera","Cabernet Sauvignon","Chardonnay","Gewurztraminer","Grenache","Malbec","Merlot","Moscato","Muscat","Pinot Grigio","Pinot Noir","Red","Riesling","Rose","Sangiovese","Sauvignon Blanc","Shiraz","Syrah","Tempranillo","White","Zinfandel");
-        List<String> configList = config.getList("varietlas");
+        List<String> configList = config.getList("varietals");
+        if (configList == null) {
+            return defaultList;
+        }
+        return configList;
+    }
+
+    public List<String> getDescriptors() {
+        final List<String> defaultList = Arrays.asList("Acidic","Aggressive","Astringent","Austere","Autolytic","Awkward","Backbone","Backward","Baked","Balanced","Big","Bitter","Blunt","Brawny","Briary","Bright","Brilliant","Browning","Burnt","Buttery","Cat Pee","Cedary","Chewy","Chocolaty","Clean","Closed","Cloudiness","Cloying","Coarse","Complex","Concentrated","Corked","Crisp","Delicate","Dense","Depth","Dirty","Dry","Earthy","Elegant","Expressive","Fallen over","Fat","Firm","Flabby","Flat","Fleshy","Flinty","Flowery","Foxy","Fresh","Fruity","Full","Grapey","Grassy","Hard","Harmonious","Harsh","Hazy","Hearty","Heady","Heavy","Herbaceous","Hollow","Hot","Jammy","Leafy","Lean","Leathery","Lingering","Lively","Lush","Malic","Meaty","Musty","Nutty","Oaky","Oxidized","Petrolly","Powerful","Perfumed","Pruny","Raisiny","Raw","Reticent","Rich","Robust","Round","Rustic","Smokey","Smooth","Soft","Spicy","Subtle","Supple","Sweet","Tannic","Tar","Tart","Tight","Tinny","Tired","Toasty","Transparent","Typical","Vanillin","Vegetal","Velvety","Vinegary","Vinous","Volatile");
+        List<String> configList = config.getList("descriptors");
         if (configList == null) {
             return defaultList;
         }

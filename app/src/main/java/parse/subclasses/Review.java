@@ -18,6 +18,11 @@ import java.util.List;
 @ParseClassName("Review")
 public class Review extends ParseObject {
 
+    private static final String TAGS = "descriptors";
+    private static final String NOSE_RATING = "noseRating";
+    private static final String COLOR_RATING = "colorRating";
+    private static final String TASTE_RATING = "tasteRating";
+    private static final String FINISH_RATING = "finishRating";
     private static final String SWEET = "sweetness";
     private static final String TANN = "tannins";
     private static final String ACID = "acidity";
@@ -38,6 +43,50 @@ public class Review extends ParseObject {
 //        setBody(0);
 //        setUser(User.getCurrentUser());
     }
+
+    public JSONArray getDescriptors() {
+        return getJSONArray(TAGS);
+    }
+    public void setDescriptors(JSONArray descriptors) {
+        put(TAGS, descriptors);
+    }
+    public void addDescriptor(String descriptor) {
+        add(TAGS, descriptor);
+    }
+    public void addAllDescriptor(Collection<String> descriptors) {
+        addAll(TAGS, descriptors);
+    }
+    public void addUniqueDescriptor(String descriptor) {
+        addUnique(TAGS, descriptor);
+    }
+    public void addAllUniqueDescriptor(Collection<String> descriptors) {
+        addAllUnique(TAGS, descriptors);
+    }
+
+    public Number getNoseRating() {
+        Number noseRating = getNumber(NOSE_RATING);
+        if (noseRating == null) return 0;
+        return noseRating;
+    }
+    public void setNoseRating(Number noseRating) { put(NOSE_RATING, noseRating); }
+    public Number getColorRating() {
+        Number colorRating = getNumber(COLOR_RATING);
+        if (colorRating == null) return 0;
+        return colorRating;
+    }
+    public void setColorRating(Number colorRating) { put(COLOR_RATING, colorRating); }
+    public Number getTasteRating() {
+        Number tasteRating = getNumber(TASTE_RATING);
+        if (tasteRating == null) return 0;
+        return tasteRating;
+    }
+    public void setTasteRating(Number tasteRating) { put(TASTE_RATING, tasteRating); }
+    public Number getFinishRating() {
+        Number finishRating = getNumber(FINISH_RATING);
+        if (finishRating == null) return 0;
+        return finishRating;
+    }
+    public void setFinishRating(Number finishRating) { put(FINISH_RATING, finishRating); }
 
     public Number getSweetness() {
         Number sweetness = getNumber(SWEET);
@@ -111,23 +160,29 @@ public class Review extends ParseObject {
     }
 
     public String getComment() {
-        return getString(COMMENT);
+        String comment = getString(COMMENT);
+        if (comment == null) return "";
+        return comment;
     }
     public void setComment(String comment) {
         put(COMMENT, comment);
     }
 
-    public float getRating() {
-        return (float)getDouble(RATING);
+    public Number getRating() {
+        Number rating = getNumber(RATING);
+        if (rating == null) return 0;
+        return rating;
     }
-    public void setRating(float rating) {
+    public void setRating(Number rating) {
         put(RATING, rating);
     }
 
-    public int getScore() {
-        return getInt(SCORE);
+    public Number getScore() {
+        Number score = getNumber(SCORE);
+        if (score == null) return 0;
+        return score;
     }
-    public void setScore(int score) {
+    public void setScore(Number score) {
         put(SCORE, score);
     }
 

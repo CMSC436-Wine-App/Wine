@@ -38,11 +38,12 @@ public class NewWineReview extends BaseActivity {
     private static final int AROMAS_SELECT = 2;
     private static final int VARIETALS_SELECT = 3;
     private static final int PROFILE_SET = 4;
+    private static final int DESCRIPTORS_SELECT = 5;
 
 
     // XML Layout Features
-    Button selectWineBtn, selectAromasBtn, selectVarietalsBtn, setProfileBtn;
-    RatingBar rbar;
+    Button selectWineBtn, selectAromasBtn, selectVarietalsBtn, setProfileBtn, selectDescriptorsBtn;
+    RatingBar overallRatingBar, noseRatingBar, colorRatingBar, tasteRatingBar, finishRatingBar;
     EditText description;
     Review review;
 
@@ -53,7 +54,12 @@ public class NewWineReview extends BaseActivity {
 
         review = new Review();
 
-        rbar = (RatingBar) findViewById(R.id.rb_wine_rating);
+        overallRatingBar = (RatingBar) findViewById(R.id.rb_wine_rating);
+        noseRatingBar = (RatingBar) findViewById(R.id.rb_nose_rating);
+        colorRatingBar = (RatingBar) findViewById(R.id.rb_color_rating);
+        tasteRatingBar = (RatingBar) findViewById(R.id.rb_taste_rating);
+        finishRatingBar = (RatingBar) findViewById(R.id.rb_finish_rating);
+
         description = (EditText) findViewById(R.id.et_description);
 
         selectWineBtn = (Button) findViewById(R.id.select_wine_btn);
@@ -103,6 +109,19 @@ public class NewWineReview extends BaseActivity {
                 startActivityForResult(intent, PROFILE_SET);
             }
         });
+
+        selectDescriptorsBtn = (Button) findViewById(R.id.select_descriptors_btn);
+        selectDescriptorsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewWineReview.this, ChecklistActivity.class);
+                intent.putExtra("descriptors", true);
+                if (review.getDescriptors() != null) {
+                    intent.putExtra("jsonArray", review.getDescriptors().toString());
+                }
+                startActivityForResult(intent, DESCRIPTORS_SELECT);
+            }
+        });
     }
 
     @Override
@@ -144,6 +163,13 @@ public class NewWineReview extends BaseActivity {
                 }
                 break;
             }
+            case (DESCRIPTORS_SELECT) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    ArrayList<String> result = data.getStringArrayListExtra("descriptors");
+                    review.setDescriptors(new JSONArray(result));
+                }
+                break;
+            }
         }
     }
 
@@ -170,7 +196,11 @@ public class NewWineReview extends BaseActivity {
 
             final User user = User.getCurrentUser();
             review.setComment(description.getText().toString());
-            review.setRating(rbar.getRating());
+            review.setRating(overallRatingBar.getRating());
+            review.setNoseRating(noseRatingBar.getRating());
+            review.setColorRating(colorRatingBar.getRating());
+            review.setTasteRating(tasteRatingBar.getRating());
+            review.setFinishRating(finishRatingBar.getRating());
             review.setUser(user);
             review.saveInBackground(new SaveCallback() {
                 @Override
