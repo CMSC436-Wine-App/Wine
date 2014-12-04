@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -42,7 +44,8 @@ public class NewWineReview extends BaseActivity {
 
 
     // XML Layout Features
-    Button selectWineBtn, selectAromasBtn, selectVarietalsBtn, setProfileBtn, selectDescriptorsBtn;
+    TextView selectWineTxt;
+    Button selectAromasBtn, selectVarietalsBtn, setProfileBtn, selectDescriptorsBtn;
     RatingBar overallRatingBar, noseRatingBar, colorRatingBar, tasteRatingBar, finishRatingBar;
     EditText description;
     Review review;
@@ -54,16 +57,16 @@ public class NewWineReview extends BaseActivity {
 
         review = new Review();
 
-        overallRatingBar = (RatingBar) findViewById(R.id.rb_wine_rating);
-        noseRatingBar = (RatingBar) findViewById(R.id.rb_nose_rating);
-        colorRatingBar = (RatingBar) findViewById(R.id.rb_color_rating);
-        tasteRatingBar = (RatingBar) findViewById(R.id.rb_taste_rating);
-        finishRatingBar = (RatingBar) findViewById(R.id.rb_finish_rating);
+        overallRatingBar = (RatingBar) findViewById(R.id.rating_rb);
+        noseRatingBar = (RatingBar) findViewById(R.id.noseRating_rb);
+        colorRatingBar = (RatingBar) findViewById(R.id.colorRating_rb);
+        tasteRatingBar = (RatingBar) findViewById(R.id.tasteRating_rb);
+        finishRatingBar = (RatingBar) findViewById(R.id.finishRating_rb);
 
         description = (EditText) findViewById(R.id.et_description);
 
-        selectWineBtn = (Button) findViewById(R.id.select_wine_btn);
-        selectWineBtn.setOnClickListener(new View.OnClickListener() {
+        selectWineTxt = (EditText) findViewById(R.id.select_wine_txt);
+        selectWineTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NewWineReview.this, WineListActivity.class);
@@ -122,6 +125,16 @@ public class NewWineReview extends BaseActivity {
                 startActivityForResult(intent, DESCRIPTORS_SELECT);
             }
         });
+
+        Intent tempIntent = getIntent();
+        if (tempIntent.hasExtra("wineName") && tempIntent.getData() != null) {
+            String wineId = Wine.getObjectId(tempIntent.getData());
+            String wineName = tempIntent.getStringExtra("wineName");
+            selectWineTxt.setText(wineName);
+            review.setWine(wineId);
+            ((RelativeLayout)findViewById(R.id.childRelative)).setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
@@ -132,7 +145,13 @@ public class NewWineReview extends BaseActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     String wineId = Wine.getObjectId(data.getData());
                     String wineName = data.getStringExtra("wineName");
+                    selectWineTxt.setText(wineName);
                     review.setWine(wineId);
+                    RelativeLayout childRelative = (RelativeLayout)findViewById(R.id.childRelative);
+                    if (!wineId.equals("")) {
+                        childRelative.setVisibility(View.VISIBLE);
+                        resetLayout();
+                    }
                 }
                 break;
             }
@@ -171,6 +190,20 @@ public class NewWineReview extends BaseActivity {
                 break;
             }
         }
+    }
+
+    private void resetLayout() {
+        finishRatingBar.setRating(0);
+        tasteRatingBar.setRating(0);
+        colorRatingBar.setRating(0);
+        noseRatingBar.setRating(0);
+        overallRatingBar.setRating(0);
+        EditText descriptionText = (EditText)findViewById(R.id.et_description);
+        descriptionText.setText("");
+        review.setSweetness(0);
+        review.setTannins(0);
+        review.setAcidity(0);
+        review.setBody(0);
     }
 
     @Override

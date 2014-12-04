@@ -77,6 +77,7 @@ public class UserProfile extends ListActivity {
 
         ParseImageView photoImageView = (ParseImageView) findViewById(R.id.iv_user_profile_pic);
         ParseFile imageFile = user.getPhoto();
+        // TODO: User image is broken for me
         if (imageFile != null) {
             photoImageView.setParseFile(imageFile);
             photoImageView.loadInBackground();
@@ -95,13 +96,11 @@ public class UserProfile extends ListActivity {
         // Checking request code
         if (requestcode == ADD_REVIEW_REQEST){
             if (resultcode == RESULT_OK){
-
 //                mAdapter.add(new WineReviewItem(data));
                 mAdapter.loadObjects();
 
             } else {
                 Toast.makeText(getApplicationContext(), "Review did not go through", Toast.LENGTH_LONG).show();
-
             }
         }
 

@@ -19,6 +19,7 @@
         android:id="@+id/tv_wine_name"
         android:layout_toEndOf="@+id/iv_wine_thumbnail"
         android:text="@string/example_wine"
+        android:textColor="#000000"
         android:textSize="25dp"
         android:layout_alignParentTop="true" />
 

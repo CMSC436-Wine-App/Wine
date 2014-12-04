@@ -1,119 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     tools:context="wine.cmsc436.wine.NewWineReview">
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
+
+        <RelativeLayout
             android:id="@+id/linearMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/rating" />
-
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/rb_wine_rating" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/noseRating" />
-
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/rb_nose_rating" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/colorRating" />
-
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/rb_color_rating" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/tasteRating" />
-
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/rb_taste_rating" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/finishRating" />
-
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/rb_finish_rating" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/description"
-                android:id="@+id/textView4" />
-
             <EditText
+                android:id="@+id/select_wine_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/et_description"
-                android:hint="Description" />
+                android:editable="false"
+                android:gravity="center"
+                android:hint="Select a Wine"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <Button
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/childRelative"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select Wine"
-                android:id="@+id/select_wine_btn" />
+                android:layout_below="@+id/select_wine_txt"
+                android:layout_marginTop="10dp"
+                android:visibility="invisible"
+                android:orientation="vertical">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Select Aromas"
-                android:id="@+id/select_aromas_btn" />
+                <TextView
+                    android:id="@+id/rating_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/rating" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Select Varietals"
-                android:id="@+id/select_varietals_btn" />
+                <RatingBar
+                    android:id="@+id/rating_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rating_tv"
+                    android:layout_centerHorizontal="true"
+                    android:isIndicator="false"
+                    android:numStars="5" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Set Profile"
-                android:id="@+id/set_profile_btn" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Select Descriptors"
-                android:id="@+id/select_descriptors_btn" />
+                <TextView
+                    android:id="@+id/noseRating_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rating_rb"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/noseRating" />
 
-        </LinearLayout>
+                <RatingBar
+                    android:id="@+id/noseRating_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/noseRating_tv"
+                    android:layout_centerHorizontal="true"
+                    android:isIndicator="false"
+                    android:numStars="5" />
+
+                <TextView
+                    android:id="@+id/colorRating_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/noseRating_rb"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/colorRating" />
+
+                <RatingBar
+                    android:id="@+id/colorRating_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/colorRating_tv"
+                    android:layout_centerHorizontal="true"
+                    android:isIndicator="false"
+                    android:numStars="5" />
+
+                <TextView
+                    android:id="@+id/tasteRating_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/colorRating_rb"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/tasteRating" />
+
+                <RatingBar
+                    android:id="@+id/tasteRating_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tasteRating_tv"
+                    android:layout_centerHorizontal="true"
+                    android:isIndicator="false"
+                    android:numStars="5" />
+
+                <TextView
+                    android:id="@+id/finishRating_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tasteRating_rb"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/finishRating" />
+
+                <RatingBar
+                    android:id="@+id/finishRating_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/finishRating_tv"
+                    android:layout_centerHorizontal="true"
+                    android:isIndicator="false"
+                    android:numStars="5" />
+
+                <TextView
+                    android:id="@+id/description_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/finishRating_rb"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/description" />
+
+                <EditText
+                    android:id="@+id/et_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/description_tv"
+                    android:hint="Description"
+                    android:inputType="textMultiLine"
+                    android:lines="5"
+                    android:maxLines="10"
+                    android:scrollbars="vertical" />
+
+                <Button
+                    android:id="@+id/select_aromas_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/et_description"
+                    android:text="Select Aromas" />
+
+                <Button
+                    android:id="@+id/select_varietals_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/select_aromas_btn"
+                    android:text="Select Varietals" />
+
+                <Button
+                    android:id="@+id/set_profile_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/select_varietals_btn"
+                    android:text="Set Profile" />
+
+                <Button
+                    android:id="@+id/select_descriptors_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/set_profile_btn"
+                    android:text="Select Descriptors" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
     </ScrollView>
 </LinearLayout>

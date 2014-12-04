@@ -31,7 +31,7 @@
 
     <!-- New Review -->
     <string name="wine_name">Wine Name: </string>
-    <string name="rating">Rating: </string>
+    <string name="rating">Overall Rating: </string>
     <string name="noseRating">Nose Rating: </string>
     <string name="colorRating">Color Rating: </string>
     <string name="tasteRating">Taste Rating: </string>

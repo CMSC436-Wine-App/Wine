@@ -53,6 +53,7 @@ public class WineDetailActivity extends ActionBarActivity {
                 if (selectedWine != null) {
                     Intent reviewIntent = new Intent(WineDetailActivity.this, NewWineReview.class);
                     reviewIntent.putExtra("wineName", selectedWine.getName());
+                    reviewIntent.setData(selectedWine.getUri());
                     startActivity(reviewIntent);
                 }
             }

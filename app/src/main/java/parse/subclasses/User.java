@@ -2,6 +2,7 @@ package parse.subclasses;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.util.Log;
 
 import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
