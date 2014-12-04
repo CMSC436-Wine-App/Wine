@@ -12,6 +12,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="15dp"
+        android:gravity="center_horizontal"
         android:textSize="32sp" />
     <TextView
         android:id="@+id/wine_description"
@@ -22,5 +23,19 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:textSize="14sp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Review Wine"
+        android:id="@+id/review_button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order Wine"
+        android:layout_gravity="center"
+        android:id="@+id/order_button" />
 
 </LinearLayout>

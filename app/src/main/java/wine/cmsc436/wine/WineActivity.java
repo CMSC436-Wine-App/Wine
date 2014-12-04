@@ -42,15 +42,6 @@ public class WineActivity extends BaseActivity {
             }
         });
 
-        find_bar = (Button) findViewById(R.id.b_find_bar);
-        find_bar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(WineActivity.this, FindBarActivity.class);
-                WineActivity.this.startActivity(intent);
-            }
-        });
-
         review_wine = (Button) findViewById(R.id.b_review_a_wine);
         review_wine.setOnClickListener(new View.OnClickListener() {
             @Override

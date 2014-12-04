@@ -74,7 +74,7 @@ public class WineListAdapter extends ParseQueryAdapter<Wine> {
             public ParseQuery create() {
                 ParseQuery<Wine> wineQuery = Wine.getQuery();
                 ParseQuery<Wine> reviewedWinesQuery = User.getCurrentUser().getReviewedWines();
-//                wineQuery.fromLocalDatastore();
+                wineQuery.fromLocalDatastore();
                 wineQuery.whereDoesNotMatchKeyInQuery("objectId", "objectId", reviewedWinesQuery);
                 return wineQuery;
             }

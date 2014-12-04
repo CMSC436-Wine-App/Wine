@@ -40,7 +40,7 @@ public class WineDetailActivity extends ActionBarActivity {
         };
 
         ParseQuery<Wine> wineQuery = Wine.getQuery();
-//        wineQuery.fromLocalDatastore();
+        wineQuery.fromLocalDatastore();
         wineQuery.getInBackground(wineId, wineGetCallback);
     }
 

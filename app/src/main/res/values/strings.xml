@@ -11,13 +11,11 @@
 
     <!-- Home Page Strings -->
     <string name="home">Home</string>
-    <string name="find_bar">Find a Wine Bar</string>
     <string name="review_a_wine">Review a Wine</string>
     <string name="your_profile">Your Profile</string>
     <string name="badges">Badges</string>
     <string name="view_menu">View Menu</string>
-    <string name="leave_bar">Leave Bar</string>
-    <string name="order_food">Order Food</string>
+    <string name="order_food">Order Wine</string>
 
     <!-- Badges -->
     <string name="gold_heart">Purchase a wine 10 times.</string>
@@ -60,7 +58,7 @@
     <string name="title_activity_find_bar">Find Bar</string>
     <string name="title_activity_wine_list">Wine List</string>
     <string name="title_activity_base">BaseActivity</string>
-    <string name="title_activity_wine_detail">WineDetailActivity</string>
+    <string name="title_activity_wine_detail">View Wine Details</string>
     <string name="title_activity_menu">Menu</string>
     <string name="title_activity_checklist">ChecklistActivity</string>
     <string name="title_activity_review_wine_profile">Wine Profile</string>

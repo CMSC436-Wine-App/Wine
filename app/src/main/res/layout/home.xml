@@ -15,12 +15,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/find_bar"
-        android:id="@+id/b_find_bar" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/review_a_wine"
         android:id="@+id/b_review_a_wine" />
 
@@ -41,12 +35,6 @@
         android:layout_height="wrap_content"
         android:text="@string/view_menu"
         android:id="@+id/b_view_menu" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/leave_bar"
-        android:id="@+id/b_leave_bar" />
 
     <Button
         android:layout_width="wrap_content"
