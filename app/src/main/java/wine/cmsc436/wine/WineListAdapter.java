@@ -92,7 +92,7 @@ public class WineListAdapter extends ParseQueryAdapter<Wine> {
 
         // Add and download the image
         ParseImageView photoImageView = (ParseImageView) v.findViewById(R.id.wine_photo);
-        ParseFile imageFile = wine.getPhoto();
+        ParseFile imageFile = wine.getPhotoSmall();
         if (imageFile != null) {
             photoImageView.setParseFile(imageFile);
             photoImageView.loadInBackground();

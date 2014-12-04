@@ -36,6 +36,8 @@ public class UserProfile extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        this.getActionBar().setDisplayHomeAsUpEnabled(true);
+
         LayoutInflater inflater = getLayoutInflater();
         View header = inflater.inflate(R.layout.your_profile, getListView(), false);
         getListView().addHeaderView(header);

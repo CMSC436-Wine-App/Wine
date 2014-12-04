@@ -19,6 +19,8 @@ public class BadgeListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_item_list);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // get adapter
         adapter = new BadgeListAdapter(this);
         ListView list = (ListView) findViewById(R.id.menu_item_list);

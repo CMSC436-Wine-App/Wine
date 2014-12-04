@@ -37,7 +37,9 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name="wine.cmsc436.wine.UserProfile" >
+        <activity android:name="wine.cmsc436.wine.UserProfile"
+            android:label="@string/profile_page"
+            android:parentActivityName="wine.cmsc436.wine.WineActivity">
         </activity>
         <activity android:name="wine.cmsc436.wine.NewWineReview" >
         </activity>
@@ -75,11 +77,12 @@
         </activity>
         <activity
             android:name="com.facebook.LoginActivity"
-            android:label="@string/app_name"
+            android:label="@string/profile_page"
             android:launchMode="singleTop" />
         <activity
             android:name="wine.cmsc436.wine.WineListActivity"
-            android:label="@string/title_activity_wine_list" >
+            android:label="@string/title_activity_wine_list"
+            android:parentActivityName="wine.cmsc436.wine.WineActivity">
         </activity>
         <activity
             android:name="wine.cmsc436.wine.BaseActivity"
@@ -87,7 +90,8 @@
         </activity>
         <activity
             android:name="wine.cmsc436.wine.WineDetailActivity"
-            android:label="@string/title_activity_wine_detail" >
+            android:label="@string/title_activity_wine_detail"
+            android:parentActivityName="wine.cmsc436.wine.WineListActivity">
         </activity>
         <activity
             android:name="wine.cmsc436.wine.MenuItemListActivity"
@@ -103,6 +107,7 @@
         </activity>
         <activity
             android:name="wine.cmsc436.wine.BadgeListActivity"
+            android:parentActivityName="wine.cmsc436.wine.WineActivity"
             android:label="@string/title_activity_badge" >
         </activity>
     </application>

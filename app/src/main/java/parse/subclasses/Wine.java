@@ -19,6 +19,7 @@ public class Wine extends ParseObject {
     private static final String DESC = "description";
     private static final String PRICE = "price";
     private static final String PHOTO = "photo";
+    private static final String PHOTOSMALL = "photoSmall";
 
     public Wine() {
 
@@ -52,6 +53,11 @@ public class Wine extends ParseObject {
     public ParseFile getPhoto() {
         return getParseFile(PHOTO);
     }
+
+    public ParseFile getPhotoSmall() {
+        return getParseFile(PHOTOSMALL);
+    }
+
     public void setPhoto(ParseFile photo) {
         put(PHOTO, photo);
     }

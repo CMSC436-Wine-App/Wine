@@ -1,10 +1,13 @@
 package wine.cmsc436.wine;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +20,7 @@ import parse.subclasses.Wine;
 
 public class WineDetailActivity extends ActionBarActivity {
 
-    private Wine selectedWine;
+    private Wine selectedWine = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,18 @@ public class WineDetailActivity extends ActionBarActivity {
         ParseQuery<Wine> wineQuery = Wine.getQuery();
         wineQuery.fromLocalDatastore();
         wineQuery.getInBackground(wineId, wineGetCallback);
+
+        Button reviewButton = (Button)findViewById(R.id.review_button);
+        reviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedWine != null) {
+                    Intent reviewIntent = new Intent(WineDetailActivity.this, NewWineReview.class);
+                    reviewIntent.putExtra("wineName", selectedWine.getName());
+                    startActivity(reviewIntent);
+                }
+            }
+        });
     }
 
     @Override

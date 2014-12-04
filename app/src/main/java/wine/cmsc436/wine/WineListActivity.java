@@ -29,6 +29,8 @@ public class WineListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wine_list);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // get adapter
         adapter = new WineListAdapter(this);
         adapter.setObjectsPerPage(OBJECTS_PER_PAGE);

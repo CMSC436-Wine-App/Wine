@@ -20,7 +20,10 @@ public class MenuItemListActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_menu_item_list);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String restaurantId = Restaurant.getObjectId(getIntent().getData());
 
