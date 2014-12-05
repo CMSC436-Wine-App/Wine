@@ -20,6 +20,7 @@ import com.parse.ParseQuery;
 import java.text.NumberFormat;
 import java.util.List;
 
+import parse.subclasses.Purchase;
 import parse.subclasses.Restaurant;
 import parse.subclasses.Wine;
 import parse.subclasses.MenuItem;
@@ -45,7 +46,8 @@ public class WineDetailActivity extends ActionBarActivity {
         bottleOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Purchase c = new Purchase();
+                //App.CurrentPurchases.add(null);
             }
         });
 
@@ -62,6 +64,14 @@ public class WineDetailActivity extends ActionBarActivity {
             }
         });
 
+        final Button viewReviewsButton = (Button)findViewById(R.id.view_reviews_button);
+        viewReviewsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Bring up reviews page for this specific Wine
+            }
+        });
+
         // Fetch the data about this wine from Parse.
         String wineId = Wine.getObjectId(getIntent().getData());
         GetCallback<Wine> wineGetCallback = new GetCallback<Wine>() {
@@ -75,6 +85,7 @@ public class WineDetailActivity extends ActionBarActivity {
                 selectedWine = wine;
                 ParseQuery<MenuItem> menuItemParseQuery = MenuItem.getPriceQuery(selectedWine);
                 final RelativeLayout wineDescLayout = (RelativeLayout)findViewById(R.id.order_layout);
+                final RelativeLayout reviewLayout = (RelativeLayout)findViewById(R.id.review_layout);
                 menuItemParseQuery.findInBackground(new FindCallback<MenuItem>() {
                     @Override
                     public void done(List<MenuItem> menuItems, ParseException e) {
@@ -93,7 +104,7 @@ public class WineDetailActivity extends ActionBarActivity {
                         }
                         updateView(selectedWine);
                         wineDescLayout.setVisibility(View.VISIBLE);
-                        reviewButton.setVisibility(View.VISIBLE);
+                        reviewLayout.setVisibility(View.VISIBLE);
                     }
                 });
             }

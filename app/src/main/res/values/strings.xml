@@ -59,6 +59,7 @@
 
     <!-- Wine Detail -->
     <string name="review_wine_btn">Review Wine</string>
+    <string name="view_wine_reviews">View Wine Reviews</string>
     <string name="order_wine_btn">Add to Order: </string>
     <string name="glass">Glass: </string>
     <string name="bottle">Bottle: </string>

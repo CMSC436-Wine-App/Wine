@@ -18,6 +18,7 @@ import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import parse.subclasses.*;
@@ -40,10 +41,9 @@ public class App extends Application {
 
     private static SharedPreferences preferences;
 
-    private static SQLiteOpenHelper sqlDb;
-    private static final String PURCHASES_TABLE_NAME = "purchases";
-
     private static ConfigHelper configHelper;
+
+    public static ArrayList<Purchase> CurrentPurchases = new ArrayList<Purchase>();
 
     @Override
     public void onCreate() {
@@ -90,18 +90,6 @@ public class App extends Application {
                 });
             }
         });
-
-        sqlDb = new SQLiteOpenHelper(this, null, null, 1) {
-
-            @Override
-            public void onCreate(SQLiteDatabase db) {
-            }
-
-            @Override
-            public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-            }
-        };
 
     }
 

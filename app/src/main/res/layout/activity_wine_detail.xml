@@ -31,8 +31,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/wine_description"
-        android:visibility="invisible"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/order_description"
@@ -50,8 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_toRightOf="@+id/order_description"
-            android:textSize="15sp"
-            android:text="@string/glass" />
+            android:text="@string/glass"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/bottle_order_btn"
@@ -59,18 +59,35 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_toRightOf="@+id/glass_order_btn"
-            android:textSize="15sp"
-            android:text="@string/bottle" />
+            android:text="@string/bottle"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/review_button"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/review_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
         android:layout_below="@+id/order_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:text="@string/review_wine_btn" />
+        android:gravity="center_horizontal"
+        android:visibility="invisible">
+
+        <Button
+            android:id="@+id/review_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:text="@string/review_wine_btn" />
+
+        <Button
+            android:id="@+id/view_reviews_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/review_button"
+            android:text="@string/view_wine_reviews" />
+
+    </RelativeLayout>
 </RelativeLayout>

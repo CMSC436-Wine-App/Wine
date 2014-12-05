@@ -18,8 +18,9 @@ public class Purchase extends ParseObject {
     private static final String WINE = "wine";
     private static final String USER = "user";
 
-    public Purchase() {
+    public Purchase() {  }
 
+    public Purchase(ParseUser user, Wine wine, Restaurant rest) {
     }
 
     public Wine getWine() {
