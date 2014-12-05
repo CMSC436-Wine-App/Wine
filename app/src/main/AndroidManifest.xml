@@ -80,8 +80,8 @@
             android:label="@string/profile_page"
             android:launchMode="singleTop" />
         <activity
-            android:name="wine.cmsc436.wine.WineListActivity"
-            android:label="@string/title_activity_wine_list"
+            android:name="wine.cmsc436.wine.MenuItemListActivity"
+            android:label="@string/title_activity_menu_list"
             android:parentActivityName="wine.cmsc436.wine.WineActivity">
         </activity>
         <activity
@@ -91,11 +91,7 @@
         <activity
             android:name="wine.cmsc436.wine.WineDetailActivity"
             android:label="@string/title_activity_wine_detail"
-            android:parentActivityName="wine.cmsc436.wine.WineListActivity">
-        </activity>
-        <activity
-            android:name="wine.cmsc436.wine.MenuItemListActivity"
-            android:label="@string/title_activity_menu" >
+            android:parentActivityName="wine.cmsc436.wine.MenuItemListActivity">
         </activity>
         <activity
             android:name="wine.cmsc436.wine.ChecklistActivity"

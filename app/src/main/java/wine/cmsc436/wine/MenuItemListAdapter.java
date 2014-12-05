@@ -1,56 +1,56 @@
 package wine.cmsc436.wine;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
-import parse.subclasses.MenuItem;
-import parse.subclasses.Restaurant;
+import parse.subclasses.Review;
+import parse.subclasses.User;
 import parse.subclasses.Wine;
 
-/**
- * Created by Ethan on 11/23/2014.
- */
-public class MenuItemListAdapter extends ParseQueryAdapter<MenuItem> {
+public class MenuItemListAdapter extends ParseQueryAdapter<Wine> {
 
-    public MenuItemListAdapter(Context context, final String restaurantId) {
-        super(context, new QueryFactory<MenuItem>() {
+    public MenuItemListAdapter(Context context) {
+        super(context, new ParseQueryAdapter.QueryFactory<Wine>() {
             public ParseQuery create() {
-                ParseQuery<MenuItem> menuItemQuery = MenuItem.getQuery();
-                menuItemQuery.whereEqualTo("restaurant", ParseObject.createWithoutData(Restaurant.class, restaurantId));
-                menuItemQuery.include("wine");
-                return menuItemQuery;
+                ParseQuery<Wine> wineQuery = Wine.getQuery();
+                ParseQuery<Wine> reviewedWinesQuery = User.getCurrentUser().getReviewedWines();
+                wineQuery.fromLocalDatastore();
+                wineQuery.whereDoesNotMatchKeyInQuery("objectId", "objectId", reviewedWinesQuery);
+                return wineQuery;
             }
         });
     }
 
     // Customize the layout by overriding getItemView
     @Override
-    public View getItemView(MenuItem menuItem, View v, ViewGroup parent) {
+    public View getItemView(Wine wine, View v, ViewGroup parent) {
         if (v == null) {
-            v = View.inflate(getContext(), R.layout.list_item_menu_item, null);
+            v = View.inflate(getContext(), R.layout.list_item_wine, null);
         }
 
-        super.getItemView(menuItem, v, parent);
+        super.getItemView(wine, v, parent);
 
         // Add and download the image
-        ParseImageView photoImageView = (ParseImageView) v.findViewById(R.id.menu_item_photo);
-        ParseFile imageFile = menuItem.getWine().getPhoto();
+        ParseImageView photoImageView = (ParseImageView) v.findViewById(R.id.wine_photo);
+        ParseFile imageFile = wine.getPhotoSmall();
         if (imageFile != null) {
             photoImageView.setParseFile(imageFile);
             photoImageView.loadInBackground();
         }
 
         // Add the title view
-        TextView nameTextView = (TextView) v.findViewById(R.id.menu_item_name);
-        nameTextView.setText(menuItem.getWine().getName());
+        TextView nameTextView = (TextView) v.findViewById(R.id.wine_name);
+        nameTextView.setText(wine.getName());
 
         return v;
     }

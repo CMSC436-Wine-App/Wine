@@ -42,15 +42,6 @@ public class WineActivity extends BaseActivity {
             }
         });
 
-        review_wine = (Button) findViewById(R.id.b_review_a_wine);
-        review_wine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(WineActivity.this, WineListActivity.class);
-                WineActivity.this.startActivity(intent);
-            }
-        });
-
         badges = (Button) findViewById(R.id.b_badges);
         badges.setOnClickListener(new View.OnClickListener() {
             @Override

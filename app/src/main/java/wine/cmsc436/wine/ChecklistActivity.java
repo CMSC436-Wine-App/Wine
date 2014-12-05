@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 
 public class ChecklistActivity extends ActionBarActivity {
-    LinearLayout layout;
+    RelativeLayout layout;
     List<String> list;
 
     @Override
@@ -28,7 +29,7 @@ public class ChecklistActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checklist);
 
-        layout = (LinearLayout) findViewById(R.id.linearMain);
+        layout = (RelativeLayout) findViewById(R.id.linearMain);
 
         if (getIntent().getBooleanExtra("aromas", false)) {
             list = App.getConfigHelper().getAromas();

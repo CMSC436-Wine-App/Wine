@@ -77,7 +77,7 @@ public class UserProfile extends ListActivity {
 
         ParseImageView photoImageView = (ParseImageView) findViewById(R.id.iv_user_profile_pic);
         ParseFile imageFile = user.getPhoto();
-        // TODO: User image is broken for me
+
         if (imageFile != null) {
             photoImageView.setParseFile(imageFile);
             photoImageView.loadInBackground();

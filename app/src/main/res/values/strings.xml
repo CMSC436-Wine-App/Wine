@@ -16,7 +16,7 @@
     <string name="your_profile">Your Profile</string>
     <string name="badges">Badges</string>
     <string name="view_menu">View Menu</string>
-    <string name="order_food">Order Wine</string>
+    <string name="order_food">Complete Purchase</string>
 
     <!-- Badges -->
     <string name="gold_heart">Purchase a wine 10 times.</string>
@@ -56,13 +56,11 @@
     <string name="restaurant_out_of_range">Can\'t view restaurant! Get closer.</string>
     <string name="device_offline_message">"Your device appears to be offline. Some content may be unavailable."</string>
     <string name="logout">Log Out</string>
-    <string name="title_activity_find_bar">Find Bar</string>
-    <string name="title_activity_wine_list">Wine List</string>
+    <string name="title_activity_menu_list">Wine Menu</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_activity_wine_detail">View Wine Details</string>
-    <string name="title_activity_menu">Menu</string>
     <string name="title_activity_checklist">ChecklistActivity</string>
     <string name="title_activity_review_wine_profile">Wine Profile</string>
-    <string name="title_activity_badge">Badges</string>
+    <string name="title_activity_badge">Available Badges</string>
 
 </resources>

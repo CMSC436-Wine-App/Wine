@@ -69,7 +69,7 @@ public class NewWineReview extends BaseActivity {
         selectWineTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NewWineReview.this, WineListActivity.class);
+                Intent intent = new Intent(NewWineReview.this, MenuItemListActivity.class);
                 startActivityForResult(intent, WINE_SELECT);
             }
         });
