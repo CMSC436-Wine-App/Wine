@@ -21,7 +21,7 @@ import java.util.Map;
 
 
 public class ChecklistActivity extends ActionBarActivity {
-    RelativeLayout layout;
+    LinearLayout layout;
     List<String> list;
 
     @Override
@@ -29,7 +29,7 @@ public class ChecklistActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checklist);
 
-        layout = (RelativeLayout) findViewById(R.id.linearMain);
+        layout = (LinearLayout) findViewById(R.id.linearMain);
 
         if (getIntent().getBooleanExtra("aromas", false)) {
             list = App.getConfigHelper().getAromas();

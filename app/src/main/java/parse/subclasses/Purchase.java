@@ -47,12 +47,14 @@ public class Purchase extends ParseObject {
 
     private static final String SCHEME = "wineApp";
     private static final String URI_PATH = "purchase";
+
     public Uri getUri() {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme(SCHEME);
         builder.path(URI_PATH+"/" + getObjectId());
         return builder.build();
     }
+
     public static String getObjectId(Uri uri) {
         List<String> path = uri.getPathSegments();
         if (path.size() != 2 || !URI_PATH.equals(path.get(0))) {
