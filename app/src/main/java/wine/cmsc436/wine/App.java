@@ -3,6 +3,8 @@ package wine.cmsc436.wine;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
 import com.parse.DeleteCallback;
@@ -37,6 +39,9 @@ public class App extends Application {
     private static final float DEFAULT_SEARCH_DISTANCE = 1000.0f;
 
     private static SharedPreferences preferences;
+
+    private static SQLiteOpenHelper sqlDb;
+    private static final String PURCHASES_TABLE_NAME = "purchases";
 
     private static ConfigHelper configHelper;
 
@@ -85,6 +90,18 @@ public class App extends Application {
                 });
             }
         });
+
+        sqlDb = new SQLiteOpenHelper(this, null, null, 1) {
+
+            @Override
+            public void onCreate(SQLiteDatabase db) {
+            }
+
+            @Override
+            public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+            }
+        };
 
     }
 

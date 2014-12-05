@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Ethan on 11/16/2014.
  */
 @ParseClassName("MenuItem")
-public class MenuItem extends ParseObject {
+public class MenuItem extends com.parse.ParseObject {
 
     private static final String REST = "restaurant";
     private static final String WINE = "wine";
@@ -69,6 +69,21 @@ public class MenuItem extends ParseObject {
             throw new RuntimeException("Invalid URI for "+URI_PATH+": " + uri);
         }
         return path.get(1);
+    }
+
+    public Double getGlassPrice() {
+        return getNumber("GlassPrice").doubleValue();
+    }
+
+    public Double getBottlePrice() {
+        return getNumber("BottlePrice").doubleValue();
+    }
+
+    public static ParseQuery<MenuItem> getPriceQuery(Wine wine) {
+        Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, "rSUTXnLDFR");
+        return ParseQuery.getQuery(MenuItem.class)
+                .whereEqualTo("wine", wine)
+                .whereEqualTo("restaurant", restaurant);
     }
 
     public boolean isWine() {

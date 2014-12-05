@@ -39,9 +39,7 @@ public class User extends ParseUser {
 
     private static final Collection<String> FB_PERM = Arrays.asList(ParseFacebookUtils.Permissions.User.ABOUT_ME, ParseFacebookUtils.Permissions.User.EMAIL);
 
-    public User() {
-
-    }
+    public User() { }
 
     public boolean getEmailVerified() {
         return getBoolean(EMAIL_VERIFIED);

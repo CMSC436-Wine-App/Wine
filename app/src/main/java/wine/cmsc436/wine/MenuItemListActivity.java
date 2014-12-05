@@ -38,23 +38,6 @@ public class MenuItemListActivity extends BaseActivity {
         ListView list = (ListView) findViewById(R.id.wine_list);
         list.setAdapter(adapter);
 
-        // get wines the normal way
-//        Wine.getQuery().findInBackground(new FindCallback<Wine>() {
-//            @Override
-//            public void done(List<Wine> wines, ParseException e) {
-//                if (e != null) {
-//                    Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG);
-//                    toast.show();
-//                    return;
-//                }
-//
-//                if (wines != null) {
-//                    adapter.addAll(wines);
-//                }
-//
-//            }
-//        });
-
         // wine detail view
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -1,41 +1,76 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/wine_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
+        android:gravity="center_horizontal"
         android:paddingBottom="15dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="15dp"
-        android:gravity="center_horizontal"
         android:textSize="32sp" />
+
     <TextView
         android:id="@+id/wine_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/wine_name"
         android:fontFamily="sans-serif"
         android:paddingBottom="30dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:textSize="14sp" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/order_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Review Wine"
-        android:id="@+id/review_button" />
+        android:layout_below="@+id/wine_description"
+        android:visibility="invisible"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/order_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/order_wine_btn"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/glass_order_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/order_description"
+            android:textSize="15sp"
+            android:text="@string/glass" />
+
+        <Button
+            android:id="@+id/bottle_order_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/glass_order_btn"
+            android:textSize="15sp"
+            android:text="@string/bottle" />
+
+    </RelativeLayout>
 
     <Button
+        android:id="@+id/review_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Order Wine"
+        android:visibility="invisible"
+        android:layout_below="@+id/order_layout"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:id="@+id/order_button" />
-
-</LinearLayout>
+        android:text="@string/review_wine_btn" />
+</RelativeLayout>

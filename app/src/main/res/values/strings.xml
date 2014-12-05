@@ -14,7 +14,7 @@
     <string name="home">Home</string>
     <string name="review_a_wine">Review a Wine</string>
     <string name="your_profile">Your Profile</string>
-    <string name="badges">Badges</string>
+    <string name="badges">View Available Badges</string>
     <string name="view_menu">View Menu</string>
     <string name="order_food">Complete Purchase</string>
 
@@ -40,12 +40,6 @@
     <string name="description">Description: </string>
     <string name="submit_review">Submit Review</string>
 
-    <!--  -->
-    <!--
-    <string name=""></string>
-    <string name=""></string>
-    -->
-
     <string name="parse_app_id">VdUdTZEhM9vVNRX9Y2fUzZTZXNGkT0cMxkonazJJ</string>
     <string name="parse_client_key">6VgZMJUF6uD6WRJpEfB3cNINZUj21rgoqL1g88Zo</string>
     <string name="facebook_app_id">1547340548843891</string>
@@ -62,5 +56,11 @@
     <string name="title_activity_checklist">ChecklistActivity</string>
     <string name="title_activity_review_wine_profile">Wine Profile</string>
     <string name="title_activity_badge">Available Badges</string>
+
+    <!-- Wine Detail -->
+    <string name="review_wine_btn">Review Wine</string>
+    <string name="order_wine_btn">Add to Order: </string>
+    <string name="glass">Glass: </string>
+    <string name="bottle">Bottle: </string>
 
 </resources>
