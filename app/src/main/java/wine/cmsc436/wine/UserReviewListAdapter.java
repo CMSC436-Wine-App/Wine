@@ -24,9 +24,9 @@ import parse.subclasses.User;
 /**
  * Created by Ethan on 11/23/2014.
  */
-public class ReviewListAdapter extends ParseQueryAdapter<Review> {
+public class UserReviewListAdapter extends ParseQueryAdapter<Review> {
 
-    public ReviewListAdapter(Context context) {
+    public UserReviewListAdapter(Context context) {
         super(context, new QueryFactory<Review>() {
             public ParseQuery create() {
                 ParseQuery<Review> reviewQuery = Review.getQuery();
@@ -42,7 +42,7 @@ public class ReviewListAdapter extends ParseQueryAdapter<Review> {
     @Override
     public View getItemView(Review review, View v, ViewGroup parent) {
         if (v == null) {
-            v = View.inflate(getContext(), R.layout.list_wine_review, null);
+            v = View.inflate(getContext(), R.layout.list_user_wine_review, null);
         }
 
         super.getItemView(review, v, parent);

@@ -8,6 +8,8 @@ import com.parse.ParseQuery;
 
 import java.util.List;
 
+import wine.cmsc436.wine.App;
+
 /**
  * Created by Ethan on 11/16/2014.
  */
@@ -80,7 +82,7 @@ public class MenuItem extends com.parse.ParseObject {
     }
 
     public static ParseQuery<MenuItem> getPriceQuery(Wine wine) {
-        Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, "rSUTXnLDFR");
+        Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, App.RestaurantID);
         return ParseQuery.getQuery(MenuItem.class)
                 .whereEqualTo("wine", wine)
                 .whereEqualTo("restaurant", restaurant);

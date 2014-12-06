@@ -4,6 +4,7 @@
     <string name="app_name">Wine</string>
     <string name="profile_page">Your Profile</string>
     <string name="hello_world">Hello world!</string>
+    <string name="action_remove_all_purchases">Clear Purchase List</string>
     <string name="action_settings">Settings</string>
 
     <!-- General App Strings -->
@@ -23,8 +24,6 @@
     <string name="purple_heart">Purchase a wine 5 times.</string>
     <string name="green_heart">Purchase a wine 3 times</string>
 
-
-
     <!-- Your Profile -->
     <string name="your_reviews">Your Reviews</string>
     <string name="purchase_history">Purchase History</string>
@@ -39,7 +38,6 @@
     <string name="restaurant_name">Restaurant Name: </string>
     <string name="description">Description: </string>
     <string name="submit_review">Submit Review</string>
-
     <string name="parse_app_id">VdUdTZEhM9vVNRX9Y2fUzZTZXNGkT0cMxkonazJJ</string>
     <string name="parse_client_key">6VgZMJUF6uD6WRJpEfB3cNINZUj21rgoqL1g88Zo</string>
     <string name="facebook_app_id">1547340548843891</string>
@@ -56,6 +54,7 @@
     <string name="title_activity_checklist">ChecklistActivity</string>
     <string name="title_activity_review_wine_profile">Wine Profile</string>
     <string name="title_activity_badge">Available Badges</string>
+    <string name="title_activity_complete_purchase">Complete Your Purchase</string>
 
     <!-- Wine Detail -->
     <string name="review_wine_btn">Review Wine</string>
@@ -63,5 +62,24 @@
     <string name="order_wine_btn">Add to Order: </string>
     <string name="glass">Glass: </string>
     <string name="bottle">Bottle: </string>
+    <string name="title_activity_wine_review_list">WineReviewListActivity</string>
+    <string name="title_activity_review_detail">ReviewDetailActivity</string>
+
+    <!-- Wine Detail Dialog -->
+    <string name="purchase_dialog_added">Added to Your Purchase</string>
+    <string name="purchase_dialog_content">This wine has been added to your current list of
+    purchases. To undo this action, hit cancel. You can view eligible discounts when completing
+    your purchase.</string>
+    <string name="purchase_dialog_cancel">Cancel</string>
+    <string name="purchase_dialog_OK">Okay</string>
+    <string name="purchase_dialog_checkout">Complete Purchase</string>
+
+    <!-- Complete Purchase Page -->
+    <string name="complete_purchase">Checkout</string>
+
+    <!-- Complete Purchase Table -->
+    <string name="drinks"><u>Drinks</u></string>
+    <string name="price"><u>Price</u></string>
+    <string name="type"><u>Type</u></string>
 
 </resources>

@@ -9,6 +9,8 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
+import wine.cmsc436.wine.App;
+
 /**
  * Created by Ethan on 11/16/2014.
  */
@@ -17,18 +19,29 @@ public class Purchase extends ParseObject {
 
     private static final String WINE = "wine";
     private static final String USER = "user";
+    private static final String REST = "restaurant";
 
     public Purchase() {  }
 
-    public Purchase(ParseUser user, Wine wine, Restaurant rest) {
+    public Purchase(ParseUser user, Wine wine) {
+        setUser(user);
+        setWine(wine);
+        Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, App.RestaurantID);
+        setRestaurant(restaurant);
     }
 
     public Wine getWine() {
-//        return ParseObject.createWithoutData(Wine.class, getParseObject("wine").getObjectId());
         return (Wine) getParseObject(WINE);
     }
     public void setWine(Wine wine) {
         put(WINE, wine);
+    }
+
+    public Restaurant getRestaurant() {
+        return (Restaurant) getParseObject(REST);
+    }
+    public void setRestaurant(Restaurant restaurant) {
+        put(REST, restaurant);
     }
 
     public User getUser() {

@@ -9,69 +9,61 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import parse.subclasses.Review;
+import parse.subclasses.User;
+import parse.subclasses.Wine;
 
 /**
  * Created by dylan on 11/19/14.
  */
-public class WineReviewListAdapter extends BaseAdapter {
-    // Local Variables
-    private final List<WineReviewItem> mItems = new ArrayList<WineReviewItem>();
-    private final Context mContext;
-        private static final String TAG = "CMSC436-Wine-App";
-
-
-    // Constructor
-    public WineReviewListAdapter(Context context) {
-        mContext = context;
-    }
-
-
-    public void add(WineReviewItem new_wine){
-        mItems.add(new_wine);
-        notifyDataSetChanged();
-    }
-
-    // Checks if Location is already in list
-    public boolean unique_review(WineReviewItem item){
-
-        for (WineReviewItem l : mItems){
-            if (l.getName().equals(item.getName())){
-                // There is already a review of yours under the same wine name
-                // TODO Make edit feature for wines you have already reviewed
-                return false;
+public class WineReviewListAdapter extends ParseQueryAdapter<Review> {
+    public WineReviewListAdapter(Context context, final Wine wine) {
+        super(context, new ParseQueryAdapter.QueryFactory<Review>() {
+            public ParseQuery create() {
+                ParseQuery<Review> reviewQuery = Review.getQuery();
+                reviewQuery.whereEqualTo("wine", wine);
+                reviewQuery.orderByDescending("createdAt");
+                reviewQuery.include("wine");
+                return reviewQuery;
             }
-        }
-        return true;
+        });
+    }
+    public WineReviewListAdapter(Context context, final String wineId) {
+        super(context, new ParseQueryAdapter.QueryFactory<Review>() {
+            public ParseQuery create() {
+                ParseQuery<Review> reviewQuery = Review.getQuery();
+                reviewQuery.whereEqualTo("wine", ParseObject.createWithoutData(Wine.class, wineId));
+                reviewQuery.orderByDescending("createdAt");
+                reviewQuery.include("wine");
+                return reviewQuery;
+            }
+        });
     }
 
-    @Override // Returns number of Reviews
-    public int getCount() { return mItems.size(); }
-
-    @Override // Returns the Review at the current Position
-    public Object getItem(int pos) { return mItems.get(pos); }
-
-    @Override // Returns the items Position
-    public long getItemId(int position) {
-        return position;
-    }
-
+    // Customize the layout by overriding getItemView
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the current WineReviewItem
-        final WineReviewItem wineItem = (WineReviewItem) getItem(position);
+    public View getItemView(Review review, View v, ViewGroup parent) {
+        if (v == null) {
+            v = View.inflate(getContext(), R.layout.list_wine_review, null);
+        }
 
-        RelativeLayout itemLayout = (RelativeLayout) LayoutInflater
-                .from(mContext)
-                .inflate(R.layout.list_wine_review, parent, false);
+        super.getItemView(review, v, parent);
 
-        TextView wine_name = (TextView) itemLayout.findViewById(R.id.tv_wine_name);
-        wine_name.append(wineItem.getName());
+        RatingBar ratingBar = (RatingBar) v.findViewById(R.id.r_wine_rating);
+        ratingBar.setRating(review.getRating().floatValue());
 
-        RatingBar rating = (RatingBar) itemLayout.findViewById(R.id.r_wine_rating);
-        rating.setRating(Float.valueOf(wineItem.getRating()));
+        TextView commentTextView = (TextView) v.findViewById(R.id.tv_review_comment);
+        commentTextView.setText(review.getComment());
 
-        return itemLayout;
+        return v;
     }
 }
