@@ -29,7 +29,7 @@
                 android:layout_width="170dp"
                 android:layout_height="170dp"
                 android:id="@+id/b_view_menu"
-                android:src="@drawable/badgebutton" />
+                android:src="@drawable/winemenubutton" />
 
         </TableRow>
 
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="170dp"
                 android:id="@+id/b_order_food"
-                android:src="@drawable/badgebutton" />
+                android:src="@drawable/orderbutton" />
 
 
         </TableRow>
