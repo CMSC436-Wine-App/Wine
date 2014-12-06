@@ -61,5 +61,6 @@
     <string name="glass">Glass: </string>
     <string name="bottle">Bottle: </string>
     <string name="title_activity_wine_review_list">WineReviewListActivity</string>
+    <string name="title_activity_review_detail">ReviewDetailActivity</string>
 
 </resources>

@@ -188,65 +188,65 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-                android:id="@+id/sweetnessLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="sans-serif"
-                android:text="Sweetness: 0"
-                android:textSize="20sp" />
-                <ProgressBar
-                    android:id="@+id/sweetnessProgressBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/ProgressBarGrape"
-                    android:max="10" />
-                <TextView
-                    android:id="@+id/tanninsLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="sans-serif"
-                    android:text="Tannins: 0"
-                    android:textSize="20sp" />
-                <ProgressBar
-                    android:id="@+id/tanninsProgressBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/ProgressBarGrape"
-                    android:max="10"/>
-                <TextView
-                    android:id="@+id/acidityLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="sans-serif"
-                    android:text="Acidity: 0"
-                    android:textSize="20sp" />
-                <ProgressBar
-                    android:id="@+id/acidityProgressBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/ProgressBarGrape"
-                    android:max="10"/>
-                <TextView
-                    android:id="@+id/bodyLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="sans-serif"
-                    android:text="Body: 0"
-                    android:textSize="20sp" />
-                <ProgressBar
-                    android:id="@+id/bodyProgressBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/ProgressBarGrape"
-                    android:max="10"/>
+                        android:id="@+id/sweetnessLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Sweetness: 0"
+                        android:textSize="20sp" />
+                    <ProgressBar
+                        android:id="@+id/sweetnessProgressBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/ProgressBarGrape"
+                        android:max="10" />
+                    <TextView
+                        android:id="@+id/tanninsLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Tannins: 0"
+                        android:textSize="20sp" />
+                    <ProgressBar
+                        android:id="@+id/tanninsProgressBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/ProgressBarGrape"
+                        android:max="10"/>
+                    <TextView
+                        android:id="@+id/acidityLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Acidity: 0"
+                        android:textSize="20sp" />
+                    <ProgressBar
+                        android:id="@+id/acidityProgressBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/ProgressBarGrape"
+                        android:max="10"/>
+                    <TextView
+                        android:id="@+id/bodyLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Body: 0"
+                        android:textSize="20sp" />
+                    <ProgressBar
+                        android:id="@+id/bodyProgressBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/ProgressBarGrape"
+                        android:max="10"/>
                 </LinearLayout>
 
             </RelativeLayout>

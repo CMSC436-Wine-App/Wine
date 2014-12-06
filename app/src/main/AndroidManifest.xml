@@ -111,6 +111,10 @@
             android:name="wine.cmsc436.wine.WineReviewListActivity"
             android:label="@string/title_activity_wine_review_list" >
         </activity>
+        <activity
+            android:name="wine.cmsc436.wine.ReviewDetailActivity"
+            android:label="@string/title_activity_review_detail" >
+        </activity>
     </application>
 
 </manifest>

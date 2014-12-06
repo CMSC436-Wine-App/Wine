@@ -16,9 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import org.json.JSONArray;
@@ -149,7 +151,7 @@ public class WineDetailActivity extends ActionBarActivity {
                 reviewsQuery.whereEqualTo("wine", wine);
                 reviewsQuery.findInBackground(new FindCallback<Review>() {
                     @Override
-                    public void done(List<Review> reviews, ParseException e) {
+                    public void done(final List<Review> reviews, ParseException e) {
                         if (e != null) {
                             Toast toast = Toast.makeText(WineDetailActivity.this, e.getMessage(), Toast.LENGTH_LONG);
                             toast.show();
