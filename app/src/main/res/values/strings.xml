@@ -5,6 +5,7 @@
     <string name="profile_page">Your Profile</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_remove_all_purchases">Clear Purchase List</string>
+    <string name="action_settings">Settings</string>
 
     <!-- General App Strings -->
     <string name="username">EXAMPLE_USERNAME</string>
@@ -61,6 +62,8 @@
     <string name="order_wine_btn">Add to Order: </string>
     <string name="glass">Glass: </string>
     <string name="bottle">Bottle: </string>
+    <string name="title_activity_wine_review_list">WineReviewListActivity</string>
+    <string name="title_activity_review_detail">ReviewDetailActivity</string>
 
     <!-- Wine Detail Dialog -->
     <string name="purchase_dialog_added">Added to Your Purchase</string>
