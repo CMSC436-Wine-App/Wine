@@ -256,6 +256,13 @@ public class NewWineReview extends BaseActivity {
                             }
                             Intent data = new Intent();
                             setResult(RESULT_OK, data);
+
+                            Toast.makeText(getApplicationContext(),
+                                    "Review Submitted", Toast.LENGTH_SHORT).show();
+
+                            Toast.makeText(getApplicationContext(),
+                                    "Got to your profile to see your reviews!", Toast.LENGTH_LONG).show();
+
                             finish();
                         }
                     });
