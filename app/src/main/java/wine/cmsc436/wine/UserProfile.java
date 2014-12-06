@@ -9,15 +9,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
-import com.parse.ParseQuery;
 
-import java.util.List;
-
-import parse.subclasses.Review;
 import parse.subclasses.User;
 
 /**
@@ -30,7 +24,7 @@ public class UserProfile extends ListActivity {
     private static final String TAG = "CMSC436-Wine-App";
 
 //    WineReviewListAdapter mAdapter;
-    ReviewListAdapter mAdapter;
+    UserReviewListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +38,7 @@ public class UserProfile extends ListActivity {
 
         // Create new ListAdapter
 //        mAdapter = new WineReviewListAdapter(getApplicationContext());
-        mAdapter = new ReviewListAdapter(getApplicationContext());
+        mAdapter = new UserReviewListAdapter(getApplicationContext());
 
         // Put divider between ToDoItems and FooterView
         getListView().setFooterDividersEnabled(true);
