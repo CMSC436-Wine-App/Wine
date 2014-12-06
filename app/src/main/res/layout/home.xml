@@ -6,16 +6,16 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
 
-        <TableRow>
+        <TableRow android:gravity="center_vertical|center_horizontal">
 
             <com.parse.ParseImageView
                 android:id="@+id/iv_user_profile_pic"
                 android:layout_width="170dp"
                 android:layout_height="170dp"
-                android:paddingBottom="1dp"
-                android:paddingTop="1dp" />
+                 />
 
             <!--
             <Button
@@ -35,7 +35,7 @@
 
 
 
-        <TableRow>
+        <TableRow android:gravity="center_vertical|center_horizontal">
 
 
             <!--
