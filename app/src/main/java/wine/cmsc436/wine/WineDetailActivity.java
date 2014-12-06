@@ -1,11 +1,11 @@
 package wine.cmsc436.wine;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -21,7 +21,7 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import parse.subclasses.Purchase;
-import parse.subclasses.Restaurant;
+import parse.subclasses.User;
 import parse.subclasses.Wine;
 import parse.subclasses.MenuItem;
 
@@ -34,11 +34,17 @@ public class WineDetailActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wine_detail);
+
         final Button glassOrderButton = (Button)findViewById(R.id.glass_order_btn);
         glassOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Purchase p = new Purchase(User.getCurrentUser(), selectedWine);
+                // This is gross but i have to do it to save myself from subclassing.
+                String glassPrice = glassOrderButton.getText().toString();
+                glassPrice = glassPrice.substring(glassPrice.lastIndexOf(":")+3, glassPrice.length());
+                App.currentPurchases.add(new WinePurchase(p, WinePurchase.WineType.GLASS, Double.valueOf(glassPrice)));
+                showPurchaseDialog();
             }
         });
 
@@ -46,21 +52,22 @@ public class WineDetailActivity extends ActionBarActivity {
         bottleOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Purchase c = new Purchase();
-                //App.CurrentPurchases.add(null);
+                Purchase p = new Purchase(User.getCurrentUser(), selectedWine);
+                String bottlePrice = bottleOrderButton.getText().toString();
+                bottlePrice = bottlePrice.substring(bottlePrice.lastIndexOf(":")+3, bottlePrice.length());
+                App.currentPurchases.add(new WinePurchase(p, WinePurchase.WineType.BOTTLE, Double.valueOf(bottlePrice)));
+                showPurchaseDialog();
             }
         });
 
-        final Button reviewButton = (Button)findViewById(R.id.review_button);
+        final Button reviewButton = (Button) findViewById(R.id.review_button);
         reviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedWine != null) {
-                    Intent reviewIntent = new Intent(WineDetailActivity.this, NewWineReview.class);
-                    reviewIntent.putExtra("wineName", selectedWine.getName());
-                    reviewIntent.setData(selectedWine.getUri());
-                    startActivity(reviewIntent);
-                }
+                Intent reviewIntent = new Intent(WineDetailActivity.this, NewWineReview.class);
+                reviewIntent.putExtra("wineName", selectedWine.getName());
+                reviewIntent.setData(selectedWine.getUri());
+                startActivity(reviewIntent);
             }
         });
 
@@ -83,9 +90,9 @@ public class WineDetailActivity extends ActionBarActivity {
                     return;
                 }
                 selectedWine = wine;
-                ParseQuery<MenuItem> menuItemParseQuery = MenuItem.getPriceQuery(selectedWine);
                 final RelativeLayout wineDescLayout = (RelativeLayout)findViewById(R.id.order_layout);
                 final RelativeLayout reviewLayout = (RelativeLayout)findViewById(R.id.review_layout);
+                ParseQuery<MenuItem> menuItemParseQuery = MenuItem.getPriceQuery(selectedWine);
                 menuItemParseQuery.findInBackground(new FindCallback<MenuItem>() {
                     @Override
                     public void done(List<MenuItem> menuItems, ParseException e) {
@@ -114,6 +121,28 @@ public class WineDetailActivity extends ActionBarActivity {
         wineQuery.fromLocalDatastore();
         wineQuery.getInBackground(wineId, wineGetCallback);
    }
+
+
+    private void showPurchaseDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(WineDetailActivity.this);
+        builder.setTitle(R.string.purchase_dialog_added);
+        builder.setMessage(R.string.purchase_dialog_content)
+                .setPositiveButton(R.string.purchase_dialog_OK, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        WineDetailActivity.this.finish();
+                    }
+                })
+                .setNegativeButton(R.string.purchase_dialog_cancel, null)
+                .setNeutralButton(R.string.purchase_dialog_checkout, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(WineDetailActivity.this, CompletePurchaseActivity.class);
+                        WineDetailActivity.this.startActivity(intent);
+                    }
+                });
+        builder.create().show();
+    }
 
     @Override
     public void onResume() {

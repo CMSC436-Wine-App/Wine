@@ -34,6 +34,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/order_food"
-        android:id="@+id/b_order_food" />
+        android:id="@+id/b_order_wine" />
 
 </LinearLayout>

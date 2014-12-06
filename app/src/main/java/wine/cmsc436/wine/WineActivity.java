@@ -1,29 +1,18 @@
 package wine.cmsc436.wine;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.parse.DeleteCallback;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import java.util.List;
 
 import parse.subclasses.Restaurant;
-import parse.subclasses.Wine;
 
 public class WineActivity extends BaseActivity {
 
-    public Button your_profile, find_bar, review_wine, badges, view_menu, leave_bar, order_food;
+    public Button your_profile, find_bar, review_wine, badges, view_menu, leave_bar, order_wine;
     private static final String TAG = "CMSC436-Wine-App";
 
     @Override
@@ -56,8 +45,17 @@ public class WineActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(WineActivity.this, MenuItemListActivity.class);
-                Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, "rSUTXnLDFR");
+                Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, App.RestaurantID);
                 intent.setData(restaurant.getUri());
+                WineActivity.this.startActivity(intent);
+            }
+        });
+
+        order_wine = (Button)findViewById(R.id.b_order_wine);
+        order_wine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WineActivity.this, CompletePurchaseActivity.class);
                 WineActivity.this.startActivity(intent);
             }
         });

@@ -1,0 +1,21 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context="wine.cmsc436.wine.CompletePurchaseActivity">
+
+    <ListView
+        android:id="@+id/purchase_content"
+        android:layout_width="fill_parent"
+        android:layout_weight="1"
+        android:layout_height="fill_parent">
+    </ListView>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/purchase_checkout"
+        android:text="@string/complete_purchase" />
+
+</LinearLayout>

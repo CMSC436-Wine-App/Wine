@@ -19,6 +19,7 @@ import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import parse.subclasses.*;
@@ -43,7 +44,9 @@ public class App extends Application {
 
     private static ConfigHelper configHelper;
 
-    public static ArrayList<Purchase> CurrentPurchases = new ArrayList<Purchase>();
+    public static WinePurchaseList currentPurchases = new WinePurchaseList();
+
+    public static String RestaurantID = "rSUTXnLDFR";
 
     @Override
     public void onCreate() {

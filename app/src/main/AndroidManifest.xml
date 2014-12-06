@@ -37,9 +37,10 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name="wine.cmsc436.wine.UserProfile"
+        <activity
+            android:name="wine.cmsc436.wine.UserProfile"
             android:label="@string/profile_page"
-            android:parentActivityName="wine.cmsc436.wine.WineActivity">
+            android:parentActivityName="wine.cmsc436.wine.WineActivity" >
         </activity>
         <activity android:name="wine.cmsc436.wine.NewWineReview" >
         </activity>
@@ -82,7 +83,7 @@
         <activity
             android:name="wine.cmsc436.wine.MenuItemListActivity"
             android:label="@string/title_activity_menu_list"
-            android:parentActivityName="wine.cmsc436.wine.WineActivity">
+            android:parentActivityName="wine.cmsc436.wine.WineActivity" >
         </activity>
         <activity
             android:name="wine.cmsc436.wine.BaseActivity"
@@ -91,7 +92,7 @@
         <activity
             android:name="wine.cmsc436.wine.WineDetailActivity"
             android:label="@string/title_activity_wine_detail"
-            android:parentActivityName="wine.cmsc436.wine.MenuItemListActivity">
+            android:parentActivityName="wine.cmsc436.wine.MenuItemListActivity" >
         </activity>
         <activity
             android:name="wine.cmsc436.wine.ChecklistActivity"
@@ -103,8 +104,13 @@
         </activity>
         <activity
             android:name="wine.cmsc436.wine.BadgeListActivity"
+            android:label="@string/title_activity_badge"
+            android:parentActivityName="wine.cmsc436.wine.WineActivity" >
+        </activity>
+        <activity
+            android:name=".CompletePurchaseActivity"
             android:parentActivityName="wine.cmsc436.wine.WineActivity"
-            android:label="@string/title_activity_badge" >
+            android:label="@string/title_activity_complete_purchase" >
         </activity>
     </application>
 
