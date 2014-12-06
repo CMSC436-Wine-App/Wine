@@ -1,39 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/logo_vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/home"
-        android:id="@+id/tv_home" />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/view_menu"
-        android:id="@+id/b_view_menu" />
+        <TableRow>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/your_profile"
-        android:id="@+id/b_your_profile" />
+            <com.parse.ParseImageView
+                android:id="@+id/iv_user_profile_pic"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/badges"
-        android:id="@+id/b_badges" />
+            <!--
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view_menu"
+                android:id="@+id/b_view_menu" />
+            -->
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/order_food"
-        android:id="@+id/b_order_food" />
+            <ImageButton
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:id="@+id/b_view_menu"
+                android:src="@drawable/badgebutton" />
+
+        </TableRow>
+
+
+
+        <TableRow>
+
+
+            <!--
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/badges"
+                android:id="@+id/b_badges" />
+
+            -->
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="170dp"
+                android:id="@+id/b_badges"
+                android:src="@drawable/badgebutton" />
+
+            <!--
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order_food"
+                android:id="@+id/b_order_food" />
+            -->
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="170dp"
+                android:id="@+id/b_order_food"
+                android:src="@drawable/badgebutton" />
+
+
+        </TableRow>
+
+
+    </TableLayout>
 
 </LinearLayout>

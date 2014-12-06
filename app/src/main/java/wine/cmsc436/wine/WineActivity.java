@@ -8,22 +8,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.List;
 
 import parse.subclasses.Restaurant;
+import parse.subclasses.User;
 import parse.subclasses.Wine;
 
 public class WineActivity extends BaseActivity {
 
-    public Button your_profile, find_bar, review_wine, badges, view_menu, leave_bar, order_food;
+    // public Button your_profile, find_bar, review_wine, badges, view_menu, leave_bar, order_food;
+    public ImageButton badges, view_menu, order_food;
     private static final String TAG = "CMSC436-Wine-App";
 
     @Override
@@ -31,18 +37,45 @@ public class WineActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 //        ParseUser.logOut();
-        your_profile = (Button) findViewById(R.id.b_your_profile);
-        your_profile.setOnClickListener(new View.OnClickListener() {
+
+
+        // Profile pic and button ------------------------------------------------------------------
+
+        User user = User.getCurrentUser();
+
+        ParseImageView photoImageView = (ParseImageView) findViewById(R.id.iv_user_profile_pic);
+        ParseFile imageFile = user.getPhoto();
+
+        if (imageFile != null) {
+            photoImageView.setParseFile(imageFile);
+            photoImageView.loadInBackground();
+        }
+
+        photoImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Log.i(TAG, "Entered your_profile.OnClickListener.onClick()");
+                Log.i(TAG, "Entered your_profile.OnClickListener.onClick()");
 
-            Intent profile_intent = new Intent(WineActivity.this, UserProfile.class);
-            WineActivity.this.startActivity(profile_intent);
+                Intent profile_intent = new Intent(WineActivity.this, UserProfile.class);
+                WineActivity.this.startActivity(profile_intent);
             }
         });
 
-        badges = (Button) findViewById(R.id.b_badges);
+
+//        your_profile = (Button) findViewById(R.id.b_your_profile);
+//        your_profile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//            Log.i(TAG, "Entered your_profile.OnClickListener.onClick()");
+//
+//            Intent profile_intent = new Intent(WineActivity.this, UserProfile.class);
+//            WineActivity.this.startActivity(profile_intent);
+//            }
+//        });
+
+        // Badges ------------------------------------------------------------------
+
+        badges = (ImageButton) findViewById(R.id.b_badges);
         badges.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +84,10 @@ public class WineActivity extends BaseActivity {
             }
         });
 
-        view_menu = (Button) findViewById(R.id.b_view_menu);
+
+        // Menu ------------------------------------------------------------------
+
+        view_menu = (ImageButton) findViewById(R.id.b_view_menu);
         view_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
