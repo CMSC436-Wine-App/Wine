@@ -108,9 +108,9 @@
             android:parentActivityName="wine.cmsc436.wine.WineActivity" >
         </activity>
         <activity
-            android:name=".CompletePurchaseActivity"
-            android:parentActivityName="wine.cmsc436.wine.WineActivity"
-            android:label="@string/title_activity_complete_purchase">
+            android:name="wine.cmsc436.wine.CompletePurchaseActivity"
+            android:label="@string/title_activity_complete_purchase"
+            android:parentActivityName="wine.cmsc436.wine.WineActivity" >
         </activity>
         <activity
             android:name="wine.cmsc436.wine.WineReviewListActivity"

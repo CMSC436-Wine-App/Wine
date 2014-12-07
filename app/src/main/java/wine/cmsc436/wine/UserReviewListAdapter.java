@@ -54,7 +54,7 @@ public class UserReviewListAdapter extends ParseQueryAdapter<Review> {
         ratingBar.setRating(review.getRating().floatValue());
 
         ParseImageView photoImageView = (ParseImageView) v.findViewById(R.id.iv_wine_thumbnail);
-        ParseFile imageFile = review.getWine().getPhoto();
+        ParseFile imageFile = review.getWine().getPhotoSmall();
         if (imageFile != null) {
             photoImageView.setParseFile(imageFile);
             photoImageView.loadInBackground();

@@ -16,10 +16,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Session;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.FacebookDialog;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -30,6 +34,7 @@ import org.w3c.dom.Text;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -48,11 +53,19 @@ import parse.subclasses.MenuItem;
 public class WineDetailActivity extends ActionBarActivity {
 
     private Wine selectedWine = null;
+    public static final int FB_SESSION_RESULT = 101;
+
+    FacebookPost facebookPost;
+    private UiLifecycleHelper uiHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wine_detail);
+
+        facebookPost = new FacebookPost(this, uiHelper);
+        uiHelper = new UiLifecycleHelper(this, null);
+        uiHelper.onCreate(savedInstanceState);
 
         final Button glassOrderButton = (Button)findViewById(R.id.glass_order_btn);
         glassOrderButton.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +146,9 @@ public class WineDetailActivity extends ActionBarActivity {
                 selectedWine = wine;
                 final RelativeLayout wineDescLayout = (RelativeLayout)findViewById(R.id.order_layout);
                 final RelativeLayout reviewLayout = (RelativeLayout)findViewById(R.id.review_layout);
+                final RelativeLayout ratingsLayout = (RelativeLayout)findViewById(R.id.ratings_layout);
+                final RelativeLayout profileLayout = (RelativeLayout)findViewById(R.id.profile_layout);
+                final RelativeLayout descriptorLayout = (RelativeLayout)findViewById(R.id.descriptor_layout);
                 ParseQuery<MenuItem> menuItemParseQuery = MenuItem.getPriceQuery(selectedWine);
                 menuItemParseQuery.findInBackground(new FindCallback<MenuItem>() {
                     @Override
@@ -245,17 +261,77 @@ public class WineDetailActivity extends ActionBarActivity {
                                 thirdDescriptor.setText(descriptor + " (" + descriptorsCount.get(descriptor) + ")");
                             }
                         }
+                        ratingsLayout.setVisibility(View.VISIBLE);
+                        profileLayout.setVisibility(View.VISIBLE);
+                        descriptorLayout.setVisibility(View.VISIBLE);
                     }
                 });
-
             }
         };
 
         ParseQuery<Wine> wineQuery = Wine.getQuery();
         wineQuery.fromLocalDatastore();
         wineQuery.getInBackground(wineId, wineGetCallback);
-   }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateView(selectedWine);
+        uiHelper.onResume();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        uiHelper.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        uiHelper.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        uiHelper.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data){
+
+        if (requestCode == FB_SESSION_RESULT){
+            // publish permission granted
+            facebookPost.showFacebookShareDialog(data);
+        }
+
+        // facebook request result handler
+        uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
+            @Override
+            public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+                Toast toast = Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
+                toast.show();
+            }
+
+            @Override
+            public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+                boolean didComplete = FacebookDialog.getNativeDialogDidComplete(data);
+                if (didComplete) {
+                    String completionGesture = FacebookDialog.getNativeDialogCompletionGesture(data);
+                    String postId = FacebookDialog.getNativeDialogPostId(data);
+                    Log.i(App.APPTAG, completionGesture);
+                    Log.i(App.APPTAG, postId);
+                    if (completionGesture.equals("post")) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "Review shared", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                }
+            }
+        });
+
+    }
 
     private void showPurchaseDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(WineDetailActivity.this);
@@ -276,12 +352,6 @@ public class WineDetailActivity extends ActionBarActivity {
                     }
                 });
         builder.create().show();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateView(selectedWine);
     }
 
     private void updateView(final Wine wine) {

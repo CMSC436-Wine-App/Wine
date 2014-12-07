@@ -51,7 +51,7 @@
     <string name="title_activity_menu_list">Wine Menu</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_activity_wine_detail">View Wine Details</string>
-    <string name="title_activity_checklist">ChecklistActivity</string>
+    <string name="title_activity_checklist">Select Items</string>
     <string name="title_activity_review_wine_profile">Wine Profile</string>
     <string name="title_activity_badge">Available Badges</string>
     <string name="title_activity_complete_purchase">Complete Your Purchase</string>
@@ -62,8 +62,8 @@
     <string name="order_wine_btn">Add to Order: </string>
     <string name="glass">Glass: </string>
     <string name="bottle">Bottle: </string>
-    <string name="title_activity_wine_review_list">WineReviewListActivity</string>
-    <string name="title_activity_review_detail">ReviewDetailActivity</string>
+    <string name="title_activity_wine_review_list">Reviews</string>
+    <string name="title_activity_review_detail">Review Details</string>
 
     <!-- Wine Detail Dialog -->
     <string name="purchase_dialog_added">Added to Your Purchase</string>
