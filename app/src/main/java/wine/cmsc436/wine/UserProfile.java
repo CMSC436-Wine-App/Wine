@@ -80,7 +80,9 @@ public class UserProfile extends ListActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Review review = mAdapter.getItem(position);
+
+                Review review = (Review) parent.getItemAtPosition(position);
+//                Review review = (Review) parent.getAdapter().getItem(position);
                 if (getCallingActivity() == null) {
                     Intent intent = new Intent(UserProfile.this, ReviewDetailActivity.class);
                     intent.setData(review.getUri());
