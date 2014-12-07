@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/r_wine_rating"
         android:layout_toEndOf="@+id/iv_wine_thumbnail"
+        style="@style/RatingBarGrape"
         android:rating="3.5"
         android:layout_below="@+id/tv_wine_name"
         android:isIndicator="true" />

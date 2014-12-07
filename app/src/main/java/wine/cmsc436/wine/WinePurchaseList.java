@@ -69,8 +69,6 @@ public class WinePurchaseList {
     }
 
     public String getTotal() {
-        // TODO: Account for badge discounts and come up with a way to return
-        // which badges were used for what wines.
         double total = 0;
 
         for (int i = 0; i < currentPurchases.size(); i++) {
@@ -78,7 +76,7 @@ public class WinePurchaseList {
             if (App.availBadges.get(w) != null) {
                 final Badge usedBadge = App.availBadges.get(w).getBadge();
 
-                // We only discount one wine at this rate
+                // We only discount one wine of this type at this rate
                 double discount = currentPurchases.get(i).getPrice() - (currentPurchases.get(i).getPrice() * App.availBadges.get(w).getDiscountRate());
                 double rest = currentPurchases.get(i).getPrice() * (currentPurchases.get(i).getQuantity()-1);
                 total += discount + rest;

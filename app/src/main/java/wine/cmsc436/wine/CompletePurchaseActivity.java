@@ -123,7 +123,6 @@ public class CompletePurchaseActivity extends Activity {
                 // Record the Purchase
                 savePurchases();
                 // Attain the new badges we qualify for
-                Log.i("ASDF", "Adding available iwne badgse now");
                 App.addAvailableWineBadges();
                 listAdapter.clear();
             }
@@ -132,7 +131,6 @@ public class CompletePurchaseActivity extends Activity {
 
     public void disableUsedDiscounts() {
         try {
-            Log.i("ASDF", "Inside disableusedpaowiehg");
             Set<WinePurchase> discountedWP = App.currentPurchases.getDiscountedWinePurchases();
             for (WinePurchase wp : discountedWP) {
                 Wine w = wp.getPurchase().getWine();
@@ -152,12 +150,10 @@ public class CompletePurchaseActivity extends Activity {
         } catch (ParseException e) {
             Log.i(App.APPTAG, e.getMessage());
         }
-        Log.i("ASDF", "Leaving disableusedpaowiehg");
     }
 
     public void savePurchases() {
         try {
-            Log.i("ASDF", "Inside savePurchases");
             PurchaseHistory purchaseHistory = new PurchaseHistory();
             purchaseHistory.save();
             for (int i = 0; i < App.currentPurchases.size(); i++) {
@@ -171,7 +167,6 @@ public class CompletePurchaseActivity extends Activity {
         } catch (ParseException e) {
             Log.i(App.APPTAG, e.getMessage());
         }
-        Log.i("ASDF", "Leaving savePurchases");
     }
 
     @Override

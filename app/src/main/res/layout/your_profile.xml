@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:id="@+id/user_profile_layout"
+    android:layout_height="match_parent">
 
 
     <com.parse.ParseImageView
@@ -8,6 +10,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:paddingBottom="1dp"
+        android:layout_marginTop="5dp"
         android:paddingTop="1dp" />
 
     <TextView
@@ -20,8 +23,8 @@
         android:layout_alignParentTop="true" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="80dp"
         android:text="@string/badges"
         android:id="@+id/b_badges"
         android:layout_weight="1"
@@ -29,8 +32,8 @@
         android:layout_below="@+id/tv_wine_review" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
         android:text="@string/purchase_history"
         android:id="@+id/b_purchase_history"
         android:layout_weight="1"
@@ -41,6 +44,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/your_reviews"
         android:id="@+id/textView2"
