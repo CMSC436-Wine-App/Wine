@@ -87,10 +87,10 @@ public class CompletePurchaseActivity extends Activity {
     }
 
     public void completeOrder() {
+        PurchaseHistory purchaseHistory = new PurchaseHistory();
+        purchaseHistory.saveInBackground();
         for (int i = 0 ; i < App.currentPurchases.size(); i++) {
             WinePurchase wp = App.currentPurchases.get(i);
-            PurchaseHistory purchaseHistory = new PurchaseHistory();
-            purchaseHistory.saveInBackground();
             for (int j = 0; j < wp.getQuantity(); j++) {
                 Purchase p = new Purchase(User.getCurrentUser(), wp.getPurchase().getWine());
                 p.setPurchaseHistory(purchaseHistory);

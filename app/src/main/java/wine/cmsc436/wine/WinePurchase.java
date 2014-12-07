@@ -1,5 +1,7 @@
 package wine.cmsc436.wine;
 
+import android.util.Log;
+
 import parse.subclasses.Purchase;
 
 /**
@@ -55,6 +57,13 @@ public class WinePurchase {
             return true;
         }
         return false;
+    }
+
+    public String toString() {
+        Log.i("ASDF", "In toStrign");
+        String str = getPurchase().getWine().getName() + " - " + String.valueOf(getPrice()) + " - " + getWineType().toString();
+        Log.i("ASDF", str);
+        return str;
     }
 
 }

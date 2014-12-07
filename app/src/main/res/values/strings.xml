@@ -79,7 +79,7 @@
 
     <!-- Complete Purchase Dialog -->
     <string name="complete_purchase_success">Purchase Complete!</string>
-    <string name="complete_purchase_success_body">Hit Okay to view accured badges.</string>
+    <string name="complete_purchase_success_body">Hit Okay to view discount information.</string>
     <string name="complete_purchase_failure">Purchase is empty!</string>
     <string name="complete_purchase_failure_body">There are currently no wines that you are purchasing right now.</string>
 

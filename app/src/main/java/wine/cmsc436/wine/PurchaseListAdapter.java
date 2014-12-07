@@ -64,27 +64,32 @@ public class PurchaseListAdapter extends BaseAdapter {
         WinePurchase wp = (WinePurchase) getItem(position);
 
         RelativeLayout wcLayout = null;
-        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
             convertView = new View(mContext);
             convertView = inflater.inflate(R.layout.purchase_item, null);
-        }
-        else
+        } else
             convertView = inflater.inflate(R.layout.purchase_item, null);
 
         wcLayout = new RelativeLayout(mContext);
         wcLayout.addView(convertView);
 
-        TextView wineName = (TextView)convertView.findViewById(R.id.purchase_name);
-        TextView type = (TextView)convertView.findViewById(R.id.purchase_type);
-        TextView price = (TextView)convertView.findViewById(R.id.purchase_price);
+        TextView wineName = (TextView) convertView.findViewById(R.id.purchase_name);
+        TextView type = (TextView) convertView.findViewById(R.id.purchase_type);
+        TextView price = (TextView) convertView.findViewById(R.id.purchase_price);
 
         wineName.setText(wp.getPurchase().getWine().getName() + " (" + String.valueOf(wp.getQuantity()) + ")");
         type.setText(wp.getWineType().toString());
 
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
-        price.setText(formatter.format(wp.getPrice()));
+        Double discountedTotal = App.currentPurchases.getDiscountedTotal(wp);
+        if (discountedTotal != null) {
+            price.setText(formatter.format(discountedTotal));
+            price.setTextColor(mContext.getResources().getColor(R.color.green));
+        }
+        else
+            price.setText(formatter.format(wp.getPrice()));
 
         return wcLayout;
     }

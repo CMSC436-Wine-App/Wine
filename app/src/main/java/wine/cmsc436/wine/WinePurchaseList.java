@@ -11,9 +11,11 @@ import com.parse.ParseQuery;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import parse.subclasses.Badge;
+import parse.subclasses.Purchase;
 import parse.subclasses.User;
 import parse.subclasses.UserBadge;
 import parse.subclasses.Wine;
@@ -24,9 +26,11 @@ import parse.subclasses.Wine;
 public class WinePurchaseList {
 
     private ArrayList<WinePurchase> currentPurchases = null;
+    private HashMap<WinePurchase, Double> discountedTotal = null;
 
     public WinePurchaseList() {
         currentPurchases = new ArrayList<WinePurchase>();
+        discountedTotal = new HashMap<WinePurchase, Double>();
     }
 
     public void add(WinePurchase wp) {
@@ -42,6 +46,10 @@ public class WinePurchaseList {
             currentPurchases.add(wp);
     }
 
+    public Double getDiscountedTotal(WinePurchase wp) {
+        return discountedTotal.get(wp);
+    }
+
     public void clear() {
         currentPurchases.clear();
     }
@@ -54,7 +62,6 @@ public class WinePurchaseList {
         for (int i = 0; i < currentPurchases.size(); i++) {
             Wine w = currentPurchases.get(i).getPurchase().getWine();
             if (App.availBadges.get(w) != null) {
-                Log.i("ASDF", w.getName());
                 final Badge usedBadge = App.availBadges.get(w).getBadge();
 
                 // We will now mark this badge as used
@@ -66,15 +73,19 @@ public class WinePurchaseList {
                             Log.i(App.APPTAG, "Badge being unused not found: " + usedBadge.getName());
                         }
                         else {
+                            /*
                             UserBadge ub = userBadges.get(0);
                             ub.setUsed(true);
                             ub.saveInBackground();
+                            */
                         }
                     }
                 });
                 // We only discount one wine at this rate
-                total += currentPurchases.get(i).getPrice() * App.availBadges.get(w).getDiscountRate();
-                total += currentPurchases.get(i).getPrice() * currentPurchases.get(i).getQuantity()-1;
+                double discount = currentPurchases.get(i).getPrice() - (currentPurchases.get(i).getPrice() * App.availBadges.get(w).getDiscountRate());
+                double rest = currentPurchases.get(i).getPrice() * (currentPurchases.get(i).getQuantity()-1);
+                total += discount + rest;
+                discountedTotal.put(currentPurchases.get(i), discount+rest);
             }
             else {
                 total += currentPurchases.get(i).getPrice() * currentPurchases.get(i).getQuantity();

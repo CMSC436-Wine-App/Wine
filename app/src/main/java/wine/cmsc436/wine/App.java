@@ -107,13 +107,7 @@ public class App extends Application {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Badge> gainedBadges = addAvailableBadges();
-                for (int i = 0; i < gainedBadges.size(); i++) {
-                    Log.i("ASDF", "Gained badge: " + gainedBadges.get(i).getName());
-                }
-                for (Wine w : availBadges.keySet()) {
-                    Log.i("ASDF", w.getName());
-                }
+                addAvailableBadges();
             }
         }).start();
     }
@@ -133,6 +127,7 @@ public class App extends Application {
                     // If we have a discountRate already, skip it
                     if (availBadges.containsKey(w))
                         continue;
+
                     availBadges.put(w, null);
 
                     // Get how many times we've bought this wine
@@ -162,15 +157,18 @@ public class App extends Application {
 
                                 if (badgeDiscountsList.size() > 0) {
                                     BadgeDiscount discountRate = badgeDiscountsList.get(0);
-                                    availBadges.put(w, discountRate);
+                                    if (availBadges.put(w, discountRate) == null) {
+                                        newEntry.setUsed(false);
+                                    }
+                                    else {
+                                        newEntry.setUsed(true);
+                                    }
                                 } else {
                                     Log.i(App.APPTAG, "Found no badge discounts for badge: " + checkBadge.getName() + "!");
                                 }
-                                newEntry.setUsed(false);
-                            } else {
-                                newEntry.setUsed(true);
+
+                                newEntry.saveInBackground();
                             }
-                            newEntry.saveInBackground();
                         } else {
                             UserBadge ub = userBadges.get(0);
                             // If the badge we have isn't being used then

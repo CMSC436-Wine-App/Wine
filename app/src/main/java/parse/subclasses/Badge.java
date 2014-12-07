@@ -42,7 +42,9 @@ public class Badge extends ParseObject {
     public static ParseQuery<Badge> getBadgesEligible(int purchaseCount) {
         Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, App.RestaurantID);
         return ParseQuery.getQuery(Badge.class)
-                .whereLessThanOrEqualTo("reqCount", purchaseCount);
+                .whereLessThanOrEqualTo("reqCount", purchaseCount)
+                .whereEqualTo(ISWINEBADGE, true)
+                .orderByDescending("reqCount");
     }
 
     public String getName() {
