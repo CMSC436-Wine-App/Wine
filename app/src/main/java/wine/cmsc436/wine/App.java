@@ -103,71 +103,19 @@ public class App extends Application {
 
         // At the beginning of the application we determine what badges the user is
         // eligible for, for whichever wine.
-        addAvailableBadges();
-    }
-
-    /*
-    public static void findAvailableBadges() {
-        ParseQuery<Purchase> winePurchases = Purchase.getPurchaseWines(User.getCurrentUser());
-        winePurchases.findInBackground(new FindCallback<Purchase>() {
+        // TODO: Potential UI lockup since this is on the main ui thread
+        new Thread(new Runnable() {
             @Override
-            public void done(List<Purchase> purchases, ParseException e) {
-                if (purchases.size() > 0) {
-                    for (int i = 0; i < purchases.size(); i++) {
-                        final Wine w = purchases.get(i).getWine();
-                        if (availBadges.containsKey(w))
-                            continue;
-
-                        availBadges.put(w, null);
-                        ParseQuery<Purchase> purchaseCount = Purchase.getPurchaseCount(w);
-                        purchaseCount.findInBackground(new FindCallback<Purchase>() {
-                            @Override
-                            public void done(List<Purchase> purchases, ParseException e) {
-                                int numPurchases = purchases.size();
-                                Log.i("ASDF", "NUMPURHC: " + String.valueOf(numPurchases));
-                                ParseQuery<Badge> badgesEligible = Badge.getBadgesEligible(numPurchases);
-                                badgesEligible.findInBackground(new FindCallback<Badge>() {
-                                    @Override
-                                    public void done(List<Badge> badges, ParseException e) {
-                                        if (e != null) {
-                                            Log.i("ASDF", e.getMessage());
-                                        }
-                                        Log.i("ASDF", "BADGESIZE: " + String.valueOf(badges.size()));
-                                        for (int i = 0; i < badges.size(); i++) {
-                                            ParseQuery<UserBadge> unusedBadges = UserBadge.getUnusedBadges(w);
-                                            unusedBadges.findInBackground(new FindCallback<UserBadge>() {
-                                                @Override
-                                                public void done(List<UserBadge> userBadges, ParseException e) {
-                                                    Log.i("ASDF", "UNUSED: " + String.valueOf(userBadges.size()));
-                                                    for (int i = 0; i < userBadges.size(); i++) {
-                                                        ParseQuery<BadgeDiscount> badgeDiscounts = BadgeDiscount.getBadgeDiscounts(userBadges.get(i).getBadge());
-                                                        badgeDiscounts.findInBackground(new FindCallback<BadgeDiscount>() {
-                                                            @Override
-                                                            public void done(List<BadgeDiscount> badgeDiscounts, ParseException e) {
-                                                                availBadges.put(w, badgeDiscounts.get(0));
-                                                                Log.i("ASDF", String.valueOf(badgeDiscounts.get(0).getDiscountRate()));
-                                                            }
-                                                        });
-                                                    }
-                                                    Log.i("ASDF", String.valueOf(availBadges.size()));
-                                                }
-                                            });
-                                        }
-                                    }
-                                });
-                            }
-                        });
-                    }
+            public void run() {
+                List<Badge> gainedBadges = addAvailableBadges();
+                for (int i = 0; i < gainedBadges.size(); i++) {
+                    Log.i("ASDF", "Gained badge: " + gainedBadges.get(i).getName());
+                }
+                for (Wine w : availBadges.keySet()) {
+                    Log.i("ASDF", w.getName());
                 }
             }
-        });
-    }
-    */
-
-    public static void displayGained(ArrayList<Badge> gainedBadges) {
-        for (int i = 0; i < gainedBadges.size(); i++) {
-            Log.i("ASDF", "Gained badge: " + gainedBadges.get(i).getName());
-        }
+        }).start();
     }
 
     public static ArrayList<Badge> addAvailableBadges() {
@@ -175,105 +123,83 @@ public class App extends Application {
 
         // Look at all of our purchases for this user
         ParseQuery<Purchase> winePurchases = Purchase.getPurchaseWines(User.getCurrentUser());
-        winePurchases.findInBackground(new FindCallback<Purchase>() {
-            @Override
-            public void done(List<Purchase> purchases, ParseException e) {
-                if (purchases.size() > 0) {
-                    // For each purchase, get the wine and check if we have a discount rate which
-                    // we qualify for, for that one already
-                    for (int i = 0; i < purchases.size(); i++) {
-                        final Wine w = purchases.get(i).getWine();
-                        // If we have a discountRate already, skip it
-                        if (availBadges.containsKey(w))
-                            continue;
-                        availBadges.put(w, null);
+        try {
+            List<Purchase> purchases = winePurchases.find();
+            if (purchases.size() > 0) {
+                // For each purchase, get the wine and check if we have a discount rate which
+                // we qualify for, for that one already
+                for (int i = 0; i < purchases.size(); i++) {
+                    final Wine w = purchases.get(i).getWine();
+                    // If we have a discountRate already, skip it
+                    if (availBadges.containsKey(w))
+                        continue;
+                    availBadges.put(w, null);
 
-                        // Get how many times we've bought this wine
-                        ParseQuery<Purchase> purchaseCount = Purchase.getPurchaseCount(w);
-                        purchaseCount.findInBackground(new FindCallback<Purchase>() {
-                            @Override
-                            public void done(List<Purchase> purchases, ParseException e) {
-                                int numPurchases = purchases.size();
-                                Log.i("ASDF", "NUMPURHC: " + String.valueOf(numPurchases));
-                                // Get all of the badges we qualify for (regardless if wine) by checking
-                                // against number of times we've purchased this wine
-                                ParseQuery<Badge> badgesEligible = Badge.getBadgesEligible(numPurchases);
-                                badgesEligible.findInBackground(new FindCallback<Badge>() {
-                                    @Override
-                                    public void done(List<Badge> badges, ParseException e) {
-                                        Log.i("ASDF", "BADGESIZE: " + String.valueOf(badges.size()));
-                                        for (int i = 0; i < badges.size(); i++) {
-                                            // Check for each badge, if it is a wine badge, if we have used it
-                                            final Badge checkBadge = badges.get(i);
-                                            ParseQuery<UserBadge> unusedBadges = UserBadge.getUnusedBadges(w, checkBadge, User.getCurrentUser());
-                                            unusedBadges.findInBackground(new FindCallback<UserBadge>() {
-                                                @Override
-                                                public void done(List<UserBadge> userBadges, ParseException e) {
-                                                    // Add the badge, we don't have this one (thus havent used it).
-                                                    Log.i("ASDF", "UserBadge: " + userBadges.size());
-                                                    if (userBadges.size() == 0) {
-                                                        UserBadge newEntry = new UserBadge(User.getCurrentUser(), w, checkBadge);
-                                                        Log.i("ASDF", "adding: " + gainedBadges.add(newEntry.getBadge()));
-                                                        if (checkBadge.getIsWineBadge()) {
-                                                            // Add it to our local HashMap
-                                                            // Get the discount for it, so we can add it.
-                                                            ParseQuery<BadgeDiscount> badgeDiscounts = BadgeDiscount.getBadgeDiscounts(checkBadge);
-                                                            badgeDiscounts.findInBackground(new FindCallback<BadgeDiscount>() {
-                                                                @Override
-                                                                public void done(List<BadgeDiscount> badgeDiscounts, ParseException e) {
-                                                                    if (badgeDiscounts.size() > 0) {
-                                                                        BadgeDiscount discountRate = badgeDiscounts.get(0);
-                                                                        availBadges.put(w, discountRate);
-                                                                    }
-                                                                    else {
-                                                                        Log.i(App.APPTAG, "Found no badge discounts for badge: " + checkBadge.getName() + "!");
-                                                                    }
-                                                                }
-                                                            });
-                                                        }
-                                                        else {
-                                                            newEntry.setUsed(true);
-                                                        }
-                                                        newEntry.saveInBackground();
-                                                    }
-                                                    else {
-                                                        UserBadge ub = userBadges.get(0);
-                                                        // If the badge we have isn't being used then
-                                                        // add it to our Map and make sure it is used
-                                                        // next
-                                                        if (!ub.isUsed()) {
-                                                            ParseQuery<BadgeDiscount> badgeDiscounts = BadgeDiscount.getBadgeDiscounts(ub.getBadge());
-                                                            badgeDiscounts.findInBackground(new FindCallback<BadgeDiscount>() {
-                                                                @Override
-                                                                public void done(List<BadgeDiscount> badgeDiscounts, ParseException e) {
-                                                                    if (badgeDiscounts.size() > 0) {
-                                                                        BadgeDiscount discountRate = badgeDiscounts.get(0);
-                                                                        availBadges.put(w, discountRate);
-                                                                    } else {
-                                                                        Log.i(App.APPTAG, "Found no badge discounts for badge: " + checkBadge.getName() + "!");
-                                                                    }
-                                                                }
-                                                            });
-                                                        }
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }
-                                });
+                    // Get how many times we've bought this wine
+                    ParseQuery<Purchase> purchaseCount = Purchase.getPurchaseCount(w);
+                    List<Purchase> purchasesCount = purchaseCount.find();
+                    int numPurchases = purchasesCount.size();
+                    Log.i("ASDF", "NUMPURHC: " + String.valueOf(numPurchases));
+                    // Get all of the badges we qualify for (regardless if wine) by checking
+                    // against number of times we've purchased this wine
+                    ParseQuery<Badge> badgesEligible = Badge.getBadgesEligible(numPurchases);
+                    List<Badge> badges = badgesEligible.find();
+                    Log.i("ASDF", "BADGESIZE: " + String.valueOf(badges.size()));
+                    for (int j = 0; j < badges.size(); j++) {
+                        // Check for each badge, if it is a wine badge, if we have used it
+                        final Badge checkBadge = badges.get(j);
+                        ParseQuery<UserBadge> unusedBadges = UserBadge.getUnusedBadges(w, checkBadge, User.getCurrentUser());
+                        List<UserBadge> userBadges = unusedBadges.find();
+                        // Add the badge, we don't have this one (thus havent used it).
+                        if (userBadges.size() == 0) {
+                            UserBadge newEntry = new UserBadge(User.getCurrentUser(), w, checkBadge);
+                            Log.i("ASDF", "adding: " + gainedBadges.add(newEntry.getBadge()));
+                            if (checkBadge.getIsWineBadge()) {
+                                // Add it to our local HashMap
+                                // Get the discount for it, so we can add it.
+                                ParseQuery<BadgeDiscount> badgeDiscounts = BadgeDiscount.getBadgeDiscounts(checkBadge);
+                                List<BadgeDiscount> badgeDiscountsList = badgeDiscounts.find();
+
+                                if (badgeDiscountsList.size() > 0) {
+                                    BadgeDiscount discountRate = badgeDiscountsList.get(0);
+                                    availBadges.put(w, discountRate);
+                                } else {
+                                    Log.i(App.APPTAG, "Found no badge discounts for badge: " + checkBadge.getName() + "!");
+                                }
+                                newEntry.setUsed(false);
+                            } else {
+                                newEntry.setUsed(true);
                             }
-                        });
+                            newEntry.saveInBackground();
+                        } else {
+                            UserBadge ub = userBadges.get(0);
+                            // If the badge we have isn't being used then
+                            // add it to our Map and make sure it is used
+                            // next
+                            if (!ub.isUsed()) {
+                                ParseQuery<BadgeDiscount> badgeDiscounts = BadgeDiscount.getBadgeDiscounts(ub.getBadge());
+                                List<BadgeDiscount> badgeDiscountsList = badgeDiscounts.find();
+                                if (badgeDiscountsList.size() > 0) {
+                                    BadgeDiscount discountRate = badgeDiscountsList.get(0);
+                                    availBadges.put(w, discountRate);
+                                } else {
+                                    Log.i(App.APPTAG, "Found no badge discounts for badge: " + checkBadge.getName() + "!");
+                                }
+                            }
+                        }
                     }
                 }
-                App.displayGained(gainedBadges);
             }
-        });
+        } catch (ParseException e) {
+            Log.i("ASDF", e.getMessage());
+        }
         return gainedBadges;
     }
 
     public static float getSearchDistance() {
         return preferences.getFloat(KEY_SEARCH_DISTANCE, DEFAULT_SEARCH_DISTANCE);
     }
+
     public static void setSearchDistance(float value) {
         preferences.edit().putFloat(KEY_SEARCH_DISTANCE, value).commit();
     }
