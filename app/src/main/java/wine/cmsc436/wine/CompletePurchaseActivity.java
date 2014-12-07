@@ -24,12 +24,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import parse.subclasses.Badge;
 import parse.subclasses.BadgeDiscount;
@@ -38,6 +40,8 @@ import parse.subclasses.Purchase;
 import parse.subclasses.MenuItem;
 import parse.subclasses.PurchaseHistory;
 import parse.subclasses.User;
+import parse.subclasses.UserBadge;
+import parse.subclasses.Wine;
 
 
 public class CompletePurchaseActivity extends Activity {
@@ -59,7 +63,7 @@ public class CompletePurchaseActivity extends Activity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                WinePurchase wp = (WinePurchase)listAdapter.getItem(position);
+                WinePurchase wp = (WinePurchase) listAdapter.getItem(position);
                 BadgeDiscount bd = App.currentPurchases.getDiscountedInfo(wp);
                 if (bd != null) {
                     Intent intent = new Intent(CompletePurchaseActivity.this, DiscountOverviewActivity.class);
@@ -68,8 +72,7 @@ public class CompletePurchaseActivity extends Activity {
                     intent.putExtra("wineName", wp.getPurchase().getWine().getName());
                     intent.putExtra("badgeName", bd.getBadge().getName());
                     startActivity(intent);
-                }
-                else {
+                } else {
                     Toast.makeText(CompletePurchaseActivity.this, R.string.discount_error, Toast.LENGTH_LONG).show();
                 }
             }
@@ -95,7 +98,6 @@ public class CompletePurchaseActivity extends Activity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     completeOrder();
-                                    listAdapter.clear();
                                     finish();
                                 }
                             })
@@ -103,7 +105,6 @@ public class CompletePurchaseActivity extends Activity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     completeOrder();
-                                    listAdapter.clear();
                                     finish();
                                 }
                             });
@@ -114,16 +115,63 @@ public class CompletePurchaseActivity extends Activity {
     }
 
     public void completeOrder() {
-        PurchaseHistory purchaseHistory = new PurchaseHistory();
-        purchaseHistory.saveInBackground();
-        for (int i = 0 ; i < App.currentPurchases.size(); i++) {
-            WinePurchase wp = App.currentPurchases.get(i);
-            for (int j = 0; j < wp.getQuantity(); j++) {
-                Purchase p = new Purchase(User.getCurrentUser(), wp.getPurchase().getWine());
-                p.setPurchaseHistory(purchaseHistory);
-                p.saveInBackground();
+        (new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Disable the used discounts
+                disableUsedDiscounts();
+                // Record the Purchase
+                savePurchases();
+                // Attain the new badges we qualify for
+                Log.i("ASDF", "Adding available iwne badgse now");
+                App.addAvailableWineBadges();
+                listAdapter.clear();
             }
+        })).start();
+    }
+
+    public void disableUsedDiscounts() {
+        try {
+            Log.i("ASDF", "Inside disableusedpaowiehg");
+            Set<WinePurchase> discountedWP = App.currentPurchases.getDiscountedWinePurchases();
+            for (WinePurchase wp : discountedWP) {
+                Wine w = wp.getPurchase().getWine();
+                BadgeDiscount bd = App.currentPurchases.getDiscountedInfo(wp);
+                final Badge usedBadge = bd.getBadge();
+
+                ParseQuery<UserBadge> unusedBadges = UserBadge.getUnusedBadges(w, usedBadge, User.getCurrentUser());
+                List<UserBadge> userBadges = unusedBadges.find();
+                if (userBadges.size() == 0) {
+                    Log.i(App.APPTAG, "Badge being unused not found: " + usedBadge.getName());
+                } else {
+                    UserBadge ub = userBadges.get(0);
+                    ub.setUsed(true);
+                    ub.save();
+                }
+            }
+        } catch (ParseException e) {
+            Log.i(App.APPTAG, e.getMessage());
         }
+        Log.i("ASDF", "Leaving disableusedpaowiehg");
+    }
+
+    public void savePurchases() {
+        try {
+            Log.i("ASDF", "Inside savePurchases");
+            PurchaseHistory purchaseHistory = new PurchaseHistory();
+            purchaseHistory.save();
+            for (int i = 0; i < App.currentPurchases.size(); i++) {
+                WinePurchase wp = App.currentPurchases.get(i);
+                for (int j = 0; j < wp.getQuantity(); j++) {
+                    Purchase p = new Purchase(User.getCurrentUser(), wp.getPurchase().getWine());
+                    p.setPurchaseHistory(purchaseHistory);
+                    p.save();
+                }
+            }
+        } catch (ParseException e) {
+            Log.i(App.APPTAG, e.getMessage());
+        }
+        Log.i("ASDF", "Leaving savePurchases");
     }
 
     @Override

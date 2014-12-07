@@ -106,13 +106,14 @@ public class App extends Application {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                addAvailableBadges();
+                addAvailableWineBadges();
             }
         }).start();
     }
 
-    public static ArrayList<Badge> addAvailableBadges() {
-        final ArrayList<Badge> gainedBadges = new ArrayList<Badge>();
+    public static void addAvailableWineBadges() {
+        Log.i("ASDF", "Inside of addAavilableWineBadges");
+        availBadges.clear();
 
         // Look at all of our purchases for this user
         ParseQuery<Purchase> winePurchases = Purchase.getPurchaseWines(User.getCurrentUser());
@@ -147,7 +148,6 @@ public class App extends Application {
                         // Add the badge, we don't have this one (thus havent used it).
                         if (userBadges.size() == 0) {
                             UserBadge newEntry = new UserBadge(User.getCurrentUser(), w, checkBadge);
-                            Log.i("ASDF", "adding: " + gainedBadges.add(newEntry.getBadge()));
                             if (checkBadge.getIsWineBadge()) {
                                 // Add it to our local HashMap
                                 // Get the discount for it, so we can add it.
@@ -190,7 +190,6 @@ public class App extends Application {
         } catch (ParseException e) {
             Log.i("ASDF", e.getMessage());
         }
-        return gainedBadges;
     }
 
     public static float getSearchDistance() {

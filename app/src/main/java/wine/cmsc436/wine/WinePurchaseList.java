@@ -13,6 +13,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import parse.subclasses.Badge;
 import parse.subclasses.BadgeDiscount;
@@ -57,6 +58,10 @@ public class WinePurchaseList {
         return discountedInfo.get(wp);
     }
 
+    public Set<WinePurchase> getDiscountedWinePurchases() {
+        return discountedInfo.keySet();
+    }
+
     public void clear() {
         currentPurchases.clear();
         discountedTotal.clear();
@@ -73,23 +78,6 @@ public class WinePurchaseList {
             if (App.availBadges.get(w) != null) {
                 final Badge usedBadge = App.availBadges.get(w).getBadge();
 
-                // We will now mark this badge as used
-                ParseQuery<UserBadge> unusedBadges = UserBadge.getUnusedBadges(w, usedBadge, User.getCurrentUser());
-                unusedBadges.findInBackground(new FindCallback<UserBadge>() {
-                    @Override
-                    public void done(List<UserBadge> userBadges, ParseException e) {
-                        if (userBadges.size() == 0) {
-                            Log.i(App.APPTAG, "Badge being unused not found: " + usedBadge.getName());
-                        }
-                        else {
-                            /*
-                            UserBadge ub = userBadges.get(0);
-                            ub.setUsed(true);
-                            ub.saveInBackground();
-                            */
-                        }
-                    }
-                });
                 // We only discount one wine at this rate
                 double discount = currentPurchases.get(i).getPrice() - (currentPurchases.get(i).getPrice() * App.availBadges.get(w).getDiscountRate());
                 double rest = currentPurchases.get(i).getPrice() * (currentPurchases.get(i).getQuantity()-1);
