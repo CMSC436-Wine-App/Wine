@@ -112,7 +112,6 @@ public class App extends Application {
     }
 
     public static void addAvailableWineBadges() {
-        Log.i("ASDF", "Inside of addAavilableWineBadges");
         availBadges.clear();
 
         // Look at all of our purchases for this user
@@ -133,7 +132,10 @@ public class App extends Application {
                     // Get how many times we've bought this wine
                     ParseQuery<Purchase> purchaseCount = Purchase.getPurchaseCount(w);
                     List<Purchase> purchasesCount = purchaseCount.find();
-                    int numPurchases = purchasesCount.size();
+                    int numPurchases = 0;
+                    for (int z = 0; z < purchasesCount.size(); z++) {
+                        numPurchases += purchasesCount.get(z).getQuantity();
+                    }
                     Log.i("ASDF", "NUMPURHC: " + String.valueOf(numPurchases));
                     // Get all of the badges we qualify for (regardless if wine) by checking
                     // against number of times we've purchased this wine

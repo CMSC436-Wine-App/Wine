@@ -21,6 +21,11 @@ public class Purchase extends ParseObject {
     private static final String USER = "user";
     private static final String REST = "restaurant";
     private static final String PURCHASEHISTORY = "purchaseHistory";
+    private static final String QUANTITY = "quantity";
+    private static final String PAIDPRICE = "paidPrice";
+    private static final String TYPE = "type";
+    private static final String DISCOUNTAPPLIED = "discountApplied";
+    private static final String BADGEDISCOUNT = "badgeDiscount";
 
     public Purchase() {  }
 
@@ -29,6 +34,46 @@ public class Purchase extends ParseObject {
         setWine(wine);
         Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, App.RestaurantID);
         setRestaurant(restaurant);
+    }
+
+    public void setDiscountApplied(boolean b) {
+        put(DISCOUNTAPPLIED, b);
+    }
+
+    public boolean getDiscountApplied() {
+        return getBoolean(DISCOUNTAPPLIED);
+    }
+
+    public void setBadgeDiscount(BadgeDiscount bd) {
+        put(BADGEDISCOUNT, bd);
+    }
+
+    public BadgeDiscount getBadgeDiscount() {
+        return (BadgeDiscount)getParseObject(BADGEDISCOUNT);
+    }
+
+    public void setType(String type) {
+        put(TYPE, type);
+    }
+
+    public String getType() {
+        return getString(TYPE);
+    }
+
+    public void setPaidPrice(Double paidPrice) {
+        put(PAIDPRICE, paidPrice);
+    }
+
+    public double getPaidPrice() {
+        return getDouble(PAIDPRICE);
+    }
+
+    public void setQuantity(int quantity) {
+        put(QUANTITY, quantity);
+    }
+
+    public int getQuantity() {
+        return getInt(QUANTITY);
     }
 
     public void setPurchaseHistory(PurchaseHistory purchaseHistory) {

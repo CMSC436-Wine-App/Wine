@@ -158,11 +158,24 @@ public class CompletePurchaseActivity extends Activity {
             purchaseHistory.save();
             for (int i = 0; i < App.currentPurchases.size(); i++) {
                 WinePurchase wp = App.currentPurchases.get(i);
-                for (int j = 0; j < wp.getQuantity(); j++) {
-                    Purchase p = new Purchase(User.getCurrentUser(), wp.getPurchase().getWine());
-                    p.setPurchaseHistory(purchaseHistory);
-                    p.save();
+                Purchase p = new Purchase(User.getCurrentUser(), wp.getPurchase().getWine());
+                p.setQuantity(wp.getQuantity());
+                p.setType(wp.getWineType().toString());
+
+                Double discountedPrice = App.currentPurchases.getDiscountedTotal(wp);
+                Double normalPrice = wp.getPrice() * wp.getQuantity();
+                if (discountedPrice != null) {
+                    p.setPaidPrice(discountedPrice);
+                    p.setDiscountApplied(true);
+                    p.setBadgeDiscount(App.currentPurchases.getDiscountedInfo(wp));
                 }
+                else {
+                    p.setPaidPrice(normalPrice);
+                    p.setDiscountApplied(false);
+                }
+
+                p.setPurchaseHistory(purchaseHistory);
+                p.save();
             }
         } catch (ParseException e) {
             Log.i(App.APPTAG, e.getMessage());

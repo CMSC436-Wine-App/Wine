@@ -35,8 +35,9 @@
 
             <com.parse.ParseImageView
                 android:id="@+id/iv_user_profile_pic"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_height="160dp"
                 />
 
         </TableRow>
