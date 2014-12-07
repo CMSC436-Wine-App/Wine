@@ -1,9 +1,12 @@
 package wine.cmsc436.wine;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,12 +17,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Session;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.FacebookDialog;
+import com.facebook.widget.WebDialog;
 import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import parse.subclasses.Review;
 import parse.subclasses.User;
@@ -30,18 +39,11 @@ import parse.subclasses.Wine;
  */
 public class NewWineReview extends BaseActivity {
 
-    // Local Vars
-    private static final String TAG = "CMSC436-Wine-App";
-    private String name = "";
-    private float rating = 0.0f;
-    private ProgressDialog pDialog;
-
     private static final int WINE_SELECT = 1;
     private static final int AROMAS_SELECT = 2;
     private static final int VARIETALS_SELECT = 3;
     private static final int PROFILE_SET = 4;
     private static final int DESCRIPTORS_SELECT = 5;
-
 
     // XML Layout Features
     TextView selectWineTxt;
@@ -249,20 +251,22 @@ public class NewWineReview extends BaseActivity {
                         @Override
                         public void done(ParseException e) {
                             if (e != null) {
-                                Toast toast = Toast.makeText(getApplicationContext(),
-                                        e.getMessage(), Toast.LENGTH_LONG);
+                                Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG);
                                 toast.show();
                                 return;
                             }
                             Intent data = new Intent();
+                            String name = "Ethan Tran reviewed a new wine on WineBarApp!";
+                            String caption = "Wine: "+review.getWine().getName()+", Overall Rating: "+review.getRating();
+                            String description = review.getComment();
+                            String link = "https://google.com";
+                            String picture = "http://www.mobafire.com/images/champion/icon/gnar.png";
+                            data.putExtra("name", name);
+                            data.putExtra("caption", caption);
+                            data.putExtra("description", description);
+                            data.putExtra("link", review.getWine().getPhoto().getUrl());
+                            data.putExtra("picture", review.getWine().getPhoto().getUrl());
                             setResult(RESULT_OK, data);
-
-                            Toast.makeText(getApplicationContext(),
-                                    "Review Submitted", Toast.LENGTH_SHORT).show();
-
-                            Toast.makeText(getApplicationContext(),
-                                    "Got to your profile to see your reviews!", Toast.LENGTH_LONG).show();
-
                             finish();
                         }
                     });
@@ -273,56 +277,5 @@ public class NewWineReview extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-//    private class GenerateWineReview extends AsyncTask<String, Void, Void>{
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//
-//            // Create a progressbar
-//            pDialog = new ProgressDialog(NewWineReview.this);
-//            // Set progressbar title
-//            pDialog.setTitle("Thanks For the Review, Syncing with database...");
-//            // Set progressbar message
-//            pDialog.setMessage("Syncing...");
-//            pDialog.setIndeterminate(false);
-//            // Show progressbar
-//            pDialog.show();
-//        }
-//
-//        @Override
-//        protected Void doInBackground(String... params) {
-//
-//            try {
-//                // Check that wine is listed & other database information
-//
-//
-//            } catch (Exception e) {
-//                Log.e("Error", e.getMessage());
-//                e.printStackTrace();
-//            }
-//            return null;
-//
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
-//
-//            // Packaging the Review
-//            Intent data = new Intent();
-//            WineReviewItem.packageIntent(data, wine_name.getText().toString(),
-//                    description.getText().toString(),
-//                    restaurant_name.getText().toString(),
-//                    String.valueOf(rbar.getRating()));
-//
-//            // Setting result and finishing
-//            setResult(RESULT_OK, data);
-//            finish();
-//            pDialog.dismiss();
-//
-//        }
-//    }
 
 }
