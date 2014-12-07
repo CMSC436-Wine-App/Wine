@@ -75,11 +75,12 @@
     <string name="purchase_dialog_checkout">Complete Purchase</string>
 
     <!-- Complete Purchase Page -->
-    <string name="complete_purchase">Checkout</string>
+    <string name="complete_purchase">Checkout Total: %s</string>
 
-    <!-- Complete Purchase Table -->
-    <string name="drinks"><u>Drinks</u></string>
-    <string name="price"><u>Price</u></string>
-    <string name="type"><u>Type</u></string>
+    <!-- Complete Purchase Dialog -->
+    <string name="complete_purchase_success">Purchase Complete!</string>
+    <string name="complete_purchase_success_body">Hit Okay to view accured badges.</string>
+    <string name="complete_purchase_failure">Purchase is empty!</string>
+    <string name="complete_purchase_failure_body">There are currently no wines that you are purchasing right now.</string>
 
 </resources>

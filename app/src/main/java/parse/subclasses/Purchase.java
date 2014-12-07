@@ -20,6 +20,7 @@ public class Purchase extends ParseObject {
     private static final String WINE = "wine";
     private static final String USER = "user";
     private static final String REST = "restaurant";
+    private static final String PURCHASEHISTORY = "purchaseHistory";
 
     public Purchase() {  }
 
@@ -30,11 +31,31 @@ public class Purchase extends ParseObject {
         setRestaurant(restaurant);
     }
 
+    public void setPurchaseHistory(PurchaseHistory purchaseHistory) {
+        put(PURCHASEHISTORY, purchaseHistory);
+    }
+
+    public PurchaseHistory getPurchaseHistory() {
+        return (PurchaseHistory)getParseObject(PURCHASEHISTORY);
+    }
+
     public Wine getWine() {
         return (Wine) getParseObject(WINE);
     }
     public void setWine(Wine wine) {
         put(WINE, wine);
+    }
+
+    public static ParseQuery<Purchase> getPurchaseCount(Wine wine) {
+        Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, App.RestaurantID);
+        return ParseQuery.getQuery(Purchase.class).whereEqualTo("wine", wine);
+    }
+
+    public static ParseQuery<Purchase> getPurchaseWines(User user) {
+        Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, App.RestaurantID);
+        return ParseQuery.getQuery(Purchase.class)
+                .whereEqualTo("user", user)
+                .whereEqualTo(REST, restaurant);
     }
 
     public Restaurant getRestaurant() {
