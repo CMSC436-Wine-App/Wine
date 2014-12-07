@@ -9,6 +9,8 @@ import com.parse.ParseQuery;
 
 import java.util.List;
 
+import wine.cmsc436.wine.App;
+
 /**
  * Created by Ethan on 11/16/2014.
  */
@@ -18,6 +20,7 @@ public class Badge extends ParseObject {
     private static final String DESC = "description";
     private static final String NAME = "name";
     private static final String PHOTO = "photo";
+    private static final String ISWINEBADGE = "isWineBadge";
 
     public Badge() {
 
@@ -30,6 +33,16 @@ public class Badge extends ParseObject {
     }
     public void setDescription(String description) {
         put(DESC, description);
+    }
+
+    public boolean getIsWineBadge() {
+        return getBoolean(ISWINEBADGE);
+    }
+
+    public static ParseQuery<Badge> getBadgesEligible(int purchaseCount) {
+        Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, App.RestaurantID);
+        return ParseQuery.getQuery(Badge.class)
+                .whereLessThanOrEqualTo("reqCount", purchaseCount);
     }
 
     public String getName() {
