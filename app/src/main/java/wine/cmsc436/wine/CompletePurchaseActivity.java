@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
@@ -30,6 +31,8 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import parse.subclasses.Badge;
+import parse.subclasses.BadgeDiscount;
 import parse.subclasses.MenuItem;
 import parse.subclasses.Purchase;
 import parse.subclasses.MenuItem;
@@ -40,16 +43,38 @@ import parse.subclasses.User;
 public class CompletePurchaseActivity extends Activity {
 
     private static PurchaseListAdapter listAdapter;
+    private Button checkout = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_purchase);
         listAdapter = new PurchaseListAdapter(getApplicationContext());
-        ((ListView) findViewById(R.id.purchase_content)).setAdapter(listAdapter);
+        ListView lv = ((ListView) findViewById(R.id.purchase_content));
+        lv.setAdapter(listAdapter);
 
-        Button checkout = (Button) findViewById(R.id.purchase_checkout);
+        checkout = (Button) findViewById(R.id.purchase_checkout);
         checkout.setText(getString(R.string.complete_purchase, App.currentPurchases.getTotal()));
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                WinePurchase wp = (WinePurchase)listAdapter.getItem(position);
+                BadgeDiscount bd = App.currentPurchases.getDiscountedInfo(wp);
+                if (bd != null) {
+                    Intent intent = new Intent(CompletePurchaseActivity.this, DiscountOverviewActivity.class);
+                    intent.setData(bd.getBadge().getUri());
+                    intent.putExtra("discountRate", bd.getDiscountRate());
+                    intent.putExtra("wineName", wp.getPurchase().getWine().getName());
+                    intent.putExtra("badgeName", bd.getBadge().getName());
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(CompletePurchaseActivity.this, R.string.discount_error, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
 
         // TODO: When pressing on a list item, show dialog to delete
         checkout.setOnClickListener(new View.OnClickListener() {
@@ -70,13 +95,15 @@ public class CompletePurchaseActivity extends Activity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     completeOrder();
+                                    listAdapter.clear();
+                                    finish();
                                 }
                             })
                             .setNegativeButton(R.string.purchase_dialog_cancel, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    // TODO: Post to database .
                                     completeOrder();
+                                    listAdapter.clear();
                                     finish();
                                 }
                             });
@@ -97,7 +124,6 @@ public class CompletePurchaseActivity extends Activity {
                 p.saveInBackground();
             }
         }
-        listAdapter.clear();
     }
 
     @Override
@@ -117,6 +143,7 @@ public class CompletePurchaseActivity extends Activity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_remove_all_purchases) {
             listAdapter.clear();
+            checkout.setText(getString(R.string.complete_purchase, App.currentPurchases.getTotal()));
             return true;
         }
 

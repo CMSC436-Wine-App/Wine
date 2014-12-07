@@ -120,6 +120,11 @@
             android:name="wine.cmsc436.wine.ReviewDetailActivity"
             android:label="@string/title_activity_review_detail" >
         </activity>
+        <activity
+            android:name="wine.cmsc436.wine.DiscountOverviewActivity"
+            android:parentActivityName="wine.cmsc436.wine.CompletePurchaseActivity"
+            android:label="@string/title_activity_discount_overview" >
+        </activity>
     </application>
 
 </manifest>

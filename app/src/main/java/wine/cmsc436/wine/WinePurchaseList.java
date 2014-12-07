@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import parse.subclasses.Badge;
+import parse.subclasses.BadgeDiscount;
 import parse.subclasses.Purchase;
 import parse.subclasses.User;
 import parse.subclasses.UserBadge;
@@ -27,10 +28,12 @@ public class WinePurchaseList {
 
     private ArrayList<WinePurchase> currentPurchases = null;
     private HashMap<WinePurchase, Double> discountedTotal = null;
+    private HashMap<WinePurchase, BadgeDiscount> discountedInfo = null;
 
     public WinePurchaseList() {
         currentPurchases = new ArrayList<WinePurchase>();
         discountedTotal = new HashMap<WinePurchase, Double>();
+        discountedInfo = new HashMap<WinePurchase, BadgeDiscount>();
     }
 
     public void add(WinePurchase wp) {
@@ -50,8 +53,14 @@ public class WinePurchaseList {
         return discountedTotal.get(wp);
     }
 
+    public BadgeDiscount getDiscountedInfo(WinePurchase wp) {
+        return discountedInfo.get(wp);
+    }
+
     public void clear() {
         currentPurchases.clear();
+        discountedTotal.clear();
+        discountedInfo.clear();
     }
 
     public String getTotal() {
@@ -86,6 +95,7 @@ public class WinePurchaseList {
                 double rest = currentPurchases.get(i).getPrice() * (currentPurchases.get(i).getQuantity()-1);
                 total += discount + rest;
                 discountedTotal.put(currentPurchases.get(i), discount+rest);
+                discountedInfo.put(currentPurchases.get(i), App.availBadges.get(w));
             }
             else {
                 total += currentPurchases.get(i).getPrice() * currentPurchases.get(i).getQuantity();

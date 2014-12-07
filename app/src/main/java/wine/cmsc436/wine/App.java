@@ -103,7 +103,6 @@ public class App extends Application {
 
         // At the beginning of the application we determine what badges the user is
         // eligible for, for whichever wine.
-        // TODO: Potential UI lockup since this is on the main ui thread
         new Thread(new Runnable() {
             @Override
             public void run() {

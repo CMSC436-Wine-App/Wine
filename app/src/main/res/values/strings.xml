@@ -55,6 +55,7 @@
     <string name="title_activity_review_wine_profile">Wine Profile</string>
     <string name="title_activity_badge">Available Badges</string>
     <string name="title_activity_complete_purchase">Complete Your Purchase</string>
+    <string name="title_activity_discount_overview">Discounts Applied</string>
 
     <!-- Wine Detail -->
     <string name="review_wine_btn">Review Wine</string>
@@ -79,8 +80,15 @@
 
     <!-- Complete Purchase Dialog -->
     <string name="complete_purchase_success">Purchase Complete!</string>
-    <string name="complete_purchase_success_body">Hit Okay to view discount information.</string>
+    <string name="complete_purchase_success_body">Your purchase has been completed.</string>
     <string name="complete_purchase_failure">Purchase is empty!</string>
     <string name="complete_purchase_failure_body">There are currently no wines that you are purchasing right now.</string>
+
+    <!-- Discount Overview -->
+    <string name="discount_overview_rate">Discount Rate: %s%%</string>
+    <string name="discount_overview_badge_name">Badge Name: %s</string>
+    <string name="discount_overview_wine_name">Wine Name: %s</string>
+    <string name="discount_overview_note">NOTE: The discount rate only applies to one item out of a quantity.</string>
+    <string name="discount_error">Current purchase does not have a discount applied.</string>
 
 </resources>

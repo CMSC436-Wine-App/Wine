@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/discount_linear"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <com.parse.ParseImageView
+        android:layout_width="62dp"
+        android:id="@+id/discount_badge_image"
+        android:layout_marginRight="20dp"
+        android:layout_height="62dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="@string/discount_overview_wine_name"
+        android:id="@+id/discount_wine_name"
+        android:layout_marginBottom="20dp"
+        android:layout_toRightOf="@+id/discount_badge_image"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="@string/discount_overview_badge_name"
+        android:layout_toRightOf="@+id/discount_badge_image"
+        android:id="@+id/discount_badge_name"
+        android:layout_below="@+id/discount_wine_name"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/discount_badge_rate"
+        android:text="@string/discount_overview_rate"
+        android:layout_marginBottom="20dp"
+        android:layout_toRightOf="@+id/discount_badge_image"
+        android:layout_below="@+id/discount_badge_name"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/discount_badge_rate"
+        android:text="@string/discount_overview_note"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
