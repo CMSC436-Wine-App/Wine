@@ -98,5 +98,17 @@ public class WineActivity extends BaseActivity {
             }
         });
 
+        // Order ------------------------------------------------------------------
+
+        order_food = (ImageButton) findViewById(R.id.b_order_food);
+        order_food.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WineActivity.this, CompletePurchaseActivity.class);
+                WineActivity.this.startActivity(intent);
+            }
+        });
+
+
     }
 }

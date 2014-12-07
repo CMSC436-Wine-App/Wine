@@ -11,55 +11,11 @@
 
         <TableRow android:gravity="center_vertical|center_horizontal">
 
-            <com.parse.ParseImageView
-                android:id="@+id/iv_user_profile_pic"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
-                 />
-
-            <!--
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/view_menu"
-                android:id="@+id/b_view_menu" />
-            -->
-
             <ImageButton
                 android:layout_width="170dp"
                 android:layout_height="170dp"
                 android:id="@+id/b_view_menu"
                 android:src="@drawable/winemenubutton" />
-
-        </TableRow>
-
-
-
-        <TableRow android:gravity="center_vertical|center_horizontal">
-
-
-            <!--
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/badges"
-                android:id="@+id/b_badges" />
-
-            -->
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="170dp"
-                android:id="@+id/b_badges"
-                android:src="@drawable/badgebutton" />
-
-            <!--
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/order_food"
-                android:id="@+id/b_order_food" />
-            -->
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -67,9 +23,23 @@
                 android:id="@+id/b_order_food"
                 android:src="@drawable/orderbutton" />
 
-
         </TableRow>
 
+        <TableRow android:gravity="center_vertical|center_horizontal">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="170dp"
+                android:id="@+id/b_badges"
+                android:src="@drawable/badgebutton" />
+
+            <com.parse.ParseImageView
+                android:id="@+id/iv_user_profile_pic"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                />
+
+        </TableRow>
 
     </TableLayout>
 
