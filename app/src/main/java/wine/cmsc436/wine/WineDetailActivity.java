@@ -98,16 +98,23 @@ public class WineDetailActivity extends ActionBarActivity {
         reviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQuery<Wine> reviewedWinesQuery = User.getCurrentUser().getReviewedWines();
-                reviewedWinesQuery.getInBackground(selectedWine.getObjectId(), new GetCallback<Wine>() {
+                ParseQuery<Review> reviewsQuery = User.getCurrentUser().getReviews();
+                reviewsQuery.whereEqualTo("wine", selectedWine);
+                reviewsQuery.getFirstInBackground(new GetCallback<Review>() {
                     @Override
-                    public void done(Wine wine, ParseException e) {
+                    public void done(Review review, ParseException e) {
                         if (e != null) {
-                            // wine not yet reviewed
-                            Intent reviewIntent = new Intent(WineDetailActivity.this, NewWineReview.class);
-                            reviewIntent.putExtra("wineName", selectedWine.getName());
-                            reviewIntent.setData(selectedWine.getUri());
-                            startActivityForResult(reviewIntent, ADD_REVIEW_REQEST);
+                            if (e.getCode() != 101) {
+                                Toast toast = Toast.makeText(WineDetailActivity.this, e.getMessage(), Toast.LENGTH_LONG);
+                                toast.show();
+                                return;
+                            } else {
+                                // wine not yet reviewed
+                                Intent reviewIntent = new Intent(WineDetailActivity.this, NewWineReview.class);
+                                reviewIntent.putExtra("wineName", selectedWine.getName());
+                                reviewIntent.setData(selectedWine.getUri());
+                                startActivityForResult(reviewIntent, ADD_REVIEW_REQEST);
+                            }
                         } else {
                             // wine has been reviewed
                             Toast toast = Toast.makeText(WineDetailActivity.this, "You have already reviewed this wine", Toast.LENGTH_LONG);
