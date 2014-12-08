@@ -53,10 +53,12 @@ import parse.subclasses.MenuItem;
 public class WineDetailActivity extends ActionBarActivity {
 
     private Wine selectedWine = null;
+    private static final int ADD_REVIEW_REQEST = 0;
     public static final int FB_SESSION_RESULT = 101;
 
     FacebookPost facebookPost;
     private UiLifecycleHelper uiHelper;
+    private Intent shareData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,10 +98,24 @@ public class WineDetailActivity extends ActionBarActivity {
         reviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent reviewIntent = new Intent(WineDetailActivity.this, NewWineReview.class);
-                reviewIntent.putExtra("wineName", selectedWine.getName());
-                reviewIntent.setData(selectedWine.getUri());
-                startActivity(reviewIntent);
+                ParseQuery<Wine> reviewedWinesQuery = User.getCurrentUser().getReviewedWines();
+                reviewedWinesQuery.getInBackground(selectedWine.getObjectId(), new GetCallback<Wine>() {
+                    @Override
+                    public void done(Wine wine, ParseException e) {
+                        if (e != null) {
+                            // wine not yet reviewed
+                            Intent reviewIntent = new Intent(WineDetailActivity.this, NewWineReview.class);
+                            reviewIntent.putExtra("wineName", selectedWine.getName());
+                            reviewIntent.setData(selectedWine.getUri());
+                            startActivityForResult(reviewIntent, ADD_REVIEW_REQEST);
+                        } else {
+                            // wine has been reviewed
+                            Toast toast = Toast.makeText(WineDetailActivity.this, "You have already reviewed this wine", Toast.LENGTH_LONG);
+                            toast.show();
+                            return;
+                        }
+                    }
+                });
             }
         });
 
@@ -115,24 +131,6 @@ public class WineDetailActivity extends ActionBarActivity {
             }
         });
 
-        final TextView averageRatingsLabel = (TextView) findViewById(R.id.averageRatingsLabel);
-        final RatingBar overallRatingBar = (RatingBar) findViewById(R.id.overallRating);
-        final RatingBar noseRatingBar = (RatingBar) findViewById(R.id.noseRating);
-        final RatingBar colorRatingBar = (RatingBar) findViewById(R.id.colorRating);
-        final RatingBar tasteRatingBar = (RatingBar) findViewById(R.id.tasteRating);
-        final RatingBar finishRatingBar = (RatingBar) findViewById(R.id.finishRating);
-        final TextView sweetnessLabel = (TextView) findViewById(R.id.sweetnessLabel);
-        final TextView tanninsLabel = (TextView) findViewById(R.id.tanninsLabel);
-        final TextView acidityLabel = (TextView) findViewById(R.id.acidityLabel);
-        final TextView bodyLabel = (TextView) findViewById(R.id.bodyLabel);
-        final ProgressBar sweetnessProgressBar = (ProgressBar) findViewById(R.id.sweetnessProgressBar);
-        final ProgressBar tanninsProgressBar = (ProgressBar) findViewById(R.id.tanninsProgressBar);
-        final ProgressBar acidityProgressBar = (ProgressBar) findViewById(R.id.acidityProgressBar);
-        final ProgressBar bodyProgressBar = (ProgressBar) findViewById(R.id.bodyProgressBar);
-        final TextView firstDescriptor = (TextView) findViewById(R.id.firstDescriptor);
-        final TextView secondDescriptor = (TextView) findViewById(R.id.secondDescriptor);
-        final TextView thirdDescriptor = (TextView) findViewById(R.id.thirdDescriptor);
-
         // Fetch the data about this wine from Parse.
         String wineId = Wine.getObjectId(getIntent().getData());
         GetCallback<Wine> wineGetCallback = new GetCallback<Wine>() {
@@ -144,128 +142,7 @@ public class WineDetailActivity extends ActionBarActivity {
                     return;
                 }
                 selectedWine = wine;
-                final RelativeLayout wineDescLayout = (RelativeLayout)findViewById(R.id.order_layout);
-                final RelativeLayout reviewLayout = (RelativeLayout)findViewById(R.id.review_layout);
-                final RelativeLayout ratingsLayout = (RelativeLayout)findViewById(R.id.ratings_layout);
-                final RelativeLayout profileLayout = (RelativeLayout)findViewById(R.id.profile_layout);
-                final RelativeLayout descriptorLayout = (RelativeLayout)findViewById(R.id.descriptor_layout);
-                ParseQuery<MenuItem> menuItemParseQuery = MenuItem.getPriceQuery(selectedWine);
-                menuItemParseQuery.findInBackground(new FindCallback<MenuItem>() {
-                    @Override
-                    public void done(List<MenuItem> menuItems, ParseException e) {
-                        if (e != null) {
-                            Toast toast = Toast.makeText(WineDetailActivity.this, e.getMessage(), Toast.LENGTH_LONG);
-                            toast.show();
-                            return;
-                        }
-                        try {
-                            MenuItem menuItem = menuItems.get(0);
-                            NumberFormat formatter = NumberFormat.getCurrencyInstance();
-                            bottleOrderButton.setText(bottleOrderButton.getText() + " " + formatter.format(menuItem.getBottlePrice()));
-                            glassOrderButton.setText(glassOrderButton.getText() + " " + formatter.format(menuItem.getGlassPrice()));
-                        } catch (IndexOutOfBoundsException ex) {
-                            Log.i("MenuItem missing for Wine Id:", selectedWine.getObjectId());
-                        }
-                        updateView(selectedWine);
-                        wineDescLayout.setVisibility(View.VISIBLE);
-                        reviewLayout.setVisibility(View.VISIBLE);
-                    }
-                });
-                ParseQuery<Review> reviewsQuery = Review.getQuery();
-                reviewsQuery.whereEqualTo("wine", wine);
-                reviewsQuery.findInBackground(new FindCallback<Review>() {
-                    @Override
-                    public void done(final List<Review> reviews, ParseException e) {
-                        if (e != null) {
-                            Toast toast = Toast.makeText(WineDetailActivity.this, e.getMessage(), Toast.LENGTH_LONG);
-                            toast.show();
-                            return;
-                        }
-                        averageRatingsLabel.setText("Average Ratings ("+reviews.size()+")");
-                        float avgOverallRating = 0;
-                        float avgNoseRating = 0;
-                        float avgColorRating = 0;
-                        float avgTasteRating = 0;
-                        float avgFinishRating = 0;
-                        float avgSweetness = 0;
-                        float avgTannins = 0;
-                        float avgAcidity = 0;
-                        float avgBody = 0;
-                        Map<String, Integer> descriptorsCount = new HashMap<String, Integer>();
-                        ValueComparator comparator =  new ValueComparator(descriptorsCount);
-                        Map<String, Integer> sortedDescriptorsCount = new TreeMap<String, Integer>(comparator);
-                        for (Review review : reviews) {
-                            avgOverallRating+=review.getRating().floatValue();
-                            avgNoseRating+=review.getNoseRating().floatValue();
-                            avgColorRating+=review.getColorRating().floatValue();
-                            avgTasteRating+=review.getTasteRating().floatValue();
-                            avgFinishRating+=review.getFinishRating().floatValue();
-                            avgSweetness+=review.getSweetness().floatValue();
-                            avgTannins+=review.getTannins().floatValue();
-                            avgAcidity+=review.getAcidity().floatValue();
-                            avgBody+=review.getBody().floatValue();
-                            JSONArray descriptors = review.getDescriptors();
-                            if (descriptors != null) {
-                                for (int i = 0; i < descriptors.length(); i++) {
-                                    try {
-                                        String descriptor = (String) descriptors.get(i);
-                                        if (descriptorsCount.containsKey(descriptor)) {
-                                            descriptorsCount.put(descriptor, descriptorsCount.get(descriptor) + 1);
-                                        } else {
-                                            descriptorsCount.put(descriptor, 1);
-                                        }
-                                    } catch (JSONException exception) {
-                                        Log.i(App.APPTAG, "invalid JSONObject");
-                                    }
-                                }
-                            }
-                        }
-                        if (reviews.size() > 0) {
-                            // ratings
-                            avgOverallRating /= reviews.size();
-                            avgNoseRating /= reviews.size();
-                            avgColorRating /= reviews.size();
-                            avgTasteRating /= reviews.size();
-                            avgFinishRating /= reviews.size();
-                            overallRatingBar.setRating(avgOverallRating);
-                            noseRatingBar.setRating(avgNoseRating);
-                            colorRatingBar.setRating(avgColorRating);
-                            tasteRatingBar.setRating(avgTasteRating);
-                            finishRatingBar.setRating(avgFinishRating);
-                            // profile
-                            avgSweetness /= reviews.size();
-                            avgTannins /= reviews.size();
-                            avgAcidity /= reviews.size();
-                            avgBody /= reviews.size();
-                            sweetnessLabel.setText("Sweetness: "+(int)avgSweetness);
-                            tanninsLabel.setText("Tannins: "+(int)avgTannins);
-                            acidityLabel.setText("Acidity: "+(int)avgAcidity);
-                            bodyLabel.setText("Body: "+(int)avgBody);
-                            sweetnessProgressBar.setProgress((int)avgSweetness);
-                            tanninsProgressBar.setProgress((int)avgTannins);
-                            acidityProgressBar.setProgress((int)avgAcidity);
-                            bodyProgressBar.setProgress((int)avgBody);
-                            // descriptors
-                            sortedDescriptorsCount.putAll(descriptorsCount);
-                            List<String> sortedDescriptors = new ArrayList<String>(sortedDescriptorsCount.keySet());
-                            if (sortedDescriptors.size() > 0) {
-                                String descriptor = sortedDescriptors.get(0);
-                                firstDescriptor.setText(descriptor + " (" + descriptorsCount.get(descriptor) + ")");
-                            }
-                            if (sortedDescriptors.size() > 1) {
-                                String descriptor = sortedDescriptors.get(1);
-                                secondDescriptor.setText(descriptor + " (" + descriptorsCount.get(descriptor) + ")");
-                            }
-                            if (sortedDescriptors.size() > 2) {
-                                String descriptor = sortedDescriptors.get(2);
-                                thirdDescriptor.setText(descriptor + " (" + descriptorsCount.get(descriptor) + ")");
-                            }
-                        }
-                        ratingsLayout.setVisibility(View.VISIBLE);
-                        profileLayout.setVisibility(View.VISIBLE);
-                        descriptorLayout.setVisibility(View.VISIBLE);
-                    }
-                });
+                updateView(selectedWine);
             }
         };
 
@@ -304,7 +181,44 @@ public class WineDetailActivity extends ActionBarActivity {
 
         if (requestCode == FB_SESSION_RESULT){
             // publish permission granted
-            facebookPost.showFacebookShareDialog(data);
+            facebookPost.showFacebookShareDialog(shareData);
+        } else if (requestCode == ADD_REVIEW_REQEST){
+            if (resultCode == RESULT_OK){
+                shareData = data;
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Review submitted.\nShare review on Facebook?")
+                        .setPositiveButton("Share", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Session session = ParseFacebookUtils.getSession();
+                                if (session != null) {
+                                    if (!session.isPermissionGranted("publish_actions")){
+                                        // ask for publish permissions
+                                        String[] permissions = {"publish_actions"};
+                                        Session.NewPermissionsRequest permissionsRequest = new Session.NewPermissionsRequest(WineDetailActivity.this, Arrays.asList(permissions));
+                                        permissionsRequest.setRequestCode(FB_SESSION_RESULT);
+                                        session.requestNewPublishPermissions(permissionsRequest);
+                                    } else {
+                                        // publish permissions already granted
+                                        facebookPost.showFacebookShareDialog(shareData);
+                                    }
+                                } else {
+                                    Toast toast = Toast.makeText(getApplicationContext(), "Facebook session invalid", Toast.LENGTH_LONG);
+                                    toast.show();
+                                    Intent data = new Intent();
+                                    setResult(RESULT_OK, data);
+                                    finish();
+                                }
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent data = new Intent();
+                                setResult(RESULT_OK, data);
+                                finish();
+                            }
+                        });
+                builder.create().show();
+            }
         }
 
         // facebook request result handler
@@ -356,14 +270,156 @@ public class WineDetailActivity extends ActionBarActivity {
 
     private void updateView(final Wine wine) {
         if (wine != null) {
-            TextView nameView = (TextView) findViewById(R.id.wine_name);
-            TextView descriptionView = (TextView) findViewById(R.id.wine_description);
+            final TextView nameView = (TextView) findViewById(R.id.wine_name);
+            final TextView descriptionView = (TextView) findViewById(R.id.wine_description);
+            final RelativeLayout wineDescLayout = (RelativeLayout)findViewById(R.id.order_layout);
+            final RelativeLayout reviewLayout = (RelativeLayout)findViewById(R.id.review_layout);
+            final RelativeLayout ratingsLayout = (RelativeLayout)findViewById(R.id.ratings_layout);
+            final RelativeLayout profileLayout = (RelativeLayout)findViewById(R.id.profile_layout);
+            final RelativeLayout descriptorLayout = (RelativeLayout)findViewById(R.id.descriptor_layout);
+            final TextView averageRatingsLabel = (TextView) findViewById(R.id.averageRatingsLabel);
+            final RatingBar overallRatingBar = (RatingBar) findViewById(R.id.overallRating);
+            final RatingBar noseRatingBar = (RatingBar) findViewById(R.id.noseRating);
+            final RatingBar colorRatingBar = (RatingBar) findViewById(R.id.colorRating);
+            final RatingBar tasteRatingBar = (RatingBar) findViewById(R.id.tasteRating);
+            final RatingBar finishRatingBar = (RatingBar) findViewById(R.id.finishRating);
+            final TextView sweetnessLabel = (TextView) findViewById(R.id.sweetnessLabel);
+            final TextView tanninsLabel = (TextView) findViewById(R.id.tanninsLabel);
+            final TextView acidityLabel = (TextView) findViewById(R.id.acidityLabel);
+            final TextView bodyLabel = (TextView) findViewById(R.id.bodyLabel);
+            final ProgressBar sweetnessProgressBar = (ProgressBar) findViewById(R.id.sweetnessProgressBar);
+            final ProgressBar tanninsProgressBar = (ProgressBar) findViewById(R.id.tanninsProgressBar);
+            final ProgressBar acidityProgressBar = (ProgressBar) findViewById(R.id.acidityProgressBar);
+            final ProgressBar bodyProgressBar = (ProgressBar) findViewById(R.id.bodyProgressBar);
+            final TextView firstDescriptor = (TextView) findViewById(R.id.firstDescriptor);
+            final TextView secondDescriptor = (TextView) findViewById(R.id.secondDescriptor);
+            final TextView thirdDescriptor = (TextView) findViewById(R.id.thirdDescriptor);
+            final Button glassOrderButton = (Button)findViewById(R.id.glass_order_btn);
+            final Button bottleOrderButton = (Button)findViewById(R.id.bottle_order_btn);
+
             nameView.setText(wine.getName());
             descriptionView.setText(wine.getDescription());
+
+            ParseQuery<MenuItem> menuItemParseQuery = MenuItem.getPriceQuery(selectedWine);
+            menuItemParseQuery.findInBackground(new FindCallback<MenuItem>() {
+                @Override
+                public void done(List<MenuItem> menuItems, ParseException e) {
+                    if (e != null) {
+                        Toast toast = Toast.makeText(WineDetailActivity.this, e.getMessage(), Toast.LENGTH_LONG);
+                        toast.show();
+                        return;
+                    }
+                    try {
+                        MenuItem menuItem = menuItems.get(0);
+                        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+                        bottleOrderButton.setText("Bottle: " + formatter.format(menuItem.getBottlePrice()));
+                        glassOrderButton.setText("Glass: " + formatter.format(menuItem.getGlassPrice()));
+                    } catch (IndexOutOfBoundsException ex) {
+                        Log.i("MenuItem missing for Wine Id:", selectedWine.getObjectId());
+                    }
+                    wineDescLayout.setVisibility(View.VISIBLE);
+                    reviewLayout.setVisibility(View.VISIBLE);
+                }
+            });
+            ParseQuery<Review> reviewsQuery = Review.getQuery();
+            reviewsQuery.whereEqualTo("wine", wine);
+            reviewsQuery.findInBackground(new FindCallback<Review>() {
+                @Override
+                public void done(final List<Review> reviews, ParseException e) {
+                    if (e != null) {
+                        Toast toast = Toast.makeText(WineDetailActivity.this, e.getMessage(), Toast.LENGTH_LONG);
+                        toast.show();
+                        return;
+                    }
+                    averageRatingsLabel.setText("Average Ratings ("+reviews.size()+")");
+                    float avgOverallRating = 0;
+                    float avgNoseRating = 0;
+                    float avgColorRating = 0;
+                    float avgTasteRating = 0;
+                    float avgFinishRating = 0;
+                    float avgSweetness = 0;
+                    float avgTannins = 0;
+                    float avgAcidity = 0;
+                    float avgBody = 0;
+                    Map<String, Integer> descriptorsCount = new HashMap<String, Integer>();
+                    ValueComparator comparator =  new ValueComparator(descriptorsCount);
+                    Map<String, Integer> sortedDescriptorsCount = new TreeMap<String, Integer>(comparator);
+                    for (Review review : reviews) {
+                        avgOverallRating+=review.getRating().floatValue();
+                        avgNoseRating+=review.getNoseRating().floatValue();
+                        avgColorRating+=review.getColorRating().floatValue();
+                        avgTasteRating+=review.getTasteRating().floatValue();
+                        avgFinishRating+=review.getFinishRating().floatValue();
+                        avgSweetness+=review.getSweetness().floatValue();
+                        avgTannins+=review.getTannins().floatValue();
+                        avgAcidity+=review.getAcidity().floatValue();
+                        avgBody+=review.getBody().floatValue();
+                        JSONArray descriptors = review.getDescriptors();
+                        if (descriptors != null) {
+                            for (int i = 0; i < descriptors.length(); i++) {
+                                try {
+                                    String descriptor = (String) descriptors.get(i);
+                                    if (descriptorsCount.containsKey(descriptor)) {
+                                        descriptorsCount.put(descriptor, descriptorsCount.get(descriptor) + 1);
+                                    } else {
+                                        descriptorsCount.put(descriptor, 1);
+                                    }
+                                } catch (JSONException exception) {
+                                    Log.i(App.APPTAG, "invalid JSONObject");
+                                }
+                            }
+                        }
+                    }
+                    if (reviews.size() > 0) {
+                        // ratings
+                        avgOverallRating /= reviews.size();
+                        avgNoseRating /= reviews.size();
+                        avgColorRating /= reviews.size();
+                        avgTasteRating /= reviews.size();
+                        avgFinishRating /= reviews.size();
+                        overallRatingBar.setRating(avgOverallRating);
+                        noseRatingBar.setRating(avgNoseRating);
+                        colorRatingBar.setRating(avgColorRating);
+                        tasteRatingBar.setRating(avgTasteRating);
+                        finishRatingBar.setRating(avgFinishRating);
+                        // profile
+                        avgSweetness /= reviews.size();
+                        avgTannins /= reviews.size();
+                        avgAcidity /= reviews.size();
+                        avgBody /= reviews.size();
+                        sweetnessLabel.setText("Sweetness: "+(int)avgSweetness);
+                        tanninsLabel.setText("Tannins: "+(int)avgTannins);
+                        acidityLabel.setText("Acidity: "+(int)avgAcidity);
+                        bodyLabel.setText("Body: "+(int)avgBody);
+                        sweetnessProgressBar.setProgress((int)avgSweetness);
+                        tanninsProgressBar.setProgress((int)avgTannins);
+                        acidityProgressBar.setProgress((int)avgAcidity);
+                        bodyProgressBar.setProgress((int)avgBody);
+                        // descriptors
+                        sortedDescriptorsCount.putAll(descriptorsCount);
+                        List<String> sortedDescriptors = new ArrayList<String>(sortedDescriptorsCount.keySet());
+                        if (sortedDescriptors.size() > 0) {
+                            String descriptor = sortedDescriptors.get(0);
+                            firstDescriptor.setText(descriptor + " (" + descriptorsCount.get(descriptor) + ")");
+                        }
+                        if (sortedDescriptors.size() > 1) {
+                            String descriptor = sortedDescriptors.get(1);
+                            secondDescriptor.setText(descriptor + " (" + descriptorsCount.get(descriptor) + ")");
+                        }
+                        if (sortedDescriptors.size() > 2) {
+                            String descriptor = sortedDescriptors.get(2);
+                            thirdDescriptor.setText(descriptor + " (" + descriptorsCount.get(descriptor) + ")");
+                        }
+                    }
+                    ratingsLayout.setVisibility(View.VISIBLE);
+                    profileLayout.setVisibility(View.VISIBLE);
+                    descriptorLayout.setVisibility(View.VISIBLE);
+                }
+            });
         }
     }
 }
-
+// http://stackoverflow.com/questions/109383/how-to-sort-a-mapkey-value-on-the-values-in-java
 class ValueComparator implements Comparator<String> {
 
     Map<String, Integer> base;

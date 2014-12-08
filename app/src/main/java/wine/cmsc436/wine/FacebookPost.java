@@ -15,6 +15,9 @@ import com.parse.ParseFacebookUtils;
 
 import java.util.Arrays;
 
+import parse.subclasses.Review;
+import parse.subclasses.User;
+
 /**
  * Created by Ethan on 12/6/2014.
  */
@@ -25,6 +28,19 @@ public class FacebookPost {
     public FacebookPost(Activity activity, UiLifecycleHelper uiHelper) {
         this.activity = activity;
         this.uiHelper = uiHelper;
+    }
+
+    public static Intent createDataFromReview(Review review) {
+        Intent data = new Intent();
+        String name = User.getCurrentUser().getName()+" shared a WineBarApp review!";
+        String caption = "Wine: "+review.getWine().getName()+", Overall Rating: "+review.getRating();
+        String description = review.getComment();
+        data.putExtra("name", name);
+        data.putExtra("caption", caption);
+        data.putExtra("description", description);
+        data.putExtra("link", review.getWine().getPhoto().getUrl());
+        data.putExtra("picture", review.getWine().getPhoto().getUrl());
+        return data;
     }
 
     public void showFacebookShareDialog(Intent data) {

@@ -26,6 +26,7 @@ import org.json.JSONException;
 import java.util.Arrays;
 
 import parse.subclasses.Review;
+import parse.subclasses.User;
 
 public class ReviewDetailActivity extends BaseActivity {
 
@@ -61,6 +62,7 @@ public class ReviewDetailActivity extends BaseActivity {
         };
 
         ParseQuery<Review> reviewQuery = Review.getQuery();
+        reviewQuery.include("user");
         reviewQuery.getInBackground(reviewId, reviewGetCallback);
     }
 
@@ -115,19 +117,9 @@ public class ReviewDetailActivity extends BaseActivity {
                     permissionsRequest.setRequestCode(FB_SESSION_RESULT);
                     session.requestNewPublishPermissions(permissionsRequest);
                 } else {
-                    Intent data = new Intent();
-                    String name = "Ethan Tran shared a WineBarApp review!";
-                    String caption = "Wine: "+selectedReview.getWine().getName()+", Overall Rating: "+selectedReview.getRating();
-                    String description = selectedReview.getComment();
-                    String link = "https://google.com";
-                    String picture = "http://www.mobafire.com/images/champion/icon/gnar.png";
-                    data.putExtra("name", name);
-                    data.putExtra("caption", caption);
-                    data.putExtra("description", description);
-                    data.putExtra("link", selectedReview.getWine().getPhoto().getUrl());
-                    data.putExtra("picture", selectedReview.getWine().getPhoto().getUrl());
                     // publish permissions already granted
-                    facebookPost.showFacebookShareDialog(data);
+                    Intent shareData = FacebookPost.createDataFromReview(selectedReview);
+                    facebookPost.showFacebookShareDialog(shareData);
                 }
             } else {
                 Toast toast = Toast.makeText(getApplicationContext(), "Facebook session invalid", Toast.LENGTH_LONG);
@@ -144,7 +136,8 @@ public class ReviewDetailActivity extends BaseActivity {
 
         if (requestCode == FB_SESSION_RESULT){
             // publish permission granted
-            facebookPost.showFacebookShareDialog(data);
+            Intent shareData = FacebookPost.createDataFromReview(selectedReview);
+            facebookPost.showFacebookShareDialog(shareData);
         }
 
         // facebook request result handler
@@ -175,6 +168,7 @@ public class ReviewDetailActivity extends BaseActivity {
 
     private void updateView(final Review review) {
         if (review != null) {
+            final TextView userName = (TextView) findViewById(R.id.userName);
             final RatingBar overallRatingBar = (RatingBar) findViewById(R.id.overallRating);
             final RatingBar noseRatingBar = (RatingBar) findViewById(R.id.noseRating);
             final RatingBar colorRatingBar = (RatingBar) findViewById(R.id.colorRating);
@@ -192,6 +186,8 @@ public class ReviewDetailActivity extends BaseActivity {
             final LinearLayout descriptorsList = (LinearLayout) findViewById(R.id.descriptorsList);
             final LinearLayout aromasList = (LinearLayout) findViewById(R.id.aromasList);
             final LinearLayout varietalsList = (LinearLayout) findViewById(R.id.varietalsList);
+            // user
+            userName.setText(review.getUser().getName());
             // ratings
             overallRatingBar.setRating(review.getRating().floatValue());
             noseRatingBar.setRating(review.getNoseRating().floatValue());

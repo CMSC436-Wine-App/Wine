@@ -255,17 +255,7 @@ public class NewWineReview extends BaseActivity {
                                 toast.show();
                                 return;
                             }
-                            Intent data = new Intent();
-                            String name = "Ethan Tran reviewed a new wine on WineBarApp!";
-                            String caption = "Wine: "+review.getWine().getName()+", Overall Rating: "+review.getRating();
-                            String description = review.getComment();
-                            String link = "https://google.com";
-                            String picture = "http://www.mobafire.com/images/champion/icon/gnar.png";
-                            data.putExtra("name", name);
-                            data.putExtra("caption", caption);
-                            data.putExtra("description", description);
-                            data.putExtra("link", review.getWine().getPhoto().getUrl());
-                            data.putExtra("picture", review.getWine().getPhoto().getUrl());
+                            Intent data = FacebookPost.createDataFromReview(review);
                             setResult(RESULT_OK, data);
                             finish();
                         }
