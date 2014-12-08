@@ -16,6 +16,7 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
+import parse.subclasses.Badge;
 import parse.subclasses.MenuItem;
 import parse.subclasses.Purchase;
 import parse.subclasses.PurchaseHistory;
@@ -40,20 +41,22 @@ public class BadgeListActivity extends BaseActivity {
         ListView list = (ListView) findViewById(R.id.menu_item_list);
 
         if (isUserBadgeList) {
+            setTitle(getIntent().getStringExtra("title"));
             String user = User.getObjectId(getIntent().getData());
             adapter = new UserBadgeListAdapter(this);
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     UserBadge ub = (UserBadge)adapter.getItem(position);
+                    Badge b = ub.getBadge();
                     Intent intent = new Intent(BadgeListActivity.this, UserBadgeAttrActivity.class);
-                    if (ub.getType().equals(App.UBadgeType.WinePurchase.toString())) {
+                    if (b.getType().equals(App.UBadgeType.WinePurchase.toString())) {
                         intent.putExtra("title", "Wines Discounted");
                     }
-                    else if (ub.getType().equals(App.UBadgeType.WineReview.toString())) {
+                    else if (b.getType().equals(App.UBadgeType.WineReview.toString())) {
                         intent.putExtra("title", "Wines Reviewed");
                     }
-                    else if (ub.getType().equals(App.UBadgeType.PurchaseCount.toString())) {
+                    else if (b.getType().equals(App.UBadgeType.PurchaseCount.toString())) {
                         intent.putExtra("title", "Wines Purchased");
                     }
                     intent.setData(ub.getUri());
@@ -73,7 +76,6 @@ public class BadgeListActivity extends BaseActivity {
                             public void done(List<UserBadge> userBadges, ParseException e) {
                                 for (int i = 0; i < userBadges.size(); i++) {
                                     ((UserBadgeListAdapter) adapter).add(userBadges.get(i));
-                                    Log.i("ASDF", "adding");
                                 }
                             }
                         });

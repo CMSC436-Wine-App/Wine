@@ -31,12 +31,10 @@ public class UserBadgeListAdapter extends BaseAdapter {
 
     private Context mContext;
     private ArrayList<UserBadge> userBadges;
-    public static HashMap<UserBadge, ArrayList<Wine>> ubWines;
 
     public UserBadgeListAdapter(Context mContext) {
         this.mContext = mContext;
         userBadges = new ArrayList<UserBadge>();
-        ubWines = new HashMap<UserBadge, ArrayList<Wine>>();
     }
 
     @Override
@@ -50,13 +48,11 @@ public class UserBadgeListAdapter extends BaseAdapter {
     }
 
     public boolean add(UserBadge ub) {
+        Badge b = ub.getBadge();
         // We only care about the badges we haven't used yet.
-        if (ub.getType().equals(App.UBadgeType.WinePurchase.toString()) && !ub.isUsed()) {
-            if (!ubWines.containsKey(ub)) {
-                ubWines.put(ub, new ArrayList<Wine>());
-            }
-            ubWines.get(ub).add(ub.getWine());
-
+        if (b.getType().equals(App.UBadgeType.WinePurchase.toString()) && !ub.isUsed()) {
+            // We have to do it this way because parse doesn't have
+            // distinct queries..
             if (!userBadges.contains(ub)) {
                 userBadges.add(ub);
                 notifyDataSetChanged();

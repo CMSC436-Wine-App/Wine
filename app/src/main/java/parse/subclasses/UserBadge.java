@@ -20,24 +20,19 @@ public class UserBadge extends ParseObject {
     private static final String USER = "user";
     private static final String WINE = "wine";
     private static final String ISUSED = "used";
-    private static final String TYPE = "type";
 
     public UserBadge() {
     }
 
-    public UserBadge(User user, Wine wine, Badge badge, String type) {
+    public UserBadge(User user, Wine wine, Badge badge) {
         setUser(user);
         setWine(wine);
         setBadge(badge);
-        setType(type);
     }
 
-    public void setType(String t) {
-        put(TYPE, t);
-    }
-
-    public String getType() {
-        return getString(TYPE);
+    public UserBadge(User user, Badge badge) {
+        setUser(user);
+        setBadge(badge);
     }
 
     public void setUser(User user) {

@@ -1,7 +1,9 @@
 package wine.cmsc436.wine;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+import parse.subclasses.Badge;
 import parse.subclasses.User;
 import parse.subclasses.UserBadge;
 import parse.subclasses.Wine;
@@ -29,9 +32,10 @@ public class UserBadgeAttrActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_badge_attr);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         mAdapter = new UserBadgeAttrListAdapter(this);
 
-        ListView lv = (ListView)findViewById(R.id.user_badge_attr_content);
+        ListView lv = (ListView) findViewById(R.id.user_badge_attr_content);
         lv.setAdapter(mAdapter);
 
         String ubId = UserBadge.getObjectId(getIntent().getData());
@@ -42,12 +46,22 @@ public class UserBadgeAttrActivity extends Activity {
             @Override
             public void done(UserBadge u, ParseException e) {
                 if (e == null) {
-                    ArrayList<Wine> wineList = UserBadgeListAdapter.ubWines.get(u);
-                    for (int i = 0; i < wineList.size(); i++) {
-                        mAdapter.add(wineList.get(i));
+                    Badge b = u.getBadge();
+                    if (b.getType().equals(App.UBadgeType.WinePurchase.toString())) {
+                        ParseQuery<UserBadge> badgeQuery = UserBadge.getQuery();
+                        badgeQuery.whereEqualTo("badge", u.getBadge());
+                        badgeQuery.whereEqualTo("user", u.getUser());
+                        badgeQuery.whereEqualTo("used", false);
+                        badgeQuery.findInBackground(new FindCallback<UserBadge>() {
+                            @Override
+                            public void done(List<UserBadge> userBadges, ParseException e) {
+                                for (int i = 0; i < userBadges.size(); i++) {
+                                    mAdapter.add(userBadges.get(i).getWine());
+                                }
+                            }
+                        });
                     }
-                }
-                else {
+                } else {
                     Log.i(App.APPTAG, "Error grabbing wineInfo: " + e.getMessage());
                 }
             }
@@ -74,6 +88,10 @@ public class UserBadgeAttrActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+        if (id == android.R.id.home) {
+            super.onBackPressed();
             return true;
         }
 

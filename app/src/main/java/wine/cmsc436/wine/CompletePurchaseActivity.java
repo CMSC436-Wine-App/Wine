@@ -105,7 +105,7 @@ public class CompletePurchaseActivity extends Activity {
                 // Record the Purchase
                 savePurchases();
                 // Attain the new badges we qualify for
-                App.addAvailableWineBadges();
+                App.addAvailableWineBadges(App.UBadgeType.WinePurchase);
                 listAdapter.clear();
             }
         })).start();

@@ -22,10 +22,16 @@ public class Badge extends ParseObject {
     private static final String DESC = "description";
     private static final String NAME = "name";
     private static final String PHOTO = "photo";
-    private static final String ISWINEBADGE = "isWineBadge";
+    private static final String TYPE = "type";
 
-    public Badge() {
+    public Badge() { }
 
+    public void setType(String t) {
+        put(TYPE, t);
+    }
+
+    public String getType() {
+        return getString(TYPE);
     }
 
     public String getDescription() {
@@ -37,15 +43,11 @@ public class Badge extends ParseObject {
         put(DESC, description);
     }
 
-    public boolean getIsWineBadge() {
-        return getBoolean(ISWINEBADGE);
-    }
-
-    public static ParseQuery<Badge> getBadgesEligible(int purchaseCount) {
+    public static ParseQuery<Badge> getBadgesEligible(int purchaseCount, String t) {
         Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, App.RestaurantID);
         return ParseQuery.getQuery(Badge.class)
                 .whereLessThanOrEqualTo("reqCount", purchaseCount)
-                .whereEqualTo(ISWINEBADGE, true)
+                .whereEqualTo(TYPE, t)
                 .orderByDescending("reqCount");
     }
 
