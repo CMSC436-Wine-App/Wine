@@ -130,6 +130,7 @@ public class UserProfile extends ListActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(UserProfile.this, BadgeListActivity.class);
                 intent.putExtra("isUser", true);
+                intent.putExtra("title", "User Profile");
                 intent.setData(User.getCurrentUser().getUri());
                 startActivity(intent);
             }

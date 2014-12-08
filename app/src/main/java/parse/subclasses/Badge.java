@@ -1,6 +1,7 @@
 package parse.subclasses;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.parse.Parse;
 import com.parse.ParseClassName;
@@ -31,7 +32,12 @@ public class Badge extends ParseObject {
     }
 
     public String getType() {
-        return getString(TYPE);
+        try {
+            return fetchIfNeeded().getString(TYPE);
+        } catch (ParseException e) {
+            Log.i(App.APPTAG, e.getMessage());
+        }
+        return "";
     }
 
     public String getDescription() {
