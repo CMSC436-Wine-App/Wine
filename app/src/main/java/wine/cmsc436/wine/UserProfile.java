@@ -39,6 +39,7 @@ public class UserProfile extends ListActivity {
 
     FacebookPost facebookPost;
     private UiLifecycleHelper uiHelper;
+    private Intent shareData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,6 @@ public class UserProfile extends ListActivity {
         getListView().addHeaderView(header);
 
         // Create new ListAdapter
-//        mAdapter = new WineReviewListAdapter(getApplicationContext());
         mAdapter = new UserReviewListAdapter(getApplicationContext());
 
         // Put divider between ToDoItems and FooterView
@@ -155,6 +155,7 @@ public class UserProfile extends ListActivity {
         if (requestCode == ADD_REVIEW_REQEST){
             if (resultCode == RESULT_OK){
                 mAdapter.loadObjects();
+                shareData = data;
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Review submitted.\nShare review on Facebook?")
                         .setPositiveButton("Share", new DialogInterface.OnClickListener() {
@@ -169,7 +170,7 @@ public class UserProfile extends ListActivity {
                                         session.requestNewPublishPermissions(permissionsRequest);
                                     } else {
                                         // publish permissions already granted
-                                        facebookPost.showFacebookShareDialog(data);
+                                        facebookPost.showFacebookShareDialog(shareData);
                                     }
                                 } else {
                                     Toast toast = Toast.makeText(getApplicationContext(), "Facebook session invalid", Toast.LENGTH_LONG);
@@ -180,18 +181,12 @@ public class UserProfile extends ListActivity {
                                 }
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent data = new Intent();
-                                setResult(RESULT_OK, data);
-                                finish();
-                            }
-                        });
+                        .setNegativeButton("Cancel", null);
                 builder.create().show();
             }
         } else if (requestCode == FB_SESSION_RESULT){
             // publish permission granted
-            facebookPost.showFacebookShareDialog(data);
+            facebookPost.showFacebookShareDialog(shareData);
         }
 
         // facebook request result handler

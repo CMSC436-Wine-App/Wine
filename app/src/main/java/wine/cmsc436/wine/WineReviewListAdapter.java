@@ -33,6 +33,7 @@ public class WineReviewListAdapter extends ParseQueryAdapter<Review> {
                 reviewQuery.whereEqualTo("wine", wine);
                 reviewQuery.orderByDescending("createdAt");
                 reviewQuery.include("wine");
+                reviewQuery.include("user");
                 return reviewQuery;
             }
         });
@@ -44,6 +45,7 @@ public class WineReviewListAdapter extends ParseQueryAdapter<Review> {
                 reviewQuery.whereEqualTo("wine", ParseObject.createWithoutData(Wine.class, wineId));
                 reviewQuery.orderByDescending("createdAt");
                 reviewQuery.include("wine");
+                reviewQuery.include("user");
                 return reviewQuery;
             }
         });
@@ -57,6 +59,9 @@ public class WineReviewListAdapter extends ParseQueryAdapter<Review> {
         }
 
         super.getItemView(review, v, parent);
+
+        TextView userTextView = (TextView) v.findViewById(R.id.tv_user_name);
+        userTextView.setText(review.getUser().getName());
 
         RatingBar ratingBar = (RatingBar) v.findViewById(R.id.r_wine_rating);
         ratingBar.setRating(review.getRating().floatValue());

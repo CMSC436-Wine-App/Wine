@@ -33,7 +33,8 @@ public class MenuItemListActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // get adapter
-        adapter = new MenuItemListAdapter(this);
+        boolean removeReviewedWines = getIntent().getBooleanExtra("removeReviewedWines", false);
+        adapter = new MenuItemListAdapter(this, removeReviewedWines);
         adapter.setObjectsPerPage(OBJECTS_PER_PAGE);
         ListView list = (ListView) findViewById(R.id.wine_list);
         list.setAdapter(adapter);

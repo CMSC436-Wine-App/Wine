@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/tv_user_name"
+        android:text="USER"
+        android:textColor="#000000"
+        android:textSize="25sp" />
 
     <RatingBar
         android:layout_width="wrap_content"
@@ -11,9 +20,7 @@
         android:id="@+id/r_wine_rating"
         android:rating="3.5"
         style="@style/RatingBarGrape"
-        android:isIndicator="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:isIndicator="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,7 +29,5 @@
         android:id="@+id/tv_review_comment"
         android:text="COMMENT"
         android:textColor="#000000"
-        android:textSize="25dp"
-        android:layout_below="@+id/r_wine_rating"
-        android:layout_alignParentStart="true" />
-</RelativeLayout>
+        android:textSize="15sp" />
+</LinearLayout>
