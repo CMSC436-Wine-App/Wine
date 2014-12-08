@@ -11,7 +11,7 @@
         android:layout_height="40dp"
         android:layout_marginRight="10dp"
         android:textColor="#000000"
-        android:text="Stupid Wine Name." />
+        android:text="Filler Wine Name." />
 
     <TextView
         android:layout_width="60dp"

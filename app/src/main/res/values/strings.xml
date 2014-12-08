@@ -79,8 +79,8 @@
     <string name="complete_purchase">Checkout Total: %s</string>
 
     <!-- Complete Purchase Dialog -->
-    <string name="complete_purchase_success">Purchase Complete!</string>
-    <string name="complete_purchase_success_body">Your purchase has been completed.</string>
+    <string name="complete_purchase_success">Complete Purchase?</string>
+    <string name="complete_purchase_success_body">Would you like to complete your purchase?</string>
     <string name="complete_purchase_failure">Purchase is empty!</string>
     <string name="complete_purchase_failure_body">There are currently no wines that you are purchasing right now.</string>
 
@@ -90,5 +90,10 @@
     <string name="discount_overview_wine_name">Wine Name: %s</string>
     <string name="discount_overview_note">NOTE: The discount rate only applies to one item out of a quantity.</string>
     <string name="discount_error">Current purchase does not have a discount applied.</string>
+    <string name="title_activity_purchase_history">Purchase History</string>
+
+    <!-- Purchase History -->
+    <string name="purchase_history_total">Total: $%s</string>
+    <string name="title_activity_purchase_history_overview">Purchase Order Information</string>
 
 </resources>

@@ -2,7 +2,9 @@ package parse.subclasses;
 
 import android.net.Uri;
 
+import com.parse.Parse;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -48,9 +50,13 @@ public class Badge extends ParseObject {
     }
 
     public String getName() {
-        String name = getString(NAME);
-        if (name == null) return "";
-        return name;
+        try {
+            String name = fetchIfNeeded().getString(NAME);
+            if (name == null) return "";
+            return name;
+        } catch (ParseException e) {
+            return "";
+        }
     }
     public void setName(String name) {
         put(NAME, name);

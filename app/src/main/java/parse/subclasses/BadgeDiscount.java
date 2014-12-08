@@ -1,8 +1,10 @@
 package parse.subclasses;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -24,11 +26,20 @@ public class BadgeDiscount extends ParseObject {
     public BadgeDiscount() {  }
 
     public double getDiscountRate() {
-        return getNumber(DISCOUNTRATE).doubleValue();
+        try {
+            return fetchIfNeeded().getNumber(DISCOUNTRATE).doubleValue();
+        } catch (ParseException e) {
+            return 0;
+        }
     }
 
     public Badge getBadge() {
-        return (Badge)getParseObject(BADGE);
+        try {
+            return (Badge) fetchIfNeeded().getParseObject(BADGE);
+        } catch (ParseException e) {
+            Log.i(App.APPTAG, e.getMessage());
+            return null;
+        }
     }
 
     public static ParseQuery<BadgeDiscount> getBadgeDiscounts(Badge badge) {

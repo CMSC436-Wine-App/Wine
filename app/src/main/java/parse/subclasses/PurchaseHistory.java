@@ -17,7 +17,31 @@ import wine.cmsc436.wine.App;
 @ParseClassName("PurchaseHistory")
 public class PurchaseHistory extends ParseObject {
 
-    public PurchaseHistory() {  }
+    private static final String USER = "user";
+    private static final String PURCHASETOTAL = "purchaseTotal";
+
+    public PurchaseHistory() { }
+
+    public PurchaseHistory(User user, Double purchaseTotal) {
+        setUser(user);
+        setPurchaseTotal(purchaseTotal);
+    }
+
+    public void setUser(User user) {
+        put(USER, user);
+    }
+
+    public User getUser() {
+        return (User)getParseObject(USER);
+    }
+
+    public void setPurchaseTotal(Double purchaseTotal) {
+        put(PURCHASETOTAL, purchaseTotal);
+    }
+
+    public double getPurchaseTotal() {
+        return getDouble(PURCHASETOTAL);
+    }
 
     public static ParseQuery<PurchaseHistory> getQuery() {
         return ParseQuery.getQuery(PurchaseHistory.class);

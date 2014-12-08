@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.parse.ParseImageView;
 
 import java.util.Arrays;
 
+import parse.subclasses.PurchaseHistory;
 import parse.subclasses.Review;
 import parse.subclasses.User;
 
@@ -109,6 +111,16 @@ public class UserProfile extends ListActivity {
             photoImageView.setParseFile(imageFile);
             photoImageView.loadInBackground();
         }
+
+        Button phButton = (Button)findViewById(R.id.b_purchase_history);
+        phButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserProfile.this, PurchaseHistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override

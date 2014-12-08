@@ -96,6 +96,11 @@ public class Purchase extends ParseObject {
         return ParseQuery.getQuery(Purchase.class).whereEqualTo("wine", wine);
     }
 
+    public static ParseQuery<Purchase> getPurchaseList(PurchaseHistory ph) {
+        Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, App.RestaurantID);
+        return ParseQuery.getQuery(Purchase.class).whereEqualTo(PURCHASEHISTORY, ph);
+    }
+
     public static ParseQuery<Purchase> getPurchaseWines(User user) {
         Restaurant restaurant = ParseObject.createWithoutData(Restaurant.class, App.RestaurantID);
         return ParseQuery.getQuery(Purchase.class)

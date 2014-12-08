@@ -104,8 +104,6 @@ public class CompletePurchaseActivity extends Activity {
                             .setNegativeButton(R.string.purchase_dialog_cancel, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    completeOrder();
-                                    finish();
                                 }
                             });
                     builder.create().show();
@@ -154,8 +152,11 @@ public class CompletePurchaseActivity extends Activity {
 
     public void savePurchases() {
         try {
-            PurchaseHistory purchaseHistory = new PurchaseHistory();
+            String total = App.currentPurchases.getTotal();
+            double purchaseTotal = Double.valueOf(total.substring(total.indexOf("$") + 1, total.length()));
+            PurchaseHistory purchaseHistory = new PurchaseHistory(User.getCurrentUser(), purchaseTotal);
             purchaseHistory.save();
+
             for (int i = 0; i < App.currentPurchases.size(); i++) {
                 WinePurchase wp = App.currentPurchases.get(i);
                 Purchase p = new Purchase(User.getCurrentUser(), wp.getPurchase().getWine());
@@ -168,8 +169,7 @@ public class CompletePurchaseActivity extends Activity {
                     p.setPaidPrice(discountedPrice);
                     p.setDiscountApplied(true);
                     p.setBadgeDiscount(App.currentPurchases.getDiscountedInfo(wp));
-                }
-                else {
+                } else {
                     p.setPaidPrice(normalPrice);
                     p.setDiscountApplied(false);
                 }

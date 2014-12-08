@@ -122,8 +122,18 @@
         </activity>
         <activity
             android:name="wine.cmsc436.wine.DiscountOverviewActivity"
-            android:parentActivityName="wine.cmsc436.wine.CompletePurchaseActivity"
-            android:label="@string/title_activity_discount_overview" >
+            android:label="@string/title_activity_discount_overview"
+            android:parentActivityName="wine.cmsc436.wine.CompletePurchaseActivity" >
+        </activity>
+        <activity
+            android:name="wine.cmsc436.wine.PurchaseHistoryActivity"
+            android:parentActivityName="wine.cmsc436.wine.UserProfile"
+            android:label="@string/title_activity_purchase_history" >
+        </activity>
+        <activity
+            android:name="wine.cmsc436.wine.PurchaseHistoryOverviewActivity"
+            android:parentActivityName="wine.cmsc436.wine.PurchaseHistoryActivity"
+            android:label="@string/title_activity_purchase_history_overview" >
         </activity>
     </application>
 
