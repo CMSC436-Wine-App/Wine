@@ -6,3 +6,4 @@
 /build
 ParseLoginUI/build
 facebook/build
+.idea/gradle.xml
