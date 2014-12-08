@@ -8,10 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,11 +21,13 @@ import com.facebook.Session;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
 import com.parse.CountCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
@@ -47,11 +51,27 @@ public class UserProfile extends ListActivity {
     private UiLifecycleHelper uiHelper;
     private Intent shareData;
 
+    User selectedUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         this.getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        String userId = User.getObjectId(getIntent().getData());
+        GetCallback<ParseUser> userGetCallback = new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e != null) {
+                    Toast toast = Toast.makeText(UserProfile.this, e.getMessage(), Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
+                selectedUser = (User) user;
+                updateView(selectedUser);
+            }
+        };
 
         facebookPost = new FacebookPost(this, uiHelper);
         uiHelper = new UiLifecycleHelper(this, null);
@@ -62,27 +82,9 @@ public class UserProfile extends ListActivity {
         getListView().addHeaderView(header);
 
         // Create new ListAdapter
-        mAdapter = new UserReviewListAdapter(getApplicationContext());
-
-        // Put divider between ToDoItems and FooterView
-        getListView().setFooterDividersEnabled(true);
-
-        // Inflate footerView for footer_view.xml file
-        TextView footerView = (TextView) getLayoutInflater().inflate(R.layout.review_footer, null);
-
+        mAdapter = new UserReviewListAdapter(getApplicationContext(), userId);
         // Attach the adapter to this ListActivity's ListView
         setListAdapter(mAdapter);
-
-        // Add footerView to ListView
-        getListView().addFooterView(footerView);
-
-        footerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent wine_item = new Intent(UserProfile.this, NewWineReview.class);
-                startActivityForResult(wine_item, ADD_REVIEW_REQEST);
-            }
-        });
 
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -104,26 +106,6 @@ public class UserProfile extends ListActivity {
             }
         });
 
-        User user = User.getCurrentUser();
-
-        // get profile data
-        TextView nameView = (TextView) findViewById(R.id.tv_wine_review);
-        nameView.setText(user.getString("name"));
-
-//        ParseImageView photoImageView = (ParseImageView) findViewById(R.id.iv_user_profile_pic);
-//        ParseFile imageFile = user.getPhoto();
-//        if (imageFile != null) {
-//            photoImageView.setParseFile(imageFile);
-//            photoImageView.loadInBackground();
-//        }
-        ImageView photoImageView = (ImageView) findViewById(R.id.iv_user_profile_pic);
-        ParseFile imageFile = user.getPhoto();
-        if (imageFile != null) {
-            Picasso.with(this)
-                    .load(imageFile.getUrl())
-                    .into(photoImageView);
-        }
-
         Button earnBadgeButton = (Button)findViewById(R.id.b_badges);
         earnBadgeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +113,7 @@ public class UserProfile extends ListActivity {
                 Intent intent = new Intent(UserProfile.this, BadgeListActivity.class);
                 intent.putExtra("isUser", true);
                 intent.putExtra("title", "User Profile");
-                intent.setData(User.getCurrentUser().getUri());
+                intent.setData(selectedUser.getUri());
                 startActivity(intent);
             }
         });
@@ -145,11 +127,33 @@ public class UserProfile extends ListActivity {
             }
         });
 
+        if (userId.equals(User.getCurrentUser().getObjectId())) {
+            selectedUser = User.getCurrentUser();
+            updateView(selectedUser);
+
+            // Put divider between ToDoItems and FooterView
+            getListView().setFooterDividersEnabled(true);
+            // Inflate footerView for footer_view.xml file
+            TextView footerView = (TextView) getLayoutInflater().inflate(R.layout.review_footer, null);
+            // Add footerView to ListView
+            getListView().addFooterView(footerView);
+            footerView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent wine_item = new Intent(UserProfile.this, NewWineReview.class);
+                    startActivityForResult(wine_item, ADD_REVIEW_REQEST);
+                }
+            });
+        } else {
+            ParseQuery<ParseUser> userQuery = User.getQuery();
+            userQuery.getInBackground(userId, userGetCallback);
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        updateView(selectedUser);
         mAdapter.notifyDataSetChanged();
         uiHelper.onResume();
     }
@@ -170,6 +174,16 @@ public class UserProfile extends ListActivity {
     public void onDestroy() {
         super.onDestroy();
         uiHelper.onDestroy();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -237,6 +251,31 @@ public class UserProfile extends ListActivity {
             }
         });
 
+    }
+
+    private void updateView(final User user) {
+        if (user != null) {
+            // get profile data
+            TextView nameView = (TextView) findViewById(R.id.tv_wine_review);
+            nameView.setText(user.getString("name"));
+
+//        ParseImageView photoImageView = (ParseImageView) findViewById(R.id.iv_user_profile_pic);
+//        ParseFile imageFile = user.getPhoto();
+//        if (imageFile != null) {
+//            photoImageView.setParseFile(imageFile);
+//            photoImageView.loadInBackground();
+//        }
+            ImageView photoImageView = (ImageView) findViewById(R.id.iv_user_profile_pic);
+            ParseFile imageFile = user.getPhoto();
+            if (imageFile != null) {
+                Picasso.with(this)
+                        .load(imageFile.getUrl())
+                        .into(photoImageView);
+            }
+
+            RelativeLayout layout = (RelativeLayout) findViewById(R.id.user_profile_layout);
+            layout.setVisibility(View.VISIBLE);
+        }
     }
 
 }

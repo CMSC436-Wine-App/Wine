@@ -184,6 +184,16 @@ public class WineDetailActivity extends ActionBarActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data){
 
         if (requestCode == FB_SESSION_RESULT){
@@ -247,6 +257,8 @@ public class WineDetailActivity extends ActionBarActivity {
         });
 
     }
+
+
 
     private void showPurchaseDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(WineDetailActivity.this);

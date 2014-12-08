@@ -39,8 +39,7 @@
         </activity>
         <activity
             android:name="wine.cmsc436.wine.UserProfile"
-            android:label="@string/profile_page"
-            android:parentActivityName="wine.cmsc436.wine.WineActivity" >
+            android:label="@string/profile_page" >
         </activity>
         <activity android:name="wine.cmsc436.wine.NewWineReview" >
         </activity>

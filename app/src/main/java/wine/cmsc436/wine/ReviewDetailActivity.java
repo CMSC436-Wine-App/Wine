@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -126,6 +127,9 @@ public class ReviewDetailActivity extends BaseActivity {
                 toast.show();
             }
             return true;
+        } else if (id == android.R.id.home) {
+            super.onBackPressed();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -169,6 +173,7 @@ public class ReviewDetailActivity extends BaseActivity {
     private void updateView(final Review review) {
         if (review != null) {
             final TextView userName = (TextView) findViewById(R.id.userName);
+            final Button profileBtn = (Button) findViewById(R.id.profileBtn);
             final RatingBar overallRatingBar = (RatingBar) findViewById(R.id.overallRating);
             final RatingBar noseRatingBar = (RatingBar) findViewById(R.id.noseRating);
             final RatingBar colorRatingBar = (RatingBar) findViewById(R.id.colorRating);
@@ -188,6 +193,22 @@ public class ReviewDetailActivity extends BaseActivity {
             final LinearLayout varietalsList = (LinearLayout) findViewById(R.id.varietalsList);
             // user
             userName.setText(review.getUser().getName());
+            userName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ReviewDetailActivity.this, UserProfile.class);
+                    intent.setData(selectedReview.getUser().getUri());
+                    ReviewDetailActivity.this.startActivity(intent);
+                }
+            });
+            profileBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ReviewDetailActivity.this, UserProfile.class);
+                    intent.setData(selectedReview.getUser().getUri());
+                    ReviewDetailActivity.this.startActivity(intent);
+                }
+            });
             // ratings
             overallRatingBar.setRating(review.getRating().floatValue());
             noseRatingBar.setRating(review.getNoseRating().floatValue());
