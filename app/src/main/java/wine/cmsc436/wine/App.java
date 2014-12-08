@@ -109,11 +109,9 @@ public class App extends Application {
             ParseQuery<Purchase> winePurchases = Purchase.getPurchaseWines(User.getCurrentUser());
             try {
                 List<Purchase> purchases = winePurchases.find();
-                if (purchases.size() > 0) {
-                    if (ubt == UBadgeType.WinePurchase) {
-                        availBadges.clear();
-                        getWinePurchaseBadges(purchases);
-                    }
+                if (ubt == UBadgeType.WinePurchase) {
+                    availBadges.clear();
+                    getWinePurchaseBadges(purchases);
                 }
             } catch (ParseException e) {
                 Log.i("ASDF", e.getMessage());
