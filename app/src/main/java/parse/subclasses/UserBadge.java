@@ -20,13 +20,24 @@ public class UserBadge extends ParseObject {
     private static final String USER = "user";
     private static final String WINE = "wine";
     private static final String ISUSED = "used";
+    private static final String TYPE = "type";
 
-    public UserBadge() {  }
+    public UserBadge() {
+    }
 
-    public UserBadge(User user, Wine wine, Badge badge) {
+    public UserBadge(User user, Wine wine, Badge badge, String type) {
         setUser(user);
         setWine(wine);
         setBadge(badge);
+        setType(type);
+    }
+
+    public void setType(String t) {
+        put(TYPE, t);
+    }
+
+    public String getType() {
+        return getString(TYPE);
     }
 
     public void setUser(User user) {
@@ -34,7 +45,7 @@ public class UserBadge extends ParseObject {
     }
 
     public User getUser() {
-        return (User)getParseObject(USER);
+        return (User) getParseObject(USER);
     }
 
     public void setWine(Wine wine) {
@@ -50,7 +61,7 @@ public class UserBadge extends ParseObject {
     }
 
     public Wine getWine() {
-        return (Wine)getParseObject(WINE);
+        return (Wine) getParseObject(WINE);
     }
 
     public void setBadge(Badge badge) {
@@ -58,7 +69,7 @@ public class UserBadge extends ParseObject {
     }
 
     public Badge getBadge() {
-        return (Badge)getParseObject(BADGE);
+        return (Badge) getParseObject(BADGE);
     }
 
     public static ParseQuery<UserBadge> getWineBadges(Wine wine, Badge badge, User user) {
@@ -69,12 +80,25 @@ public class UserBadge extends ParseObject {
     }
 
 
-    public static ParseQuery<Badge> getQuery() {
-        return ParseQuery.getQuery(Badge.class);
+    public static ParseQuery<UserBadge> getQuery() {
+        return ParseQuery.getQuery(UserBadge.class);
     }
+
 
     private static final String SCHEME = "wineApp";
     private static final String URI_PATH = "BadgeDiscount";
+
+    @Override
+    public boolean equals(Object o) {
+        // TODO: This could break things
+        if (o instanceof UserBadge) {
+            UserBadge other = (UserBadge)o;
+            if (other.getBadge().getName().equals(getBadge().getName()))
+                return true;
+        }
+        return false;
+    }
+
 
     public Uri getUri() {
         Uri.Builder builder = new Uri.Builder();

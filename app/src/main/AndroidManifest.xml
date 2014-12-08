@@ -127,13 +127,21 @@
         </activity>
         <activity
             android:name="wine.cmsc436.wine.PurchaseHistoryActivity"
-            android:parentActivityName="wine.cmsc436.wine.UserProfile"
-            android:label="@string/title_activity_purchase_history" >
+            android:label="@string/title_activity_purchase_history"
+            android:parentActivityName="wine.cmsc436.wine.UserProfile" >
         </activity>
         <activity
             android:name="wine.cmsc436.wine.PurchaseHistoryOverviewActivity"
-            android:parentActivityName="wine.cmsc436.wine.PurchaseHistoryActivity"
-            android:label="@string/title_activity_purchase_history_overview" >
+            android:label="@string/title_activity_purchase_history_overview"
+            android:parentActivityName="wine.cmsc436.wine.PurchaseHistoryActivity" >
+        </activity>
+        <activity
+            android:name="wine.cmsc436.wine.ViewBadgesActivity"
+            android:label="@string/title_activity_view_badges" >
+        </activity>
+        <activity
+            android:name="wine.cmsc436.wine.UserBadgeAttrActivity"
+            android:label="@string/title_activity_user_badge_attr" >
         </activity>
     </application>
 

@@ -31,6 +31,8 @@ public class App extends Application {
     // Debugging tag for the application
     public static final String APPTAG = "CMSC436-Wine-App";
 
+    public static enum UBadgeType { WinePurchase, WineReview, PurchaseCount }
+
     // Key for saving the search distance preference
     private static final String KEY_SEARCH_DISTANCE = "searchDistance";
 
@@ -137,7 +139,7 @@ public class App extends Application {
                         List<UserBadge> userBadges = unusedBadges.find();
                         // Add the badge, we don't have this one (thus havent used it).
                         if (userBadges.size() == 0) {
-                            UserBadge newEntry = new UserBadge(User.getCurrentUser(), w, checkBadge);
+                            UserBadge newEntry = new UserBadge(User.getCurrentUser(), w, checkBadge, UBadgeType.WinePurchase.toString());
                             if (checkBadge.getIsWineBadge()) {
                                 // Add it to our local HashMap
                                 // Get the discount for it, so we can add it.

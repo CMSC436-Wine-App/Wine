@@ -116,6 +116,17 @@ public class UserProfile extends ListActivity {
             photoImageView.loadInBackground();
         }
 
+        Button earnBadgeButton = (Button)findViewById(R.id.b_badges);
+        earnBadgeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserProfile.this, BadgeListActivity.class);
+                intent.putExtra("isUser", true);
+                intent.setData(User.getCurrentUser().getUri());
+                startActivity(intent);
+            }
+        });
+
         Button phButton = (Button)findViewById(R.id.b_purchase_history);
         phButton.setOnClickListener(new View.OnClickListener() {
             @Override
