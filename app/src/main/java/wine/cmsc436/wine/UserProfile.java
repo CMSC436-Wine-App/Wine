@@ -169,13 +169,7 @@ public class UserProfile extends ListActivity {
                                 }
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent data = new Intent();
-                                setResult(RESULT_OK, data);
-                                finish();
-                            }
-                        });
+                        .setNegativeButton("Cancel", null);
                 builder.create().show();
             }
         } else if (requestCode == FB_SESSION_RESULT){

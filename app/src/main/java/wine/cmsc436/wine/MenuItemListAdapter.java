@@ -19,13 +19,15 @@ import parse.subclasses.Wine;
 
 public class MenuItemListAdapter extends ParseQueryAdapter<Wine> {
 
-    public MenuItemListAdapter(Context context) {
+    public MenuItemListAdapter(Context context, final boolean removeReviewedWines) {
         super(context, new ParseQueryAdapter.QueryFactory<Wine>() {
             public ParseQuery create() {
                 ParseQuery<Wine> wineQuery = Wine.getQuery();
-//                ParseQuery<Wine> reviewedWinesQuery = User.getCurrentUser().getReviewedWines();
                 wineQuery.fromLocalDatastore();
-//                wineQuery.whereDoesNotMatchKeyInQuery("objectId", "objectId", reviewedWinesQuery);
+                if (removeReviewedWines) {
+                    ParseQuery<Wine> reviewedWinesQuery = User.getCurrentUser().getReviewedWines();
+                    wineQuery.whereDoesNotMatchKeyInQuery("objectId", "objectId", reviewedWinesQuery);
+                }
                 return wineQuery;
             }
         });

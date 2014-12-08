@@ -210,13 +210,7 @@ public class WineDetailActivity extends ActionBarActivity {
                                 }
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent data = new Intent();
-                                setResult(RESULT_OK, data);
-                                finish();
-                            }
-                        });
+                        .setNegativeButton("Cancel", null);
                 builder.create().show();
             }
         }

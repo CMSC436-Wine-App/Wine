@@ -21,8 +21,10 @@ import com.facebook.Session;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import org.json.JSONArray;
@@ -72,6 +74,7 @@ public class NewWineReview extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NewWineReview.this, MenuItemListActivity.class);
+                intent.putExtra("removeReviewedWines", true);
                 startActivityForResult(intent, WINE_SELECT);
             }
         });
@@ -228,38 +231,50 @@ public class NewWineReview extends BaseActivity {
                 Toast.makeText(getApplicationContext(), "Must select a wine", Toast.LENGTH_LONG).show();
                 return false;
             }
-
-            final User user = User.getCurrentUser();
-            review.setComment(description.getText().toString());
-            review.setRating(overallRatingBar.getRating());
-            review.setNoseRating(noseRatingBar.getRating());
-            review.setColorRating(colorRatingBar.getRating());
-            review.setTasteRating(tasteRatingBar.getRating());
-            review.setFinishRating(finishRatingBar.getRating());
-            review.setUser(user);
-            review.saveInBackground(new SaveCallback() {
+            ParseQuery<Wine> reviewedWinesQuery = User.getCurrentUser().getReviewedWines();
+            reviewedWinesQuery.getInBackground(review.getWine().getObjectId(), new GetCallback<Wine>() {
                 @Override
-                public void done(ParseException e) {
-                    if (e != null) {
-                        Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG);
+                public void done(Wine wine, ParseException e) {
+                    if (e == null) {
+                        // wine has been reviewed
+                        Toast toast = Toast.makeText(NewWineReview.this, "You have already reviewed this wine", Toast.LENGTH_LONG);
                         toast.show();
                         return;
-                    }
-                    user.addReview(review);
-                    user.addReviewedWine(review.getWine());
-                    user.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e != null) {
-                                Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG);
-                                toast.show();
-                                return;
+                    } else {
+                        final User user = User.getCurrentUser();
+                        review.setComment(description.getText().toString());
+                        review.setRating(overallRatingBar.getRating());
+                        review.setNoseRating(noseRatingBar.getRating());
+                        review.setColorRating(colorRatingBar.getRating());
+                        review.setTasteRating(tasteRatingBar.getRating());
+                        review.setFinishRating(finishRatingBar.getRating());
+                        review.setUser(user);
+                        review.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e != null) {
+                                    Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG);
+                                    toast.show();
+                                    return;
+                                }
+                                user.addReview(review);
+                                user.addReviewedWine(review.getWine());
+                                user.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e != null) {
+                                            Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG);
+                                            toast.show();
+                                            return;
+                                        }
+                                        Intent data = FacebookPost.createDataFromReview(review);
+                                        setResult(RESULT_OK, data);
+                                        finish();
+                                    }
+                                });
                             }
-                            Intent data = FacebookPost.createDataFromReview(review);
-                            setResult(RESULT_OK, data);
-                            finish();
-                        }
-                    });
+                        });
+                    }
                 }
             });
             return true;
