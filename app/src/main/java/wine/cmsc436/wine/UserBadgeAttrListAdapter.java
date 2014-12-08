@@ -5,11 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -66,11 +68,18 @@ public class UserBadgeAttrListAdapter extends BaseAdapter {
         wcLayout.addView(convertView);
 
         // Add and download the image
-        ParseImageView photoImageView = (ParseImageView) convertView.findViewById(R.id.wine_photo);
+//        ParseImageView photoImageView = (ParseImageView) convertView.findViewById(R.id.wine_photo);
+//        ParseFile imageFile = wine.getPhotoSmall();
+//        if (imageFile != null) {
+//            photoImageView.setParseFile(imageFile);
+//            photoImageView.loadInBackground();
+//        }
+        ImageView photoImageView = (ImageView) convertView.findViewById(R.id.wine_photo);
         ParseFile imageFile = wine.getPhotoSmall();
         if (imageFile != null) {
-            photoImageView.setParseFile(imageFile);
-            photoImageView.loadInBackground();
+            Picasso.with(mContext)
+                    .load(imageFile.getUrl())
+                    .into(photoImageView);
         }
 
         // Add the title view

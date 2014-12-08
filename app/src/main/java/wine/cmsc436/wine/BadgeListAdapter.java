@@ -3,6 +3,7 @@ package wine.cmsc436.wine;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.ParseFile;
@@ -10,6 +11,7 @@ import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.squareup.picasso.Picasso;
 
 import parse.subclasses.Badge;
 import parse.subclasses.Restaurant;
@@ -38,11 +40,18 @@ public class BadgeListAdapter extends ParseQueryAdapter<Badge> {
         super.getItemView(badge, v, parent);
 
         // Add and download the image
-        ParseImageView photoImageView = (ParseImageView) v.findViewById(R.id.badge_photo);
+//        ParseImageView photoImageView = (ParseImageView) v.findViewById(R.id.badge_photo);
+//        ParseFile imageFile = badge.getPhoto();
+//        if (imageFile != null) {
+//            photoImageView.setParseFile(imageFile);
+//            photoImageView.loadInBackground();
+//        }
+        ImageView photoImageView = (ImageView) v.findViewById(R.id.badge_photo);
         ParseFile imageFile = badge.getPhoto();
         if (imageFile != null) {
-            photoImageView.setParseFile(imageFile);
-            photoImageView.loadInBackground();
+            Picasso.with(getContext())
+                    .load(imageFile.getUrl())
+                    .into(photoImageView);
         }
 
         TextView nameTextView = (TextView) v.findViewById(R.id.badge_name);

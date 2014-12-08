@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -54,11 +56,18 @@ public class UserReviewListAdapter extends ParseQueryAdapter<Review> {
         RatingBar ratingBar = (RatingBar) v.findViewById(R.id.r_wine_rating);
         ratingBar.setRating(review.getRating().floatValue());
 
-        ParseImageView photoImageView = (ParseImageView) v.findViewById(R.id.iv_wine_thumbnail);
+//        ParseImageView photoImageView = (ParseImageView) v.findViewById(R.id.iv_wine_thumbnail);
+//        ParseFile imageFile = review.getWine().getPhotoSmall();
+//        if (imageFile != null) {
+//            photoImageView.setParseFile(imageFile);
+//            photoImageView.loadInBackground();
+//        }
+        ImageView photoImageView = (ImageView) v.findViewById(R.id.iv_wine_thumbnail);
         ParseFile imageFile = review.getWine().getPhotoSmall();
         if (imageFile != null) {
-            photoImageView.setParseFile(imageFile);
-            photoImageView.loadInBackground();
+            Picasso.with(getContext())
+                    .load(imageFile.getUrl())
+                    .into(photoImageView);
         }
 
         return v;

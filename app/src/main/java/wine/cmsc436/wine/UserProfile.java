@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
+import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 
@@ -108,12 +110,18 @@ public class UserProfile extends ListActivity {
         TextView nameView = (TextView) findViewById(R.id.tv_wine_review);
         nameView.setText(user.getString("name"));
 
-        ParseImageView photoImageView = (ParseImageView) findViewById(R.id.iv_user_profile_pic);
+//        ParseImageView photoImageView = (ParseImageView) findViewById(R.id.iv_user_profile_pic);
+//        ParseFile imageFile = user.getPhoto();
+//        if (imageFile != null) {
+//            photoImageView.setParseFile(imageFile);
+//            photoImageView.loadInBackground();
+//        }
+        ImageView photoImageView = (ImageView) findViewById(R.id.iv_user_profile_pic);
         ParseFile imageFile = user.getPhoto();
-
         if (imageFile != null) {
-            photoImageView.setParseFile(imageFile);
-            photoImageView.loadInBackground();
+            Picasso.with(this)
+                    .load(imageFile.getUrl())
+                    .into(photoImageView);
         }
 
         Button earnBadgeButton = (Button)findViewById(R.id.b_badges);

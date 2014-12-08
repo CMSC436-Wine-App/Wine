@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -86,11 +88,18 @@ public class UserBadgeListAdapter extends BaseAdapter {
         Badge badge = userBadge.getBadge();
 
         // Add and download the image
-        ParseImageView photoImageView = (ParseImageView) convertView.findViewById(R.id.badge_photo);
+//        ParseImageView photoImageView = (ParseImageView) convertView.findViewById(R.id.badge_photo);
+//        ParseFile imageFile = badge.getPhoto();
+//        if (imageFile != null) {
+//            photoImageView.setParseFile(imageFile);
+//            photoImageView.loadInBackground();
+//        }
+        ImageView photoImageView = (ImageView) convertView.findViewById(R.id.badge_photo);
         ParseFile imageFile = badge.getPhoto();
         if (imageFile != null) {
-            photoImageView.setParseFile(imageFile);
-            photoImageView.loadInBackground();
+            Picasso.with(mContext)
+                    .load(imageFile.getUrl())
+                    .into(photoImageView);
         }
 
         TextView nameTextView = (TextView) convertView.findViewById(R.id.badge_name);
