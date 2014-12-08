@@ -97,27 +97,51 @@ public class App extends Application {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                addAvailableWineBadges(UBadgeType.WinePurchase);
-                addAvailableWineBadges(UBadgeType.WineReview);
+                if (User.getCurrentUser() != null) {
+                    addAvailableWineBadges(UBadgeType.WinePurchase);
+                    addAvailableWineBadges(UBadgeType.PurchaseCount);
+                    addAvailableWineBadges(UBadgeType.WineReview);
+                }
             }
         }).start();
     }
 
     public static void addAvailableWineBadges(UBadgeType ubt) {
         // Look at all of our purchases for this user
-        if (ubt == UBadgeType.PurchaseCount || ubt == UBadgeType.WinePurchase) {
-            ParseQuery<Purchase> winePurchases = Purchase.getPurchaseWines(User.getCurrentUser());
-            try {
-                List<Purchase> purchases = winePurchases.find();
-                if (ubt == UBadgeType.WinePurchase) {
-                    availBadges.clear();
-                    getWinePurchaseBadges(purchases);
-                }
-            } catch (ParseException e) {
-                Log.i("ASDF", e.getMessage());
-            }
+        if (ubt == UBadgeType.WinePurchase) {
+            availBadges.clear();
+            getWinePurchaseBadges();
+        } else if (ubt == UBadgeType.PurchaseCount) {
+            getWinePurchaseCountBadges();
         } else if (ubt == UBadgeType.WineReview) {
             getUserReviewBadges();
+        }
+    }
+
+    private static void getWinePurchaseCountBadges() {
+        try {
+            ParseQuery<PurchaseHistory> phQuery = PurchaseHistory.getQuery();
+            phQuery.whereEqualTo("user", User.getCurrentUser());
+            List<PurchaseHistory> purchases = phQuery.find();
+
+            ParseQuery<Badge> findEligibleBadges = Badge.getQuery();
+            findEligibleBadges.whereLessThanOrEqualTo("reqCount", purchases.size());
+            findEligibleBadges.whereEqualTo("type", UBadgeType.PurchaseCount.toString());
+            List<Badge> eligibleBadges = findEligibleBadges.find();
+
+            ParseQuery<UserBadge> ubExists = UserBadge.getQuery();
+            for (int i = 0; i < eligibleBadges.size(); i++) {
+                ubExists.whereEqualTo("user", User.getCurrentUser());
+                ubExists.whereEqualTo("badge", eligibleBadges.get(i));
+                List<UserBadge> existingUB = ubExists.find();
+                if (existingUB.isEmpty()) {
+                    UserBadge ub = new UserBadge(User.getCurrentUser(), eligibleBadges.get(i));
+                    ub.setUsed(true);
+                    ub.save();
+                }
+            }
+        } catch (ParseException e) {
+            Log.i(App.APPTAG, e.getMessage());
         }
     }
 
@@ -148,8 +172,10 @@ public class App extends Application {
         }
     }
 
-    private static void getWinePurchaseBadges(List<Purchase> purchases) {
+    private static void getWinePurchaseBadges() {
         try {
+            ParseQuery<Purchase> winePurchases = Purchase.getPurchaseWines(User.getCurrentUser());
+            List<Purchase> purchases = winePurchases.find();
             // For each purchase, get the wine and check if we have a discount rate which
             // we qualify for, for that one already
             for (int i = 0; i < purchases.size(); i++) {
