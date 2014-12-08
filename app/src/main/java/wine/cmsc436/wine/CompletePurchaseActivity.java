@@ -1,43 +1,27 @@
 package wine.cmsc436.wine;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import parse.subclasses.Badge;
 import parse.subclasses.BadgeDiscount;
-import parse.subclasses.MenuItem;
 import parse.subclasses.Purchase;
-import parse.subclasses.MenuItem;
 import parse.subclasses.PurchaseHistory;
 import parse.subclasses.User;
 import parse.subclasses.UserBadge;
@@ -135,7 +119,7 @@ public class CompletePurchaseActivity extends Activity {
                 BadgeDiscount bd = App.currentPurchases.getDiscountedInfo(wp);
                 final Badge usedBadge = bd.getBadge();
 
-                ParseQuery<UserBadge> unusedBadges = UserBadge.getUnusedBadges(w, usedBadge, User.getCurrentUser());
+                ParseQuery<UserBadge> unusedBadges = UserBadge.getWineBadges(w, usedBadge, User.getCurrentUser());
                 List<UserBadge> userBadges = unusedBadges.find();
                 if (userBadges.size() == 0) {
                     Log.i(App.APPTAG, "Badge being unused not found: " + usedBadge.getName());

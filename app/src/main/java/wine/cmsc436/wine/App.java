@@ -3,24 +3,18 @@ package wine.cmsc436.wine;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseTwitterUtils;
-import com.parse.ParseUser;
-import com.parse.ui.ParseLoginBuilder;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -145,7 +139,7 @@ public class App extends Application {
                     for (int j = 0; j < badges.size(); j++) {
                         // Check for each badge, if it is a wine badge, if we have used it
                         final Badge checkBadge = badges.get(j);
-                        ParseQuery<UserBadge> unusedBadges = UserBadge.getUnusedBadges(w, checkBadge, User.getCurrentUser());
+                        ParseQuery<UserBadge> unusedBadges = UserBadge.getWineBadges(w, checkBadge, User.getCurrentUser());
                         List<UserBadge> userBadges = unusedBadges.find();
                         // Add the badge, we don't have this one (thus havent used it).
                         if (userBadges.size() == 0) {

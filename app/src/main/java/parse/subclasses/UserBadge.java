@@ -61,7 +61,7 @@ public class UserBadge extends ParseObject {
         return (Badge)getParseObject(BADGE);
     }
 
-    public static ParseQuery<UserBadge> getUnusedBadges(Wine wine, Badge badge, User user) {
+    public static ParseQuery<UserBadge> getWineBadges(Wine wine, Badge badge, User user) {
         return ParseQuery.getQuery(UserBadge.class)
                 .whereEqualTo(WINE, wine)
                 .whereEqualTo(BADGE, badge)
