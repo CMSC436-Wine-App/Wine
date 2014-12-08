@@ -1,6 +1,7 @@
 package wine.cmsc436.wine;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,11 @@ public class MenuItemListAdapter extends ParseQueryAdapter<Wine> {
         super(context, new ParseQueryAdapter.QueryFactory<Wine>() {
             public ParseQuery create() {
                 ParseQuery<Wine> wineQuery = Wine.getQuery();
-                wineQuery.fromLocalDatastore();
                 if (removeReviewedWines) {
                     ParseQuery<Wine> reviewedWinesQuery = User.getCurrentUser().getReviewedWines();
                     wineQuery.whereDoesNotMatchKeyInQuery("objectId", "objectId", reviewedWinesQuery);
+                } else {
+                    wineQuery.fromLocalDatastore();
                 }
                 return wineQuery;
             }

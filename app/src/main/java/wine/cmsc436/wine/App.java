@@ -73,20 +73,14 @@ public class App extends Application {
         wineQuery.findInBackground(new FindCallback<Wine>() {
             public void done(List<Wine> newWines, ParseException e) {
                 if (e != null) {
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            e.getMessage(), Toast.LENGTH_LONG);
-                    toast.show();
-                    return;
+                    Log.e(APPTAG, e.getMessage());
                 }
                 final List<Wine> wines = newWines;
                 // Remove the previously cached results.
                 ParseObject.unpinAllInBackground("wines", new DeleteCallback() {
                     public void done(ParseException e) {
                         if (e != null) {
-                            Toast toast = Toast.makeText(getApplicationContext(),
-                                    e.getMessage(), Toast.LENGTH_LONG);
-                            toast.show();
-                            return;
+                            Log.e(APPTAG, e.getMessage());
                         }
                         // Cache the new results.
                         ParseObject.pinAllInBackground("wines", wines);

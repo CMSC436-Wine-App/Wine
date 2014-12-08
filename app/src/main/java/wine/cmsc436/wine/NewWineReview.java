@@ -231,49 +231,57 @@ public class NewWineReview extends BaseActivity {
                 Toast.makeText(getApplicationContext(), "Must select a wine", Toast.LENGTH_LONG).show();
                 return false;
             }
-            ParseQuery<Wine> reviewedWinesQuery = User.getCurrentUser().getReviewedWines();
-            reviewedWinesQuery.getInBackground(review.getWine().getObjectId(), new GetCallback<Wine>() {
+            ParseQuery<Review> reviewsQuery = User.getCurrentUser().getReviews();
+            reviewsQuery.whereEqualTo("wine", review.getWine());
+            reviewsQuery.getFirstInBackground(new GetCallback<Review>() {
                 @Override
-                public void done(Wine wine, ParseException e) {
-                    if (e == null) {
+                public void done(Review existingReview, ParseException e) {
+                    if (e != null) {
+                        if (e.getCode() != 101) {
+                            Toast toast = Toast.makeText(NewWineReview.this, e.getMessage(), Toast.LENGTH_LONG);
+                            toast.show();
+                            return;
+                        } else {
+                            // wine not yet reviewed
+                            final User user = User.getCurrentUser();
+                            review.setComment(description.getText().toString());
+                            review.setRating(overallRatingBar.getRating());
+                            review.setNoseRating(noseRatingBar.getRating());
+                            review.setColorRating(colorRatingBar.getRating());
+                            review.setTasteRating(tasteRatingBar.getRating());
+                            review.setFinishRating(finishRatingBar.getRating());
+                            review.setUser(user);
+                            review.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e != null) {
+                                        Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG);
+                                        toast.show();
+                                        return;
+                                    }
+                                    user.addReview(review);
+                                    user.addReviewedWine(review.getWine());
+                                    user.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e != null) {
+                                                Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG);
+                                                toast.show();
+                                                return;
+                                            }
+                                            Intent data = FacebookPost.createDataFromReview(review);
+                                            setResult(RESULT_OK, data);
+                                            finish();
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    } else {
                         // wine has been reviewed
                         Toast toast = Toast.makeText(NewWineReview.this, "You have already reviewed this wine", Toast.LENGTH_LONG);
                         toast.show();
                         return;
-                    } else {
-                        final User user = User.getCurrentUser();
-                        review.setComment(description.getText().toString());
-                        review.setRating(overallRatingBar.getRating());
-                        review.setNoseRating(noseRatingBar.getRating());
-                        review.setColorRating(colorRatingBar.getRating());
-                        review.setTasteRating(tasteRatingBar.getRating());
-                        review.setFinishRating(finishRatingBar.getRating());
-                        review.setUser(user);
-                        review.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e != null) {
-                                    Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG);
-                                    toast.show();
-                                    return;
-                                }
-                                user.addReview(review);
-                                user.addReviewedWine(review.getWine());
-                                user.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if (e != null) {
-                                            Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG);
-                                            toast.show();
-                                            return;
-                                        }
-                                        Intent data = FacebookPost.createDataFromReview(review);
-                                        setResult(RESULT_OK, data);
-                                        finish();
-                                    }
-                                });
-                            }
-                        });
                     }
                 }
             });
