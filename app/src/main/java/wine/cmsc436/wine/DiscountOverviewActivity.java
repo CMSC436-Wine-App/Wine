@@ -13,6 +13,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
+import com.squareup.picasso.Picasso;
 
 import parse.subclasses.Badge;
 import parse.subclasses.BadgeDiscount;
@@ -42,16 +43,22 @@ public class DiscountOverviewActivity extends Activity {
         TextView drTV = (TextView)findViewById(R.id.discount_badge_rate);
         drTV.setText(getString(R.string.discount_overview_rate, discountRate*100.0));
 
-        final ParseImageView badgeImage = (ParseImageView)findViewById(R.id.discount_badge_image);
+//        final ParseImageView badgeImage = (ParseImageView)findViewById(R.id.discount_badge_image);
+        final ImageView badgeImage = (ImageView)findViewById(R.id.discount_badge_image);
 
         GetCallback<Badge> badgeGetCallback = new GetCallback<Badge>() {
             @Override
             public void done(Badge badge, ParseException e) {
                 if (e == null) {
                     ParseFile imageFile = badge.getPhoto();
+//                    if (imageFile != null) {
+//                        badgeImage.setParseFile(imageFile);
+//                        badgeImage.loadInBackground();
+//                    }
                     if (imageFile != null) {
-                        badgeImage.setParseFile(imageFile);
-                        badgeImage.loadInBackground();
+                        Picasso.with(DiscountOverviewActivity.this)
+                                .load(imageFile.getUrl())
+                                .into(badgeImage);
                     }
                 }
                 else {

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.squareup.picasso.Picasso;
 
 import parse.subclasses.Review;
 import parse.subclasses.User;
@@ -45,11 +47,18 @@ public class MenuItemListAdapter extends ParseQueryAdapter<Wine> {
         super.getItemView(wine, v, parent);
 
         // Add and download the image
-        ParseImageView photoImageView = (ParseImageView) v.findViewById(R.id.wine_photo);
+//        ParseImageView photoImageView = (ParseImageView) v.findViewById(R.id.wine_photo);
+//        ParseFile imageFile = wine.getPhotoSmall();
+//        if (imageFile != null) {
+//            photoImageView.setParseFile(imageFile);
+//            photoImageView.loadInBackground();
+//        }
+        ImageView photoImageView = (ImageView) v.findViewById(R.id.wine_photo);
         ParseFile imageFile = wine.getPhotoSmall();
         if (imageFile != null) {
-            photoImageView.setParseFile(imageFile);
-            photoImageView.loadInBackground();
+            Picasso.with(getContext())
+                    .load(imageFile.getUrl())
+                    .into(photoImageView);
         }
 
         // Add the title view

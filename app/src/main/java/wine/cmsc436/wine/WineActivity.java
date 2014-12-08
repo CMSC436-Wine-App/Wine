@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.DeleteCallback;
@@ -19,6 +20,7 @@ import com.parse.ParseObject;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -43,12 +45,18 @@ public class WineActivity extends BaseActivity {
 
         User user = User.getCurrentUser();
 
-        ParseImageView photoImageView = (ParseImageView) findViewById(R.id.iv_user_profile_pic);
+//        ParseImageView photoImageView = (ParseImageView) findViewById(R.id.iv_user_profile_pic);
+//        ParseFile imageFile = user.getPhoto();
+//        if (imageFile != null) {
+//            photoImageView.setParseFile(imageFile);
+//            photoImageView.loadInBackground();
+//        }
+        ImageView photoImageView = (ImageView) findViewById(R.id.iv_user_profile_pic);
         ParseFile imageFile = user.getPhoto();
-
         if (imageFile != null) {
-            photoImageView.setParseFile(imageFile);
-            photoImageView.loadInBackground();
+            Picasso.with(this)
+                    .load(imageFile.getUrl())
+                    .into(photoImageView);
         }
 
         photoImageView.setOnClickListener(new View.OnClickListener() {
