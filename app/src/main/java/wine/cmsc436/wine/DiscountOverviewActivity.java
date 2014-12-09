@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,12 +23,13 @@ import parse.subclasses.Wine;
 /**
  * Created by Adam on 12/7/2014.
  */
-public class DiscountOverviewActivity extends Activity {
+public class DiscountOverviewActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discount_overview);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         String badgeId = Badge.getObjectId(getIntent().getData());
         String wineName = getIntent().getStringExtra("wineName");
@@ -69,6 +71,22 @@ public class DiscountOverviewActivity extends Activity {
 
         ParseQuery<Badge> badgeQuery = Badge.getQuery();
         badgeQuery.getInBackground(badgeId, badgeGetCallback);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

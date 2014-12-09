@@ -24,12 +24,12 @@ import parse.subclasses.UserBadge;
 import parse.subclasses.Wine;
 
 
-public class UserBadgeAttrActivity extends Activity {
+public class UserBadgeAttrActivity extends BaseActivity {
 
     UserBadgeAttrListAdapter mAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_badge_attr);
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -71,14 +71,6 @@ public class UserBadgeAttrActivity extends Activity {
         ubQuery.getInBackground(ubId, ubGetCallback);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_user_badge_attr, menu);
-        return true;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -87,9 +79,6 @@ public class UserBadgeAttrActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (id == android.R.id.home) {
             super.onBackPressed();
             return true;

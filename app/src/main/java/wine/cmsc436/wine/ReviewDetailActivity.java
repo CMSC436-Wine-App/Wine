@@ -43,6 +43,8 @@ public class ReviewDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_detail);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         facebookPost = new FacebookPost(this, uiHelper);
         uiHelper = new UiLifecycleHelper(this, null);
         uiHelper.onCreate(savedInstanceState);

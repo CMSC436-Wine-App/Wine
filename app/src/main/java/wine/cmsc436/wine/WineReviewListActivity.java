@@ -23,6 +23,8 @@ public class WineReviewListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wine_review_list);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         String wineId = Wine.getObjectId(getIntent().getData());
 
         // get reviews for wine
@@ -48,5 +50,15 @@ public class WineReviewListActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
