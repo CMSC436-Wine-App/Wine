@@ -1,6 +1,7 @@
 package parse.subclasses;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
@@ -64,7 +65,12 @@ public class UserBadge extends ParseObject {
     }
 
     public Badge getBadge() {
-        return (Badge) getParseObject(BADGE);
+        try {
+            return (Badge)fetchIfNeeded().getParseObject(BADGE);
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static ParseQuery<UserBadge> getWineBadges(Wine wine, Badge badge, User user) {
