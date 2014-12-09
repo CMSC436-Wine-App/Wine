@@ -16,6 +16,7 @@ import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -29,11 +30,11 @@ import parse.subclasses.User;
  */
 public class UserReviewListAdapter extends ParseQueryAdapter<Review> {
 
-    public UserReviewListAdapter(Context context) {
+    public UserReviewListAdapter(Context context, final String userId) {
         super(context, new QueryFactory<Review>() {
             public ParseQuery create() {
                 ParseQuery<Review> reviewQuery = Review.getQuery();
-                reviewQuery.whereEqualTo("user", User.getCurrentUser());
+                reviewQuery.whereEqualTo("user", ParseObject.createWithoutData(ParseUser.class, userId));
                 reviewQuery.orderByDescending("createdAt");
                 reviewQuery.include("wine");
                 return reviewQuery;

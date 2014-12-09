@@ -65,6 +65,7 @@ public class WineActivity extends BaseActivity {
                 Log.i(TAG, "Entered your_profile.OnClickListener.onClick()");
 
                 Intent profile_intent = new Intent(WineActivity.this, UserProfile.class);
+                profile_intent.setData(User.getCurrentUser().getUri());
                 WineActivity.this.startActivity(profile_intent);
             }
         });

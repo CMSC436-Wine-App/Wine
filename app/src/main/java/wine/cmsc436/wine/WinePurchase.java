@@ -23,6 +23,13 @@ public class WinePurchase {
         quantity = 1;
     }
 
+    public WinePurchase(Purchase p, WineType wt, double price, int quantity) {
+        this.p = p;
+        this.wt = wt;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
     public Purchase getPurchase() {
         return p;
     }

@@ -39,8 +39,7 @@
         </activity>
         <activity
             android:name="wine.cmsc436.wine.UserProfile"
-            android:label="@string/profile_page"
-            android:parentActivityName="wine.cmsc436.wine.WineActivity" >
+            android:label="@string/profile_page" >
         </activity>
         <activity android:name="wine.cmsc436.wine.NewWineReview" >
         </activity>
@@ -91,8 +90,7 @@
         </activity>
         <activity
             android:name="wine.cmsc436.wine.WineDetailActivity"
-            android:label="@string/title_activity_wine_detail"
-            android:parentActivityName="wine.cmsc436.wine.MenuItemListActivity" >
+            android:label="@string/title_activity_wine_detail" >
         </activity>
         <activity
             android:name="wine.cmsc436.wine.ChecklistActivity"
@@ -104,8 +102,7 @@
         </activity>
         <activity
             android:name="wine.cmsc436.wine.BadgeListActivity"
-            android:label="@string/title_activity_badge"
-            android:parentActivityName="wine.cmsc436.wine.WineActivity" >
+            android:label="@string/title_activity_badge" >
         </activity>
         <activity
             android:name="wine.cmsc436.wine.CompletePurchaseActivity"
@@ -122,18 +119,15 @@
         </activity>
         <activity
             android:name="wine.cmsc436.wine.DiscountOverviewActivity"
-            android:label="@string/title_activity_discount_overview"
-            android:parentActivityName="wine.cmsc436.wine.CompletePurchaseActivity" >
+            android:label="@string/title_activity_discount_overview" >
         </activity>
         <activity
             android:name="wine.cmsc436.wine.PurchaseHistoryActivity"
-            android:label="@string/title_activity_purchase_history"
-            android:parentActivityName="wine.cmsc436.wine.UserProfile" >
+            android:label="@string/title_activity_purchase_history" >
         </activity>
         <activity
             android:name="wine.cmsc436.wine.PurchaseHistoryOverviewActivity"
-            android:label="@string/title_activity_purchase_history_overview"
-            android:parentActivityName="wine.cmsc436.wine.PurchaseHistoryActivity" >
+            android:label="@string/title_activity_purchase_history_overview" >
         </activity>
         <activity
             android:name="wine.cmsc436.wine.ViewBadgesActivity"
