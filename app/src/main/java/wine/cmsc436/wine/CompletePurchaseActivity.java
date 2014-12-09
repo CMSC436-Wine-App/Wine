@@ -2,8 +2,10 @@ package wine.cmsc436.wine;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +36,7 @@ public class CompletePurchaseActivity extends Activity {
 
     private static PurchaseListAdapter listAdapter;
     private Button checkout = null;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,8 @@ public class CompletePurchaseActivity extends Activity {
 
         checkout = (Button) findViewById(R.id.purchase_checkout);
         checkout.setText(getString(R.string.complete_purchase, App.currentPurchases.getTotal()));
+
+        progressDialog = new ProgressDialog(CompletePurchaseActivity.this);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -81,8 +87,28 @@ public class CompletePurchaseActivity extends Activity {
                             .setPositiveButton(R.string.purchase_dialog_OK, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    completeOrder();
-                                    finish();
+                                    progressDialog.setTitle("Loading");
+                                    progressDialog.setMessage("Wait while loading...");
+                                    progressDialog.show();
+                                    executeCompleteOrderTask();
+//                                    try {
+//                                        completeOrder();
+//                                        progress.dismiss();
+//                                        HashMap<Wine, BadgeDiscount> availBadges = App.availBadges;
+//                                        if (availBadges.size() > 0) {
+//                                            AlertDialog.Builder builder = new AlertDialog.Builder(CompletePurchaseActivity.this);
+//                                            builder.setTitle("New badges unlocked!")
+//                                                    .setPositiveButton(R.string.purchase_dialog_OK, new DialogInterface.OnClickListener() {
+//                                                        @Override
+//                                                        public void onClick(DialogInterface dialog, int which) {
+//                                                            finish();
+//                                                        }
+//                                                    });
+//                                            builder.create().show();
+//                                        }
+//                                    } catch (InterruptedException e) {
+//                                        Log.i(App.APPTAG, "Interrupted Exception");
+//                                    }
                                 }
                             })
                             .setNegativeButton(R.string.purchase_dialog_cancel, new DialogInterface.OnClickListener() {
@@ -96,8 +122,8 @@ public class CompletePurchaseActivity extends Activity {
         });
     }
 
-    public void completeOrder() {
-        (new Thread(new Runnable() {
+    public void completeOrder() throws InterruptedException {
+        Thread thread = (new Thread(new Runnable() {
             @Override
             public void run() {
                 // Disable the used discounts
@@ -106,9 +132,45 @@ public class CompletePurchaseActivity extends Activity {
                 savePurchases();
                 // Attain the new badges we qualify for
                 App.addAvailableWineBadges(App.UBadgeType.WinePurchase);
-                listAdapter.clear();
             }
-        })).start();
+        }));
+        thread.start();
+        thread.join();
+        listAdapter.clear();
+    }
+
+    public void executeCompleteOrderTask() {
+        new CompleteOrderTask().execute();
+    }
+
+    private class CompleteOrderTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... urls) {
+            disableUsedDiscounts();
+            savePurchases();
+            App.addAvailableWineBadges(App.UBadgeType.WinePurchase);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            listAdapter.clear();
+            progressDialog.dismiss();
+            HashMap<Wine, BadgeDiscount> availBadges = App.availBadges;
+            if (availBadges.size() > 0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(CompletePurchaseActivity.this);
+                builder.setTitle("New badges unlocked!")
+                        .setPositiveButton(R.string.purchase_dialog_OK, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+                builder.create().show();
+            }
+            return;
+        }
     }
 
     public void disableUsedDiscounts() {
