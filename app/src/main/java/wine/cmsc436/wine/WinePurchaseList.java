@@ -1,25 +1,11 @@
 package wine.cmsc436.wine;
 
-import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
-import android.widget.Button;
-
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 import parse.subclasses.Badge;
 import parse.subclasses.BadgeDiscount;
-import parse.subclasses.Purchase;
-import parse.subclasses.User;
-import parse.subclasses.UserBadge;
 import parse.subclasses.Wine;
 
 /**
@@ -68,7 +54,7 @@ public class WinePurchaseList {
         discountedInfo.clear();
     }
 
-    public String getTotal() {
+    public double getTotal() {
         double total = 0;
 
         for (int i = 0; i < currentPurchases.size(); i++) {
@@ -88,8 +74,7 @@ public class WinePurchaseList {
             }
         }
 
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
-        return formatter.format(total);
+        return total;
     }
 
     public int size() {
