@@ -183,6 +183,7 @@ public class App extends Application {
         } catch (ParseException e) {
             Log.i(App.APPTAG, e.getMessage());
         }
+        Log.i("ASDF", ""+newBadges);
         return newBadges;
     }
 
