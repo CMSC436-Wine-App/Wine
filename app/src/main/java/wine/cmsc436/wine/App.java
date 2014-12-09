@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
@@ -19,7 +18,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import parse.subclasses.*;
+import parse.subclasses.Badge;
+import parse.subclasses.BadgeDiscount;
+import parse.subclasses.Purchase;
+import parse.subclasses.PurchaseHistory;
+import parse.subclasses.Review;
+import parse.subclasses.User;
+import parse.subclasses.UserBadge;
+import parse.subclasses.Wine;
 
 /**
  * Created by Ethan on 11/15/2014.
@@ -106,19 +112,22 @@ public class App extends Application {
         }).start();
     }
 
-    public static void addAvailableWineBadges(UBadgeType ubt) {
+    public static ArrayList<UserBadge> addAvailableWineBadges(UBadgeType ubt) {
         // Look at all of our purchases for this user
         if (ubt == UBadgeType.WinePurchase) {
             availBadges.clear();
             getWinePurchaseBadges();
+            return null;
         } else if (ubt == UBadgeType.PurchaseCount) {
-            getWinePurchaseCountBadges();
+            return getWinePurchaseCountBadges();
         } else if (ubt == UBadgeType.WineReview) {
-            getUserReviewBadges();
+            return getUserReviewBadges();
         }
+        return null;
     }
 
-    private static void getWinePurchaseCountBadges() {
+    private static ArrayList<UserBadge> getWinePurchaseCountBadges() {
+        ArrayList<UserBadge> newBadges = new ArrayList<UserBadge>();
         try {
             ParseQuery<PurchaseHistory> phQuery = PurchaseHistory.getQuery();
             phQuery.whereEqualTo("user", User.getCurrentUser());
@@ -138,14 +147,17 @@ public class App extends Application {
                     UserBadge ub = new UserBadge(User.getCurrentUser(), eligibleBadges.get(i));
                     ub.setUsed(true);
                     ub.save();
+                    newBadges.add(ub);
                 }
             }
         } catch (ParseException e) {
             Log.i(App.APPTAG, e.getMessage());
         }
+        return newBadges;
     }
 
-    private static void getUserReviewBadges() {
+    private static ArrayList<UserBadge> getUserReviewBadges() {
+        ArrayList<UserBadge> newBadges = new ArrayList<UserBadge>();
         try {
             ParseQuery<Review> userReviewQuery = Review.getQuery();
             userReviewQuery.whereEqualTo("user", User.getCurrentUser());
@@ -165,11 +177,13 @@ public class App extends Application {
                     UserBadge ub = new UserBadge(User.getCurrentUser(), eligibleBadges.get(i));
                     ub.setUsed(true);
                     ub.save();
+                    newBadges.add(ub);
                 }
             }
         } catch (ParseException e) {
             Log.i(App.APPTAG, e.getMessage());
         }
+        return newBadges;
     }
 
     private static void getWinePurchaseBadges() {
