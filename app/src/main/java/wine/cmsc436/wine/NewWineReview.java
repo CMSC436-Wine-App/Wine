@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,6 +35,7 @@ import java.util.Arrays;
 
 import parse.subclasses.Review;
 import parse.subclasses.User;
+import parse.subclasses.UserBadge;
 import parse.subclasses.Wine;
 
 /**
@@ -54,10 +56,14 @@ public class NewWineReview extends BaseActivity {
     EditText description;
     Review review;
 
+    private ProgressDialog progressDialog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_wine_review);
+
+        progressDialog = new ProgressDialog(NewWineReview.this);
 
         review = new Review();
 
@@ -231,6 +237,18 @@ public class NewWineReview extends BaseActivity {
                 Toast.makeText(getApplicationContext(), "Must select a wine", Toast.LENGTH_LONG).show();
                 return false;
             }
+            Log.i(App.APPTAG, ""+overallRatingBar.getRating());
+            if (overallRatingBar.getRating() == 0 ||
+                    noseRatingBar.getRating() == 0 ||
+                    colorRatingBar.getRating() == 0 ||
+                    tasteRatingBar.getRating() == 0 ||
+                    finishRatingBar.getRating() == 0 ) {
+                Toast.makeText(getApplicationContext(), "Must rate the wine", Toast.LENGTH_LONG).show();
+                return false;
+            }
+            progressDialog.setTitle("Loading");
+            progressDialog.setMessage("Wait while loading...");
+            progressDialog.show();
             ParseQuery<Review> reviewsQuery = User.getCurrentUser().getReviews();
             reviewsQuery.whereEqualTo("wine", review.getWine());
             reviewsQuery.getFirstInBackground(new GetCallback<Review>() {
@@ -238,6 +256,7 @@ public class NewWineReview extends BaseActivity {
                 public void done(Review existingReview, ParseException e) {
                     if (e != null) {
                         if (e.getCode() != 101) {
+                            progressDialog.dismiss();
                             Toast toast = Toast.makeText(NewWineReview.this, e.getMessage(), Toast.LENGTH_LONG);
                             toast.show();
                             return;
@@ -251,10 +270,12 @@ public class NewWineReview extends BaseActivity {
                             review.setTasteRating(tasteRatingBar.getRating());
                             review.setFinishRating(finishRatingBar.getRating());
                             review.setUser(user);
+
                             review.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
                                     if (e != null) {
+                                        progressDialog.dismiss();
                                         Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG);
                                         toast.show();
                                         return;
@@ -264,14 +285,27 @@ public class NewWineReview extends BaseActivity {
                                     user.saveInBackground(new SaveCallback() {
                                         @Override
                                         public void done(ParseException e) {
+                                            progressDialog.dismiss();
                                             if (e != null) {
                                                 Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG);
                                                 toast.show();
                                                 return;
                                             }
-                                            Intent data = FacebookPost.createDataFromReview(review);
-                                            setResult(RESULT_OK, data);
-                                            finish();
+                                            ArrayList<UserBadge> availBadges = App.getUserReviewBadges();
+                                            Log.i(App.APPTAG, ""+availBadges);
+                                            if (availBadges.size() > 0) {
+                                                AlertDialog.Builder builder = new AlertDialog.Builder(NewWineReview.this);
+                                                builder.setTitle("New badges unlocked!")
+                                                        .setPositiveButton(R.string.purchase_dialog_OK, new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                finishNewReview();
+                                                            }
+                                                        });
+                                                builder.create().show();
+                                            } else {
+                                                finishNewReview();
+                                            }
                                         }
                                     });
                                 }
@@ -279,6 +313,7 @@ public class NewWineReview extends BaseActivity {
                         }
                     } else {
                         // wine has been reviewed
+                        progressDialog.dismiss();
                         Toast toast = Toast.makeText(NewWineReview.this, "You have already reviewed this wine", Toast.LENGTH_LONG);
                         toast.show();
                         return;
@@ -290,5 +325,41 @@ public class NewWineReview extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void finishNewReview() {
+        Intent data = FacebookPost.createDataFromReview(review);
+        setResult(RESULT_OK, data);
+        finish();
+    }
+
+//    private class CompleteOrderTask extends AsyncTask<String, Void, Void> {
+//
+//        @Override
+//        protected Void doInBackground(String... urls) {
+//            disableUsedDiscounts();
+//            savePurchases();
+//            App.addAvailableWineBadges(App.UBadgeType.WinePurchase);
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            listAdapter.clear();
+//            progressDialog.dismiss();
+//            HashMap<Wine, BadgeDiscount> availBadges = App.availBadges;
+//            if (availBadges.size() > 0) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(CompletePurchaseActivity.this);
+//                builder.setTitle("New badges unlocked!")
+//                        .setPositiveButton(R.string.purchase_dialog_OK, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                finish();
+//                            }
+//                        });
+//                builder.create().show();
+//            }
+//            return;
+//        }
+//    }
 
 }

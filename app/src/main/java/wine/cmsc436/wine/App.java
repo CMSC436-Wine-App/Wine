@@ -156,7 +156,7 @@ public class App extends Application {
         return newBadges;
     }
 
-    private static ArrayList<UserBadge> getUserReviewBadges() {
+    public static ArrayList<UserBadge> getUserReviewBadges() {
         ArrayList<UserBadge> newBadges = new ArrayList<UserBadge>();
         try {
             ParseQuery<Review> userReviewQuery = Review.getQuery();
