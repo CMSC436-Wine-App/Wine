@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -18,10 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import parse.subclasses.Badge;
-import parse.subclasses.MenuItem;
-import parse.subclasses.Purchase;
-import parse.subclasses.PurchaseHistory;
-import parse.subclasses.Restaurant;
 import parse.subclasses.User;
 import parse.subclasses.UserBadge;
 
@@ -105,7 +100,6 @@ public class BadgeListActivity extends BaseActivity {
                                     BadgeListActivity.this.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Log.i("ASDF", "HELLO");
                                             for (int i = 0; i < winePurchases.size(); i++) {
                                                 ((UserBadgeListAdapter) adapter).add(winePurchases.get(i));
                                             }
