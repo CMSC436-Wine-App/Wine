@@ -1,6 +1,7 @@
 package wine.cmsc436.wine;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -50,20 +52,24 @@ import parse.subclasses.Wine;
 import parse.subclasses.MenuItem;
 
 
-public class WineDetailActivity extends ActionBarActivity {
+public class WineDetailActivity extends BaseActivity {
 
     private Wine selectedWine = null;
     private static final int ADD_REVIEW_REQEST = 0;
     public static final int FB_SESSION_RESULT = 101;
+    private static final int PICKER_MIN = 1;
+    private static final int PICKER_MAX = 100;
 
     FacebookPost facebookPost;
     private UiLifecycleHelper uiHelper;
     private Intent shareData;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wine_detail);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         facebookPost = new FacebookPost(this, uiHelper);
         uiHelper = new UiLifecycleHelper(this, null);
@@ -73,12 +79,10 @@ public class WineDetailActivity extends ActionBarActivity {
         glassOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Purchase p = new Purchase(User.getCurrentUser(), selectedWine);
-                // This is gross but i have to do it to save myself from subclassing.
                 String glassPrice = glassOrderButton.getText().toString();
                 glassPrice = glassPrice.substring(glassPrice.lastIndexOf(":")+3, glassPrice.length());
-                App.currentPurchases.add(new WinePurchase(p, WinePurchase.WineType.GLASS, Double.valueOf(glassPrice)));
-                showPurchaseDialog();
+                showPurchaseDialog(WinePurchase.WineType.GLASS, Double.valueOf(glassPrice));
+//                showPurchaseDialog();
             }
         });
 
@@ -86,11 +90,10 @@ public class WineDetailActivity extends ActionBarActivity {
         bottleOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Purchase p = new Purchase(User.getCurrentUser(), selectedWine);
                 String bottlePrice = bottleOrderButton.getText().toString();
                 bottlePrice = bottlePrice.substring(bottlePrice.lastIndexOf(":")+3, bottlePrice.length());
-                App.currentPurchases.add(new WinePurchase(p, WinePurchase.WineType.BOTTLE, Double.valueOf(bottlePrice)));
-                showPurchaseDialog();
+                showPurchaseDialog(WinePurchase.WineType.BOTTLE, Double.valueOf(bottlePrice));
+//                showPurchaseDialog();
             }
         });
 
@@ -184,6 +187,16 @@ public class WineDetailActivity extends ActionBarActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data){
 
         if (requestCode == FB_SESSION_RESULT){
@@ -248,26 +261,72 @@ public class WineDetailActivity extends ActionBarActivity {
 
     }
 
-    private void showPurchaseDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(WineDetailActivity.this);
-        builder.setTitle(R.string.purchase_dialog_added);
-        builder.setMessage(R.string.purchase_dialog_content)
-                .setPositiveButton(R.string.purchase_dialog_OK, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        WineDetailActivity.this.finish();
-                    }
-                })
-                .setNegativeButton(R.string.purchase_dialog_cancel, null)
-                .setNeutralButton(R.string.purchase_dialog_checkout, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(WineDetailActivity.this, CompletePurchaseActivity.class);
-                        WineDetailActivity.this.startActivity(intent);
-                    }
-                });
-        builder.create().show();
+    private void addPurchase(int quantity, WinePurchase.WineType wineType, Double winePrice){
+        Purchase p = new Purchase(User.getCurrentUser(), selectedWine);
+        App.currentPurchases.add(new WinePurchase(p, wineType, winePrice, quantity));
     }
+
+private void showPurchaseDialog(final WinePurchase.WineType wineType, final Double winePrice) {
+    final Dialog dialog = new Dialog(WineDetailActivity.this);
+    dialog.setTitle(R.string.purchase_dialog_added);
+    dialog.setContentView(R.layout.dialog_purchase_number);
+    Button confirmBtn = (Button) dialog.findViewById(R.id.confirmBtn);
+    confirmBtn.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            final NumberPicker numberPicker = (NumberPicker) dialog.findViewById(R.id.numberPicker1);
+            int quantity = numberPicker.getValue();
+            addPurchase(quantity, wineType, winePrice);
+//            WineDetailActivity.this.finish();
+            dialog.dismiss();
+        }
+    });
+    Button cancelBtn = (Button) dialog.findViewById(R.id.cancelBtn);
+    cancelBtn.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            dialog.dismiss();
+        }
+    });
+    Button checkoutBtn = (Button) dialog.findViewById(R.id.checkoutBtn);
+    checkoutBtn.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            final NumberPicker numberPicker = (NumberPicker) dialog.findViewById(R.id.numberPicker1);
+            int quantity = numberPicker.getValue();
+            addPurchase(quantity, wineType, winePrice);
+            dialog.dismiss();
+            Intent intent = new Intent(WineDetailActivity.this, CompletePurchaseActivity.class);
+            WineDetailActivity.this.startActivity(intent);
+        }
+    });
+    final NumberPicker numberPicker = (NumberPicker) dialog.findViewById(R.id.numberPicker1);
+    numberPicker.setMaxValue(PICKER_MAX);
+    numberPicker.setMinValue(PICKER_MIN);
+    numberPicker.setWrapSelectorWheel(false);
+    dialog.show();
+}
+
+//    private void showPurchaseDialog() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(WineDetailActivity.this);
+//        builder.setTitle(R.string.purchase_dialog_added);
+//        builder.setMessage(R.string.purchase_dialog_content)
+//                .setPositiveButton(R.string.purchase_dialog_OK, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        WineDetailActivity.this.finish();
+//                    }
+//                })
+//                .setNegativeButton(R.string.purchase_dialog_cancel, null)
+//                .setNeutralButton(R.string.purchase_dialog_checkout, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Intent intent = new Intent(WineDetailActivity.this, CompletePurchaseActivity.class);
+//                        WineDetailActivity.this.startActivity(intent);
+//                    }
+//                });
+//        builder.create().show();
+//    }
 
     private void updateView(final Wine wine) {
         if (wine != null) {

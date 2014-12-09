@@ -13,14 +13,15 @@ import parse.subclasses.PurchaseHistory;
 import parse.subclasses.User;
 
 
-public class PurchaseHistoryActivity extends Activity {
+public class PurchaseHistoryActivity extends BaseActivity {
 
     PurchaseHistoryListAdapter mAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase_history);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAdapter = new PurchaseHistoryListAdapter(this, User.getCurrentUser());
         ListView lv = (ListView)findViewById(R.id.purchase_history_content);
         lv.setAdapter(mAdapter);
@@ -35,14 +36,6 @@ public class PurchaseHistoryActivity extends Activity {
         });
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_purchase_history, menu);
-        return true;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -51,7 +44,8 @@ public class PurchaseHistoryActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == android.R.id.home) {
+            super.onBackPressed();
             return true;
         }
 
