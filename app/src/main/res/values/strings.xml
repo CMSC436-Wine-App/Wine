@@ -93,9 +93,13 @@
     <string name="title_activity_purchase_history">Purchase History</string>
 
     <!-- Purchase History -->
-    <string name="purchase_history_total">Total: $%s</string>
+    <string name="purchase_history_total">Total: %s</string>
     <string name="title_activity_purchase_history_overview">Purchase Order Information</string>
     <string name="title_activity_view_badges">ViewBadgesActivity</string>
     <string name="title_activity_user_badge_attr">UserBadgeAttrActivity</string>
+
+    <!-- Purchase History Error -->
+    <string name="purchase_history_invalid">Invalid Access!</string>
+    <string name="purchase_history_invalid_body">You cannot view another users purchase history!</string>
 
 </resources>

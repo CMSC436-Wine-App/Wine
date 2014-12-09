@@ -3,17 +3,15 @@ package wine.cmsc436.wine;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.parse.ParseFile;
-import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
-import parse.subclasses.Purchase;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+
 import parse.subclasses.PurchaseHistory;
-import parse.subclasses.Review;
 import parse.subclasses.User;
 
 /**
@@ -44,10 +42,14 @@ public class PurchaseHistoryListAdapter extends ParseQueryAdapter<PurchaseHistor
         super.getItemView(purchaseHistory, v, parent);
 
         TextView phDate = (TextView) v.findViewById(R.id.purchase_history_date);
-        phDate.setText(purchaseHistory.getCreatedAt().toString());
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy @ hh:mm aaa");
+        phDate.setText(sdf.format(purchaseHistory.getCreatedAt()));
 
+        // Double 4
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        String total = formatter.format(purchaseHistory.getPurchaseTotal());
         TextView phTotal = (TextView) v.findViewById(R.id.purchase_history_total);
-        phTotal.setText(mContext.getString(R.string.purchase_history_total, purchaseHistory.getPurchaseTotal()));
+        phTotal.setText(mContext.getString(R.string.purchase_history_total, total));
 
         return v;
     }
