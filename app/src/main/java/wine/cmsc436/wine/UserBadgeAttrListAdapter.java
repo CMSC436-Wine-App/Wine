@@ -47,7 +47,8 @@ public class UserBadgeAttrListAdapter extends BaseAdapter {
     }
 
     public void add(Wine w) {
-        wines.add(w);
+        if (!wines.contains(w))
+            wines.add(w);
         notifyDataSetChanged();
     }
 
@@ -67,13 +68,6 @@ public class UserBadgeAttrListAdapter extends BaseAdapter {
         wcLayout = new RelativeLayout(mContext);
         wcLayout.addView(convertView);
 
-        // Add and download the image
-//        ParseImageView photoImageView = (ParseImageView) convertView.findViewById(R.id.wine_photo);
-//        ParseFile imageFile = wine.getPhotoSmall();
-//        if (imageFile != null) {
-//            photoImageView.setParseFile(imageFile);
-//            photoImageView.loadInBackground();
-//        }
         ImageView photoImageView = (ImageView) convertView.findViewById(R.id.wine_photo);
         ParseFile imageFile = wine.getPhotoSmall();
         if (imageFile != null) {

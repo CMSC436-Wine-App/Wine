@@ -20,22 +20,18 @@ import android.widget.Toast;
 import com.facebook.Session;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
-import com.parse.CountCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseFile;
-import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 
-import parse.subclasses.PurchaseHistory;
 import parse.subclasses.Review;
 import parse.subclasses.User;
-import parse.subclasses.Wine;
 
 /**
  * Created by dylan on 11/19/14.
@@ -123,6 +119,7 @@ public class UserProfile extends ListActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserProfile.this, PurchaseHistoryActivity.class);
+                intent.setData(selectedUser.getUri());
                 startActivity(intent);
             }
         });
